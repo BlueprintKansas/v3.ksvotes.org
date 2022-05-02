@@ -87,7 +87,6 @@ djangorestframework==3.12.4
     # via
     #   -r ./requirements.in
     #   django-rest-auth
-    #   revsys-teams
 environs[django]==9.3.5
     # via -r ./requirements.in
 execnet==1.9.0
@@ -95,7 +94,6 @@ execnet==1.9.0
 factory-boy==3.2.1
     # via
     #   -r ./requirements.in
-    #   revsys-teams
 faker==9.9.0
     # via factory-boy
 fs==2.4.14
@@ -177,8 +175,6 @@ redis==4.0.2
     # via -r ./requirements.in
 regex==2021.11.10
     # via black
-revsys-teams @ https://afcec3a300c9919dcefedb87c15ecfe09869a9b5@github.com/revsys/revsys-teams/archive/main.zip
-    # via -r ./requirements.in
 s3transfer==0.5.0
     # via boto3
 shortid==0.1.2
