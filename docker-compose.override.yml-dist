@@ -1,0 +1,17 @@
+services:
+
+  db:
+    ports:
+      - "5432:5432"
+
+  # flower:
+  #   ports:
+  #     - "5555:5555"
+
+  redis:
+    ports:
+      - "6379:6379"
+
+  web:
+    ports:
+      - "8000:8000"
