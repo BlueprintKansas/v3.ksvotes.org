@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import environs
 import logging
 import structlog

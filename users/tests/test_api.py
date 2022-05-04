@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.urls import reverse
 from faker import Faker
 from rest_framework.test import APIClient
