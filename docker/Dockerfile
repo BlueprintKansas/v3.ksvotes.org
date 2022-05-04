@@ -1,39 +1,33 @@
-# syntax = docker/dockerfile:experimental
+FROM revolutionsystems/python:3.10.4-wee-optimized-lto as ksvotes
 
-FROM revolutionsystems/python:3.9.9-wee-optimized-lto as builder-py
+# build ImageMagick with gslib for formfiller
+USER root
 
-RUN apt-get update && apt-get install -y build-essential gcc python-dev && rm -rf /var/lib/apt/lists/*
-
-RUN pip install -U pip
-
-COPY ./requirements.txt ./code/requirements.txt
-
-RUN python3 -m venv /venv
-
-RUN --mount=type=cache,target=/root/.cache \
-    . /venv/bin/activate && \
-    pip install -U pip && \
-    pip install -r /code/requirements.txt
-
-FROM revolutionsystems/python:3.9.9-wee-optimized-lto AS release
-
-ENV PATH /venv/bin:/bin:/usr/bin:/usr/local/bin
-ENV PYTHONDONTWRITEBYTECODE=true
-ENV PYTHONPATH /code
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONWARNINGS ignore
-
-RUN mkdir /code
-
-COPY --from=builder-py /venv/ /venv/
-COPY --from=builder-py /code/ /code/
-COPY . /code/
+RUN apt-get update && \
+    apt-get install --yes --no-install-recommends wget xz-utils build-essential \
+      postgresql-client libpq-dev libffi-dev libgs-dev ghostscript fonts-liberation imagemagick wait-for-it
 
 WORKDIR /code
 
+COPY requirements*txt .
+RUN pip install --no-cache-dir -r requirements.txt && rm requirements.txt
+
+COPY . /code/
+
+# RUN make locales
+
+# finish with app user and app
+RUN groupadd ksvotesapp && \
+  useradd -g ksvotesapp ksvotesapp && \
+  apt-get purge -y --auto-remove build-essential && \
+  apt-get -y install make && \
+  chown -R ksvotesapp:ksvotesapp /code
+
+ARG ENV_NAME=""
+ENV ENV_NAME=${ENV_NAME}
+ARG GIT_SHA=""
+ENV GIT_SHA=${GIT_SHA}
+
+USER ksvotesapp
 CMD ["gunicorn", "-c", "/code/gunicorn.conf.py", "config.wsgi"]
 
-ENV X_IMAGE_TAG v0.0.0
-
-LABEL Description="AlphaKit Image" Vendor="REVSYS"
-LABEL Version="${X_IMAGE_TAG}"

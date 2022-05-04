@@ -1,4 +1,4 @@
-COMPOSE_FILE := docker-compose-with-celery.yml
+COMPOSE_FILE := docker-compose.yml
 
 .PHONY: help
 help:
