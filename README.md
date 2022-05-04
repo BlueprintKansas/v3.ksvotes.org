@@ -25,8 +25,10 @@ $ cp docker-compose.override.yml-dist docker-compose.override.yml
 Then run:
 
 ```shell
+# install dev dependencies
+$ make dev-setup
 # rebuild our services
-$ docker-compose build
+$ make setup
 
 # start our services
 $ docker-compose up

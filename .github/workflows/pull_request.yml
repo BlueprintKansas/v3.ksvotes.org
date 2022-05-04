@@ -72,7 +72,8 @@ jobs:
        - name: Install dependencies
          run: |
            sudo apt-get update
-           make deps
+           make dev-setup
+           npm ci
            playwright install --with-deps
        - name: Start CI docker compose
          run: make setup
