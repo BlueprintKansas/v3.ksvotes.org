@@ -31,6 +31,7 @@ server:  ## starts app
 
 .PHONY: setup
 setup:  ## sets up a project to be used for the first time
+	pip install -U pre-commit black
 	@docker-compose --file $(COMPOSE_FILE) build --force-rm
 	@docker-compose --file docker-compose.yml run --rm web python manage.py migrate --noinput
 
@@ -54,6 +55,11 @@ update:  ## updates a project to run at its current version
 	@docker-compose --file $(COMPOSE_FILE) pull
 	@docker-compose --file $(COMPOSE_FILE) build --force-rm
 	@docker-compose --file docker-compose.yml run --rm web python manage.py migrate --noinput
+
+.PHONY: lint
+lint:
+	pre-commit run --all-files
+	black .
 
 # ----
 

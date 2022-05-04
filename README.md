@@ -48,7 +48,7 @@ This will create the Docker image, install dependencies, start the services defi
 
 ### Cleaning up
 
-To shut down our database and any long running services, we shut everyone down using: 
+To shut down our database and any long running services, we shut everyone down using:
 
 ```shell
 $ docker-compose down

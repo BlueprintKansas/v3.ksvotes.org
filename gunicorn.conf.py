@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # vim: ft=python
 # pylint: disable=missing-docstring, line-too-long, invalid-name
 import os
