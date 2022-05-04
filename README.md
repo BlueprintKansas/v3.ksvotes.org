@@ -1,12 +1,12 @@
-# AlphaKit
+# ksvotes (v3)
 
 ## Overview
 
-A Django project starter kit 
+A Django implementation of ksvotes.org.
 
 ## Local Development Setup
 
-This project will use Python 3.9, Docker, and Docker Compose.
+This project uses Python 3.10.x, Docker, and Docker Compose.
 
 Make a Python 3.10.x virtualenv.
 
