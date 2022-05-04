@@ -90,7 +90,7 @@ jobs:
           curl "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -O
           unzip chromedriver_linux64.zip -d ~/bin
       - name: Run tests
-        run: make test
+        run: make test_pytest
       - name: Run playwright tests
         run: make playwright
       - name: Docker logs

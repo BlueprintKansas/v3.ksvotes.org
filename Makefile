@@ -41,7 +41,7 @@ dev-setup: ## install local development dependencies
 
 .PHONY: test_interrogate
 test_interrogate:
-	@docker-compose run --rm web interrogate -vv --fail-under 100 --whitelist-regex "test_.*" .
+	@docker-compose run --rm web interrogate -vv --fail-under 100 --whitelist-regex "test_.*" --exclude "node_modules" .
 
 .PHONY: test_pytest
 test_pytest:
