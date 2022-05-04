@@ -8,7 +8,12 @@ A Django project starter kit
 
 This project will use Python 3.9, Docker, and Docker Compose.
 
-Make a Python 3.9.x virtualenv.
+Make a Python 3.10.x virtualenv.
+
+```shell
+$ python3 -m venv venv
+$ . venv/bin/activate
+```
 
 Copy .env-dist to .env and adjust values to match your local environment:
 
