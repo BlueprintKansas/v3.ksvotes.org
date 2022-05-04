@@ -30,10 +30,13 @@ server:  ## starts app
 	@docker-compose up
 
 .PHONY: setup
-setup:  ## sets up a project to be used for the first time
-	pip install -U pre-commit black
+setup: dev-setup  ## sets up a project to be used for the first time
 	@docker-compose --file $(COMPOSE_FILE) build --force-rm
 	@docker-compose --file docker-compose.yml run --rm web python manage.py migrate --noinput
+
+.PHONY: dev-setup
+dev-setup:
+	pip install -U pre-commit black
 
 .PHONY: test_interrogate
 test_interrogate:
