@@ -37,6 +37,7 @@ setup: dev-setup  ## sets up a project to be used for the first time
 .PHONY: dev-setup
 dev-setup:
 	pip install -U pre-commit black
+	pip install -r requirements-ci.txt
 
 .PHONY: test_interrogate
 test_interrogate:
@@ -48,7 +49,6 @@ test_pytest:
 
 .PHONY: test
 test: test_interrogate test_pytest
-	@docker-compose down
 
 .PHONY: update
 update:  ## updates a project to run at its current version
@@ -63,6 +63,14 @@ update:  ## updates a project to run at its current version
 lint:
 	pre-commit run --all-files
 	black .
+
+.PHONY: ci-logs
+ci-logs:
+	@docker-compose --file $(COMPOSE_FILE) logs --tail="all"
+
+.PHONY: ci-logs-tail
+ci-logs-tail:
+	@docker-compose --file $(COMPOSE_FILE) logs -f
 
 # ----
 
