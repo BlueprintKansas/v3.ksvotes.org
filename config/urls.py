@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from rest_framework import routers
 from users.views import UserViewSet, CurrentUserView
 from ak.views import (
@@ -20,7 +20,7 @@ urlpatterns = [
     path("", HomepageView.as_view(), name="home"),
     path("admin/", admin.site.urls),
     path("users/me/", CurrentUserView.as_view(), name="current-user"),
-    url(r"^api/v1/", include(router.urls)),
+    re_path(r"^api/v1/", include(router.urls)),
     path("200", OKView.as_view(), name="ok"),
     path("403", ForbiddenView.as_view(), name="forbidden"),
     path("404", NotFoundView.as_view(), name="not_found"),
