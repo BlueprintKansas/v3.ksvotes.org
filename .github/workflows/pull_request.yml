@@ -62,7 +62,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
       - name: Setup env
-        run: echo USPS_USER_ID=${{ secrets.USPS_USER_ID }} >> .env-ci && cat .env-ci | grep -v ^# >> $GITHUB_ENV
+        run: |
+          cp .env-dist .env
+          echo USPS_USER_ID=${{ secrets.USPS_USER_ID }} >> .env
+          cat .env | grep -v ^# >> $GITHUB_ENV
       - name: Add /etc/hosts entries
         run: |
           echo '127.0.0.1  db' | sudo tee -a /etc/hosts
