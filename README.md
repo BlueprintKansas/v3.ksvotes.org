@@ -8,7 +8,7 @@ A Django implementation of ksvotes.org.
 
 This project uses Python 3.10.x, Docker, and Docker Compose.
 
-Make a Python 3.10.x virtualenv.
+Make a Python 3.9.x (or newer) virtualenv.
 
 ```shell
 $ python3 -m venv venv
@@ -25,8 +25,10 @@ $ cp docker-compose.override.yml-dist docker-compose.override.yml
 Then run:
 
 ```shell
+# install dev dependencies
+$ make dev-setup
 # rebuild our services
-$ docker-compose build
+$ make setup
 
 # start our services
 $ docker-compose up

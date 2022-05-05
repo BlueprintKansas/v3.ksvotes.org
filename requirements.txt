@@ -55,16 +55,14 @@ dj-database-url==0.5.0
     # via environs
 dj-email-url==1.0.2
     # via environs
-django==3.2.9
+django==4.0.4
     # via
     #   -r ./requirements.in
     #   django-db-geventpool
     #   django-extensions
-    #   django-filter
     #   django-health-check
     #   django-rest-auth
     #   djangorestframework
-    #   revsys-teams
 django-bakery==0.12.7
     # via -r ./requirements.in
 django-cache-url==3.2.3
@@ -73,8 +71,6 @@ django-db-geventpool==4.0.0
     # via -r ./requirements.in
 django-extensions==3.1.5
     # via -r ./requirements.in
-django-filter==21.1
-    # via revsys-teams
 django-health-check==3.16.4
     # via -r ./requirements.in
 django-rest-auth==0.9.5
@@ -92,8 +88,7 @@ environs[django]==9.3.5
 execnet==1.9.0
     # via pytest-xdist
 factory-boy==3.2.1
-    # via
-    #   -r ./requirements.in
+    # via -r ./requirements.in
 faker==9.9.0
     # via factory-boy
 fs==2.4.14
@@ -169,7 +164,6 @@ python-json-logger==2.0.2
 pytz==2021.3
     # via
     #   celery
-    #   django
     #   fs
 redis==4.0.2
     # via -r ./requirements.in
@@ -177,8 +171,6 @@ regex==2021.11.10
     # via black
 s3transfer==0.5.0
     # via boto3
-shortid==0.1.2
-    # via revsys-teams
 six==1.16.0
     # via
     #   click-repl
@@ -219,12 +211,10 @@ wheel==0.37.0
 whitenoise==5.3.0
     # via -r ./requirements.in
 wrapt==1.13.3
-    # via
-    #   deprecated
-    #   revsys-teams
-zope.event==4.5.0
+    # via deprecated
+zope-event==4.5.0
     # via gevent
-zope.interface==5.4.0
+zope-interface==5.4.0
     # via gevent
 
 # The following packages are considered to be unsafe in a requirements file:

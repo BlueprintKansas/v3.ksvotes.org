@@ -10,6 +10,7 @@ RUN apt-get update && \
 WORKDIR /code
 
 COPY requirements*txt .
+RUN pip install -U pip pip-tools
 RUN pip install --no-cache-dir -r requirements.txt && rm requirements.txt
 
 COPY . /code/

@@ -30,17 +30,18 @@ server:  ## starts app
 	@docker-compose up
 
 .PHONY: setup
-setup: dev-setup  ## sets up a project to be used for the first time
+setup: ## sets up a project to be used for the first time
 	@docker-compose --file $(COMPOSE_FILE) build --force-rm
 	@docker-compose --file docker-compose.yml run --rm web python manage.py migrate --noinput
 
 .PHONY: dev-setup
-dev-setup:
+dev-setup: ## install local development dependencies
 	pip install -U pre-commit black
+	pip install -r requirements-ci.txt
 
 .PHONY: test_interrogate
 test_interrogate:
-	@docker-compose run --rm web interrogate -vv --fail-under 100 --whitelist-regex "test_.*" .
+	@docker-compose run --rm web interrogate -vv --fail-under 100 --whitelist-regex "test_.*" --exclude "node_modules" .
 
 .PHONY: test_pytest
 test_pytest:
@@ -48,7 +49,6 @@ test_pytest:
 
 .PHONY: test
 test: test_interrogate test_pytest
-	@docker-compose down
 
 .PHONY: update
 update:  ## updates a project to run at its current version
@@ -60,9 +60,17 @@ update:  ## updates a project to run at its current version
 	@docker-compose --file docker-compose.yml run --rm web python manage.py migrate --noinput
 
 .PHONY: lint
-lint:
+lint: ## run the pre-commit linters manually
 	pre-commit run --all-files
 	black .
+
+.PHONY: ci-logs
+ci-logs: ## view all the docker-compose logs
+	@docker-compose --file $(COMPOSE_FILE) logs --tail="all"
+
+.PHONY: ci-logs-tail
+ci-logs-tail: ## tail the docker-compose logs
+	@docker-compose --file $(COMPOSE_FILE) logs -f
 
 # ----
 

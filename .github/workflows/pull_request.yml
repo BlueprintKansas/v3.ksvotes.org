@@ -41,59 +41,63 @@ jobs:
           npm ci
       - name: Lint
         run: make lint
-#   test:
-#     name: Run tests
-#     runs-on: ubuntu-latest
-#     strategy:
-#       max-parallel: 4
-#       matrix:
-#         python-version: [3.10.0]
-#         node-version: [14.18]
-#     steps:
-#       - uses: actions/checkout@v3
-#       - name: Set up Python ${{ matrix.python-version }}
-#         uses: actions/setup-python@v3
-#         with:
-#           python-version: ${{ matrix.python-version }}
-#           cache: 'pip'
-#       - name: Set up Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#           cache: 'npm'
-#       - name: Setup env
-#         run: echo USPS_USER_ID=${{ secrets.USPS_USER_ID }} >> .env-ci && cat .env-ci | grep -v ^# >> $GITHUB_ENV
-#       - name: Add /etc/hosts entries
-#         run: |
-#           echo '127.0.0.1  db' | sudo tee -a /etc/hosts
-#           echo '127.0.0.1  redis' | sudo tee -a /etc/hosts
-#           echo '127.0.0.1  test.ksvotes.org' | sudo tee -a /etc/hosts
-#           cat /etc/hosts
-#       - name: Start CI docker compose
-#         run: make ci-start
-#         env:
-#           DOCKER_BUILDKIT: 1
-#           ENV_NAME: ci
-#       - name: Install Chrome driver
-#         run: |
-#           export CHROME_MAIN_VERSION=`google-chrome-stable --version | sed -E 's/(^Google Chrome |\.[0-9]+ )//g'`
-#           export CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAIN_VERSION"`
-#           curl "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -O
-#           unzip chromedriver_linux64.zip -d ~/bin
-#       - name: Install dependencies
-#         run: |
-#           sudo apt-get update
-#           make deps
-#           playwright install --with-deps
-#       - name: Run tests
-#         run: make ci-test jstest
-#       - name: Run playwright tests
-#         run: make playwright
-#       - name: Docker logs
-#         run: |
-#           make ci-logs
-#         if: failure()
-#       - name: Stop CI docker compose
-#         run: |
-#           make ci-stop
-#         if: always()
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.10.0]
+        node-version: [14.18]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Setup env
+        run: |
+          cp .env-dist .env
+          echo USPS_USER_ID=${{ secrets.USPS_USER_ID }} >> .env
+          cat .env | grep -v ^# >> $GITHUB_ENV
+      - name: Add /etc/hosts entries
+        run: |
+          echo '127.0.0.1  db' | sudo tee -a /etc/hosts
+          echo '127.0.0.1  redis' | sudo tee -a /etc/hosts
+          echo '127.0.0.1  test.ksvotes.org' | sudo tee -a /etc/hosts
+          cat /etc/hosts
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          make dev-setup
+          npm ci
+          playwright install --with-deps
+      - name: Start CI docker compose
+        run: make setup
+        env:
+          DOCKER_BUILDKIT: 1
+          ENV_NAME: ci
+      - name: Install Chrome driver
+        run: |
+          export CHROME_MAIN_VERSION=`google-chrome-stable --version | sed -E 's/(^Google Chrome |\.[0-9]+ )//g'`
+          export CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAIN_VERSION"`
+          curl "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -O
+          unzip chromedriver_linux64.zip -d ~/bin
+      - name: Run tests
+        run: make test_pytest
+      # - name: Run playwright tests
+      #   run: make playwright
+      - name: Docker logs
+        run: |
+          make ci-logs
+        if: failure()
+      - name: Stop CI docker compose
+        run: |
+          docker-compose down
+        if: always()
