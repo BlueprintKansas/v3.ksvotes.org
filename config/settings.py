@@ -66,7 +66,7 @@ INSTALLED_APPS += [
 ]
 
 # Our Apps
-INSTALLED_APPS += ["ak", "users"]
+INSTALLED_APPS += ["ak", "ksvotes", "users"]
 
 AUTH_USER_MODEL = "users.User"
 
@@ -93,7 +93,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR.joinpath("templates").as_posix()],
+        "DIRS": [BASE_DIR.joinpath("ksvotes", "templates").as_posix(), BASE_DIR.joinpath("templates").as_posix()],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -101,6 +101,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "config.context_processors.base_url",
+                "config.context_processors.common_vars",
             ]
         },
     }
@@ -136,10 +138,9 @@ AUTH_PASSWORD_VALIDATORS = []
 
 # Give each project their own session cookie name to avoid local development
 # login conflicts
-SESSION_COOKIE_NAME = "config-sessionid"
-
-# Increase default cookie age from 2 to 12 weeks
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 12
+SESSION_COOKIE_NAME = "ksvotes-sessionid"
+SESSION_TTL = env.int("SESSION_TTL", 60 * 5)
+SESSION_COOKIE_AGE = SESSION_TTL
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import include
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from rest_framework import routers
 from users.views import UserViewSet, CurrentUserView
 from ak.views import (
@@ -17,6 +17,7 @@ router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="users")
 
 urlpatterns = [
+    path("", include(("ksvotes.urls", "ksvotes"), namespace="ksvotes")),
     path("", HomepageView.as_view(), name="home"),
     path("admin/", admin.site.urls),
     path("users/me/", CurrentUserView.as_view(), name="current-user"),

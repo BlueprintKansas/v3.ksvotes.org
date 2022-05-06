@@ -5,7 +5,7 @@ USER root
 
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends wget xz-utils build-essential \
-      postgresql-client libpq-dev libffi-dev libgs-dev ghostscript fonts-liberation imagemagick wait-for-it
+      gettext postgresql-client libpq-dev libffi-dev libgs-dev ghostscript fonts-liberation imagemagick wait-for-it
 
 WORKDIR /code
 

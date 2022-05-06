@@ -143,3 +143,6 @@ deployed_static
 
 *.DS_Store
 node_modules
+
+# ksvotes specific
+ksvotes/locale/

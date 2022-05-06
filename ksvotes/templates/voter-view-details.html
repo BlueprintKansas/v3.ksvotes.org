@@ -1,0 +1,51 @@
+<div class='mt-4' id="voter-view">
+ {% if sos_reg|length == 1 %}
+   {% set r = sos_reg[0] %}
+   <table>
+    <tbody>
+     {% for th, td in r['tree'].items() %}
+      <tr><th>{{th}}</th><td>{{td|safe}}</td></tr>
+     {% endfor %}
+     {% if r['polling'] %}
+      <tr>
+       <th>Polling Location</th>
+       <td><a target="_blank" href="{{r['polling'][0]['href']}}">{{r['polling'][0]['name']}}</a></td>
+      </tr>
+     {% endif %}
+     {% for sample_ballot in r['sample_ballot'] %}
+      <tr>
+       <th>Sample Ballot</th>
+       <td><a href="{{sample_ballot['href']}}" target="_blank">{{sample_ballot['text']}}</a></td>
+      </tr>
+     {% endfor %}
+     {% if r['districts'] %}
+       <tr>
+        <th>Districts</th>
+        <td><table><tbody>
+       {% for district in r['districts'] %}
+         <tr><th>{{district['name']}}</th><td>{{district['type']}}</td></tr>
+       {% endfor %}
+        </tbody></table></td>
+       </tr>
+     {% endif %}
+     {% if r['elections'] %}
+       <tr>
+        <th>Voting History</th>
+        <td><table><tbody>
+       {% for election in r['elections'] %}
+         <tr>
+          <td class='nowrap'>{{election['date']}}</td>
+          <td>{{election['name']}}</td>
+          <td>{{election['type']}}</td>
+          <td>{{election['how']}}</td>
+         </tr>
+       {% endfor %}
+        </tbody></table></td>
+       </tr>
+     {% endif %}
+    </tbody>
+   </table>
+ {% elif sos_reg|length > 1 %}
+  <p>Sorry, there were too many results matching your name and DOB</p>
+ {% endif %}
+</div>

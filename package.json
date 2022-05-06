@@ -2,7 +2,7 @@
   "name": "ksvotes",
   "version": "3.0.0",
   "scripts": {
-    "css": "sass -s compressed -I scss scss/source.scss app/static/css/compiled.css",
+    "css": "sass -s compressed -I ksvotes/scss ksvotes/scss/source.scss ksvotes/static/css/compiled.css",
     "watch": "nodemon -e scss -x \"npm run css\""
   },
   "license": "MIT",

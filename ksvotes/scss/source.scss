@@ -1,0 +1,11 @@
+// KSVotes branding
+$ksv-green: #007682;
+$ksv-red: #aa3339;
+
+$sans: -apple-system, BlinkMacSystemFont, helvetica neue, helvetica, ubuntu,
+  roboto, noto, segoe ui, arial, sans-serif;
+
+@import 'MDB/scss/mdb';
+
+@import 'app/base';
+@import 'app/utilities';
