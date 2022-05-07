@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
+from django.views.generic import TemplateView
+from django.http import Http404, HttpResponse
 
 def stats(request): # TODO
     ninety_days = datetime.timedelta(days=90)
@@ -27,3 +29,10 @@ def privacy(request):
 def about(request):
     return render(request, 'about.html')
 
+class HomepageView(TemplateView):
+    template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["use_hero"] = True
+        return context

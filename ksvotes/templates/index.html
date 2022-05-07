@@ -1,5 +1,4 @@
 {% extends 'base-form.html' %}
-{% set use_hero = true %}
 {% block title %}Home{% endblock %}
 
 {% block form_content %}
@@ -8,7 +7,7 @@
 {% include '_ie_warning.html' %}
 {% endif %}
 
-<form name="step_0" id="step_0" method="POST" action="{{url_for('main.index')}}">
+<form name="step_0" id="step_0" method="POST" action="{% url "ksvotes:home.index" %}">
  <fieldset>
   <legend>{{_('0_form_explain')}}</legend>
 
@@ -16,7 +15,7 @@
    <div class="alert alert-info">{{_('announce')}}</div>
   {% endif %}
 
-  {{form.hidden_tag()}}
+  {{form.hidden_tag}}
 
   {{wtf.render_field(
     form.name_first,
