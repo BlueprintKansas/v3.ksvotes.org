@@ -1,4 +1,5 @@
 {% extends 'base-form.html' %}
+{% load wtf %}
 {% block title %}Home{% endblock %}
 
 {% block form_content %}
@@ -15,116 +16,39 @@
    <div class="alert alert-info">{{_('announce')}}</div>
   {% endif %}
 
-  {{form.hidden_tag}}
+  {% csrf_token %}
 
-  {{wtf.render_field(
-    form.name_first,
-    _('0_name_help'),
-    {
-      'required':'required',
-      'data-parsley-error-message': _('Required'),
-      'autocomplete':'off',
-      'data-parsley-trigger':'focusout'
-    }
-    )}}
+  {% text_field form.name_first "0_name_help" required=True %}
+  {% text_field form.name_last "0_name_help" required=True %}
+  {% dob_field form.dob required=True %}
+  {% zipcode_field form.zip required=True %}
+  {% email_field form.email required=True %}
+  <!-- client-side only -->
+  <div class="form-group">
+    <label for="email-confirm">{{_('0_email_confirm')}}</label>
+    <input id="email-confirm" name="email-confirm" type="email" required="required" class="form-control"
+         placeholder="{{_('0_email_confirm')}}"
+         data-parsley-required-message="{{_('Required')}}"
+         data-parsley-trigger="focusout"
+         data-parsley-type="email"
+         data-parsley-type-message="{{_('0_email_flag')}}"
+         data-parsley-email-confirm="true"
+         data-parsley-email-confirm-message="{{_('0_email_confirm_error_msg')}}"
+    >
+    <i class="fa fa-info-circle postfix" data-html="true" data-toggle="tooltip"
+       data-placement="left" title="{{_('0_email_confirm_help')}}"></i>
+  </div>
+  {% phone_field form.phone %}
 
-  {{wtf.render_field(
-    form.name_last,
-    _('0_name_help'),
-    {
-      'required':'required',
-      'data-parsley-error-message': _('Required'),
-      'autocomplete':'off',
-      'data-parsley-trigger':'focusout'
-    }
-    )}}
-
-    {{wtf.render_field(
-      form.dob,
-      _('0_dob_help'),
-      {
-        'required':'required',
-        'data-parsley-required-message': _('Required'),
-        'autocomplete':'off',
-        'data-parsley-trigger':'focusout',
-        'data-parsley-pattern-message': _('0_dob_flag'),
-        'data-parsley-pattern': "/^\d{2}[\/-]?\d{2}[\/\-]?\d{4}$/",
-        'data-parsley-dob-limit':"true",
-        'data-parsley-dob-limit-message': _('0_dob_flag'),
-        'placeholder':'mm/dd/yyyy',
-      }
-      )}}
-
-    {{wtf.render_field(
-      form.zip,
-      _('3_zip_help'),
-      {
-        'required':'required',
-        'pattern': '\d{5}.*',
-        'data-parsley-required-message': _('Required'),
-        'autocomplete':'off',
-        'data-parsley-trigger':'focusout',
-        'data-parsley-pattern-message': _('3_zip_help'),
-        'data-parsley-pattern': "/^\d{5}([\-]\d{4})?$/",
-      }
-      )}}
-
-    {{wtf.render_field(
-      form.email,
-      _('0_email_help'),
-      {
-        'required': 'required',
-        'data-parsley-required-message': _('Required'),
-        'data-parsley-trigger': 'focusout',
-        'data-parsley-type': 'email',
-        'data-parsley-type-message': _('0_email_flag'),
-      }
-      )}}
-
-    <!-- client-side only -->
-    <div class="form-group">
-      <label for="email-confirm">{{_('0_email_confirm')}}</label>
-      <input id="email-confirm" name="email-confirm" type="email" required="required" class="form-control"
-           placeholder="{{_('0_email_confirm')}}"
-           data-parsley-required-message="{{_('Required')}}"
-           data-parsley-trigger="focusout"
-           data-parsley-type="email"
-           data-parsley-type-message="{{_('0_email_flag')}}"
-           data-parsley-email-confirm="true"
-           data-parsley-email-confirm-message="{{_('0_email_confirm_error_msg')}}"
-      >
-      <i class="fa fa-info-circle postfix" data-html="true" data-toggle="tooltip"
-         data-placement="left" title="{{_('0_email_confirm_help')}}"></i>
-    </div>
-
-    {{wtf.render_field(
-      form.phone,
-      _('0_phone_help'),
-      {
-        'data-parsley-trigger': 'focusout',
-        'data-parsley-pattern': '/^\d{3}[\-\.]?\d{3}[\-\.]?\d{4}$/',
-        'data-parsley-pattern-message': _('0_phone_flag'),
-        'data-parsley-phone-limit':"true",
-        'data-parsley-phone-limit-message': _('0_phone_flag'),
-        'placeholder': 'xxx-xxx-xxxx',
-      }
-      )}}
-
-    {% if form.recaptcha %}
-    {{wtf.render_field(
-      form.recaptcha
-      )}}
-    {% endif %}
-
-    <input type="hidden" name="skip-sos" id="skip-sos" value="" />
-    <div class="mt-4">
-      <button id="btn-next" class="btn btn-outline-default" type="submit">
-        <i class="fa checkmark fa-check mr-2"></i>{{_('btn_check')}}
-      </button>
-      <a href="#" id="skip-sos-link" class="d-block mt-3 fs-14" onclick="return false">
-        {{_('skip_sos_check')}}
-      </a>
-    </div>
+  <input type="hidden" name="skip-sos" id="skip-sos" value="" />
+  <div class="mt-4">
+    <button id="btn-next" class="btn btn-outline-default" type="submit">
+      <i class="fa checkmark fa-check mr-2"></i>{{_('btn_check')}}
+    </button>
+    <a href="#" id="skip-sos-link" class="d-block mt-3 fs-14" onclick="return false">
+      {{_('skip_sos_check')}}
+    </a>
+  </div>
  </fieldset>
 </form>
 {% endblock %}

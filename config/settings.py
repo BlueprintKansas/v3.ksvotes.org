@@ -27,6 +27,7 @@ if DEBUG:
     handler = logging.StreamHandler(sys.stderr)
     root.addHandler(handler)
     env.log_level("LOG_LEVEL", default="DEBUG")
+    root.setLevel(logging.DEBUG)
 
 else:
     handler = logging.FileHandler("./python.log")

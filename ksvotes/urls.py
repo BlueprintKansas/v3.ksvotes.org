@@ -7,4 +7,5 @@ urlpatterns = [
     path("terms/", home.terms, name="home.terms"),
     path("about/", home.about, name="home.about"),
     path("privacy-policy/", home.privacy, name="home.privacy"),
+    path("change-or-apply/", home.change_or_apply, name="home.change_or_apply"),
 ]

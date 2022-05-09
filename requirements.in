@@ -5,11 +5,14 @@ django-extensions
 django-health-check
 django-rest-auth
 djangorestframework
+email_validator
 environs[django]
 gevent
 gunicorn
 psycopg2-binary
 whitenoise
+WTForms
+wtforms-recaptcha
 
 # Logging
 django-tracer
