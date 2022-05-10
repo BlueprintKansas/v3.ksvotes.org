@@ -27,4 +27,3 @@ def common_vars(request):
         "SESSION_TTL": settings.SESSION_TTL,
     }
     return params
-

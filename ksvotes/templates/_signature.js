@@ -10,7 +10,7 @@
         penColor: "blue",
         onEnd: function() {
           let sig_png = sig_pad.toDataURL();
-          if (sig_png.length == 0) {      
+          if (sig_png.length == 0) {
           } else {
             $sig_string.val(sig_png);
           }

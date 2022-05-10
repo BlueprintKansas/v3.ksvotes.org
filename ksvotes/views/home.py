@@ -8,41 +8,43 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def stats(request): # TODO
+
+def stats(request):  # TODO
     ninety_days = datetime.timedelta(days=90)
     today = datetime.date.today()
     s = RegistrantStats()
     vr_stats = s.vr_through_today(today - ninety_days)
     ab_stats = s.ab_through_today(today - ninety_days)
 
-    stats = {'vr': [], 'ab': []}
+    stats = {"vr": [], "ab": []}
     for r in vr_stats:
-      stats['vr'].append(r.values())
+        stats["vr"].append(r.values())
     for r in ab_stats:
-      stats['ab'].append(r.values())
+        stats["ab"].append(r.values())
 
-    return render(request, 'stats.html', { "stats": stats })
+    return render(request, "stats.html", {"stats": stats})
+
 
 def terms(request):
-    return render(request, 'terms.html')
+    return render(request, "terms.html")
 
 
 def privacy(request):
-    return render(request, 'privacy-policy.html')
+    return render(request, "privacy-policy.html")
 
 
 def about(request):
-    return render(request, 'about.html')
+    return render(request, "about.html")
 
 
 def change_or_apply(request):
     reg = g.registrant
-    sos_reg = reg.try_value('sos_reg')
-    skip_sos = reg.try_value('skip_sos')
-    sos_failure = reg.try_value('sos_failure')
+    sos_reg = reg.try_value("sos_reg")
+    skip_sos = reg.try_value("skip_sos")
+    sos_failure = reg.try_value("sos_failure")
     county = reg.county
     if not county and sos_reg:
-      county = sos_reg[0]['tree']['County']
+        county = sos_reg[0]["tree"]["County"]
     clerk = None
     evl = None
     dropboxes = None
@@ -51,14 +53,18 @@ def change_or_apply(request):
         evl = EarlyVotingLocations(county).locations
         dropboxes = Dropboxes(county).dropboxes
 
-    return render(request, "change-or-apply.html", {
-      "skip_sos": skip_sos,
-      "sos_reg": sos_reg,
-      "sos_failure": sos_failure,
-      "clerk": clerk,
-      "early_voting_locations": evl,
-      "dropboxes": dropboxes,
-    })
+    return render(
+        request,
+        "change-or-apply.html",
+        {
+            "skip_sos": skip_sos,
+            "sos_reg": sos_reg,
+            "sos_failure": sos_failure,
+            "clerk": clerk,
+            "early_voting_locations": evl,
+            "dropboxes": dropboxes,
+        },
+    )
 
 
 class HomepageView(TemplateView):

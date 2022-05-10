@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from .base import TimeStampedModel
 from django.db import models
+from django.core.paginator import Paginator
 import uuid
-import ksmyvoteinfo
 import usaddress
 import pytz
+import os
 from datetime import datetime, timedelta
 import json
 from django.utils import timezone
@@ -13,7 +14,12 @@ from fernet_fields import EncryptedTextField
 
 class Registrant(TimeStampedModel):
     class Meta:
-        indexes = [models.Index(fields=["vr_completed_at"]), models.Index(fields=["ab_completed_at"]), models.Index(fields=["created_at"]), models.Index(fields=["updated_at"])]
+        indexes = [
+            models.Index(fields=["vr_completed_at"]),
+            models.Index(fields=["ab_completed_at"]),
+            models.Index(fields=["created_at"]),
+            models.Index(fields=["updated_at"]),
+        ]
 
     # PII all encrypted in a "registration" column
     registration = EncryptedTextField()
@@ -55,7 +61,7 @@ class Registrant(TimeStampedModel):
             "reg_found": self.reg_found,
             "identification_found": self.identification_found,
             "ab_identification_found": self.ab_identification_found,
-      }
+        }
 
     def registration_as_dict(self):
         if not self.registration:
@@ -98,30 +104,35 @@ class Registrant(TimeStampedModel):
                 return False
         return True
 
-    def try_value(self, field_name, default_value=''):
+    def try_value(self, field_name, default_value=""):
         return self.registration_as_dict().get(field_name, default_value)
 
     def try_clerk(self):
         from app.models import Clerk
+
         return Clerk.find_by_county(self.county)
 
     def get_dob_year(self):
-        dob_dt = datetime.strptime(self.try_value('dob'), '%m/%d/%Y')
+        dob_dt = datetime.strptime(self.try_value("dob"), "%m/%d/%Y")
         return int(dob_dt.year)
 
     def best_zip5(self):
-        validated_addr = self.try_value('validated_addresses')
-        if validated_addr and 'current_address' in validated_addr and 'zip5' in validated_addr['current_address']:
-            return validated_addr['current_address']['zip5']
-        return self.try_value('zip')
+        validated_addr = self.try_value("validated_addresses")
+        if (
+            validated_addr
+            and "current_address" in validated_addr
+            and "zip5" in validated_addr["current_address"]
+        ):
+            return validated_addr["current_address"]["zip5"]
+        return self.try_value("zip")
 
     def precinct_address(self):
         parts = []
-        parts.append(self.try_value('addr'))
-        parts.append(self.try_value('city'))
-        parts.append(self.try_value('state'))
-        parts.append(self.try_value('zip'))
-        return ' '.join(parts)
+        parts.append(self.try_value("addr"))
+        parts.append(self.try_value("city"))
+        parts.append(self.try_value("state"))
+        parts.append(self.try_value("zip"))
+        return " ".join(parts)
 
     @classmethod
     def lookup_by_session_id(cls, sid):
@@ -132,33 +143,35 @@ class Registrant(TimeStampedModel):
         return cls.lookup_by_session_id(sid)
 
     def is_demo(self):
-        return self.session_id == uuid.UUID(os.getenv('DEMO_UUID'))
+        return self.session_id == uuid.UUID(os.getenv("DEMO_UUID"))
 
     @classmethod
     def load_fixtures(cls):
-        if not os.getenv('DEMO_UUID'):
+        if not os.getenv("DEMO_UUID"):
             raise Exception("Must define env var DEMO_UUID")
 
-        r, _ = cls.get_or_create(session_id=os.getenv('DEMO_UUID'))
+        r, _ = cls.get_or_create(session_id=os.getenv("DEMO_UUID"))
         r.registration = {}
-        r.update({
-            'name_first': 'No',
-            'name_middle': 'Such',
-            'name_last': 'Person',
-            'dob': '01/01/2000',
-            'addr': '123 Main St',
-            'city': 'Nowhere',
-            'state': 'KS',
-            'zip': '12345',
-            'email': 'nosuchperson@example.com',
-            'phone': '555-555-1234',
-            'identification': 'NONE',
-        })
-        r.party = 'Unaffiliated'
+        r.update(
+            {
+                "name_first": "No",
+                "name_middle": "Such",
+                "name_last": "Person",
+                "dob": "01/01/2000",
+                "addr": "123 Main St",
+                "city": "Nowhere",
+                "state": "KS",
+                "zip": "12345",
+                "email": "nosuchperson@example.com",
+                "phone": "555-555-1234",
+                "identification": "NONE",
+            }
+        )
+        r.party = "Unaffiliated"
         r.reg_lookup_complete = True
         r.addr_lookup_complete = True
         r.is_citizen = True
-        r.county = 'TEST'
+        r.county = "TEST"
         r.save()
 
     @classmethod
@@ -172,18 +185,26 @@ class Registrant(TimeStampedModel):
 
     @classmethod
     def redact(cls, reg):
-        fields = ['identification', 'ab_identification', 'vr_form', 'ab_forms', 'signature_string']
-        if reg.try_value('identification'):
+        fields = [
+            "identification",
+            "ab_identification",
+            "vr_form",
+            "ab_forms",
+            "signature_string",
+        ]
+        if reg.try_value("identification"):
             reg.identification_found = True
-        if reg.try_value('ab_identification'):
+        if reg.try_value("ab_identification"):
             reg.ab_identification_found = True
         for f in fields:
-            reg.set_value(f, '[REDACTED]')
+            reg.set_value(f, "[REDACTED]")
         reg.redacted_at = timezone.now()
 
     @classmethod
     def redact_pii(cls, before_when):
-        queryset = cls.objects.filter(updated_at__lt=before_when, redacted_at=None).all()
+        queryset = cls.objects.filter(
+            updated_at__lt=before_when, redacted_at=None
+        ).all()
         paginator = Paginator(queryset, 200)
         for page_number in paginator.page_range:
             page = paginator.page(page_number)
@@ -194,14 +215,14 @@ class Registrant(TimeStampedModel):
             cls.objects.bulk_update(updates, ["registration", "redacted_at"])
 
     def middle_initial(self):
-        middle_name = self.try_value('name_middle')
+        middle_name = self.try_value("name_middle")
         if middle_name and len(middle_name) > 0:
             return middle_name[0]
         else:
             return None
 
     def name(self):
-        return "{} {}".format(self.try_value('name_first'), self.try_value('name_last'))
+        return "{} {}".format(self.try_value("name_first"), self.try_value("name_last"))
 
     def updated_since(self, n_minutes):
         # returns boolean based on comparison of updated_at in last n_minutes
@@ -213,14 +234,15 @@ class Registrant(TimeStampedModel):
             return True
 
     def elections(self):
-        return self.try_value('elections').split('|')
+        return self.try_value("elections").split("|")
 
     def sign_ab_forms(self):
-        sig_string = self.try_value('signature_string', None)
+        sig_string = self.try_value("signature_string", None)
         if not sig_string:
             return False
 
         from app.services.nvris_client import NVRISClient
+
         nvris_client = NVRISClient(self)
         ab_forms = []
         for election in self.elections():
@@ -229,42 +251,36 @@ class Registrant(TimeStampedModel):
                 ab_forms.append(signed_ab_form)
 
         if len(ab_forms) > 0:
-            self.update({'ab_forms':ab_forms})
+            self.update({"ab_forms": ab_forms})
             self.signed_at = timezone.now()
 
         return ab_forms
 
     def signed_at_central_tz(self):
-        utc_tz = pytz.timezone('UTC')
-        central_tz = pytz.timezone('US/Central')
+        utc_tz = pytz.timezone("UTC")
+        central_tz = pytz.timezone("US/Central")
         signed_at_utc = utc_tz.localize(self.signed_at)
         return signed_at_utc.astimezone(central_tz)
 
     def populate_address(self, sosrec):
-        address = sosrec['Address'].replace('<br/>', ' ')
+        address = sosrec["Address"].replace("<br/>", " ")
         addr_parts = usaddress.tag(address)
-        payload = {
-          'addr': "",
-          'unit': "",
-          'city': "",
-          'state': "KANSAS",
-          'zip': ""
-        }
+        payload = {"addr": "", "unit": "", "city": "", "state": "KANSAS", "zip": ""}
         for key, val in addr_parts[0].items():
-            if key == 'OccupancyIdentifier':
-                payload['unit'] = val
-            elif key == 'PlaceName':
-                payload['city'] = val
-            elif key == 'StateName' and len(val) > 0:
-                payload['state'] = val
-            elif key == 'ZipCode':
-                payload['zip'] = val
+            if key == "OccupancyIdentifier":
+                payload["unit"] = val
+            elif key == "PlaceName":
+                payload["city"] = val
+            elif key == "StateName" and len(val) > 0:
+                payload["state"] = val
+            elif key == "ZipCode":
+                payload["zip"] = val
             else:
-                if len(payload['addr']) > 0:
-                    payload['addr'] = ' '.join([payload['addr'], val])
+                if len(payload["addr"]) > 0:
+                    payload["addr"] = " ".join([payload["addr"], val])
                 elif val == "No information available":
-                    payload['addr'] = ""
+                    payload["addr"] = ""
                 else:
-                    payload['addr'] = val
+                    payload["addr"] = val
 
         self.update(payload)

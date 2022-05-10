@@ -94,7 +94,10 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR.joinpath("ksvotes", "templates").as_posix(), BASE_DIR.joinpath("templates").as_posix()],
+        "DIRS": [
+            BASE_DIR.joinpath("ksvotes", "templates").as_posix(),
+            BASE_DIR.joinpath("templates").as_posix(),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
