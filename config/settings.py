@@ -212,3 +212,6 @@ EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD", default="")
 EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER", default="")
 EMAIL_PORT = env.int("DJANGO_EMAIL_PORT", default=25)
 EMAIL_USE_TLS = env.bool("DJANGO_EMAIL_USE_TLS", default=False)
+
+# registrants.registration encryption
+FERNET_KEYS = env.list("FERNET_KEYS")
