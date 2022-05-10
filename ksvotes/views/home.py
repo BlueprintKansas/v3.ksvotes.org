@@ -2,9 +2,14 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView
-from django.http import Http404, HttpResponse
+from django.http import HttpResponse
 from ksvotes.forms.step_0 import FormStep0
 import logging
+import datetime
+from ksvotes.services.registrant_stats import RegistrantStats
+from ksvotes.services.early_voting_locations import EarlyVotingLocations
+from ksvotes.services.dropboxes import Dropboxes
+from ksvotes.models import Clerk
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +43,7 @@ def about(request):
 
 
 def change_or_apply(request):
-    reg = g.registrant
+    reg = request.registrant
     sos_reg = reg.try_value("sos_reg")
     skip_sos = reg.try_value("skip_sos")
     sos_failure = reg.try_value("sos_failure")

@@ -80,7 +80,7 @@ css: ## Build css artifacts from scss
 
 .PHONY: pip-compile
 pip-compile:  ## rebuilds our pip requirements
-	@docker-compose run --rm web pip-compile ./requirements.in --output-file ./requirements.txt
+	pip-compile ./requirements.in --output-file ./requirements.txt
 
 # targets intended to be run *inside* a container
 .PHONY: run
