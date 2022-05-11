@@ -84,6 +84,12 @@ class HomepageView(TemplateView):
     def post(self, request, *args, **kwargs):
         form = FormStep0(request.POST)
         if form.validate():
+            r = request.registrant
+            r.update(form.data)
+            # zipcode = form.data.get("zip")
+            # save what we know so far
+            r.save()
+            # look up registration is we need to.
             return redirect(reverse("ksvotes:home.change_or_apply"))
         else:
-            return HttpResponse()
+            return HttpResponse()  # TODO populate form

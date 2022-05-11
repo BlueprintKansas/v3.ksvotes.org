@@ -45,7 +45,7 @@ class Registrant(TimeStampedModel):
 
     @classmethod
     def lookup_by_session_id(cls, sid):
-        return cls.objects.filter(session_id=sid).first()
+        return cls.objects.get(session_id=sid)
 
     @classmethod
     def find_by_session(cls, sid):

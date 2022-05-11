@@ -92,8 +92,8 @@
 
     {% if messages %}
     <div class="container-fluid text-center col-md-6 flashes">
-      {% for category, message in messages %}
-      <div class="alert alert-{{category}}" role="alert">{{ message }}</div>
+      {% for message in messages %}
+      <div class="alert alert-{{message.level}}" role="alert">{{ message }}</div>
       {% endfor %}
     </div>
     {% endif %}

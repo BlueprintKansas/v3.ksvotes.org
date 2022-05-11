@@ -33,8 +33,7 @@ class Clerk(TimeStampedModel):
             return clerk
 
     @classmethod
-    def load_fixtures(cls):
-        csv_file = "county-clerks.csv"
+    def load_fixtures(cls, csv_file):
         phone_re = re.compile(r"^(\d\d\d)(\d\d\d)(\d\d\d\d)$")
         with open(csv_file, newline="\n") as csvfile:
             next(csvfile)  # skip headers

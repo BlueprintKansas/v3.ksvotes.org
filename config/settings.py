@@ -80,6 +80,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "ksvotes.middleware.session.SessionTimeout",
 ]
 
 if DEBUG:
@@ -145,6 +146,7 @@ AUTH_PASSWORD_VALIDATORS = []
 SESSION_COOKIE_NAME = "ksvotes-sessionid"
 SESSION_TTL = env.int("SESSION_TTL", 60 * 5)
 SESSION_COOKIE_AGE = SESSION_TTL
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
