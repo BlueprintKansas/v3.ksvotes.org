@@ -93,3 +93,6 @@ locales:
 	python manage.py build_locales
 	python manage.py compilemessages
 
+.PHONY: coverage
+coverage: ## Run Django tests with coverage
+	pytest -s --cov=ksvotes --cov-report=term-missing:skip-covered --cov-fail-under=90

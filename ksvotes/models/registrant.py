@@ -43,97 +43,6 @@ class Registrant(TimeStampedModel):
     identification_found = models.BooleanField(default=None, null=True)
     ab_identification_found = models.BooleanField(default=None, null=True)
 
-    def to_dict(self):
-        return {
-            "registration": self.registration_value,
-            "vr_completed_at": self.vr_completed_at,
-            "ab_completed_at": self.ab_completed_at,
-            "ref": self.ref,
-            "is_citizen": self.is_citizen,
-            "is_eighteen": self.is_eighteen,
-            "dob_year": self.dob_year,
-            "party": self.party,
-            "county": self.county,
-            "lang": self.lang,
-            "signed_at": self.signed_at,
-            "reg_lookup_complete": self.reg_lookup_complete,
-            "addr_lookup_complete": self.addr_lookup_complete,
-            "reg_found": self.reg_found,
-            "identification_found": self.identification_found,
-            "ab_identification_found": self.ab_identification_found,
-        }
-
-    def registration_as_dict(self):
-        if not self.registration:
-            return {}
-        return json.loads(self.registration)
-
-    # update() is set_value() for a dict (bulk) to save encrypt/decrypt overhead
-    def update(self, update_payload):
-        rval = {}
-        if self.registration:
-            rval = self.registration_as_dict()
-        for k, v in update_payload.items():
-            if k in self.__table__.columns:
-                setattr(self, k, v)
-            else:
-                rval[k] = v
-        self.registration = json.dumps(rval)
-
-    def set_value(self, name, value):
-        if name in self.__table__.columns:
-            return super().__setattr__(name, value)
-        else:
-            rval = {}
-            if self.registration:
-                rval = self.registration_as_dict()
-            rval[name] = value
-            self.registration = json.dumps(rval)
-            return self
-
-    def has_value_for_req(self, req):
-        """
-        Given a requirement deterimine if it is a column or a registration value.
-        Deterimine if value exists
-        """
-        if req in self.__table__.columns:
-            if not getattr(self, req):
-                return False
-        else:
-            if not self.registration_as_dict().get(req):
-                return False
-        return True
-
-    def try_value(self, field_name, default_value=""):
-        return self.registration_as_dict().get(field_name, default_value)
-
-    def try_clerk(self):
-        from app.models import Clerk
-
-        return Clerk.find_by_county(self.county)
-
-    def get_dob_year(self):
-        dob_dt = datetime.strptime(self.try_value("dob"), "%m/%d/%Y")
-        return int(dob_dt.year)
-
-    def best_zip5(self):
-        validated_addr = self.try_value("validated_addresses")
-        if (
-            validated_addr
-            and "current_address" in validated_addr
-            and "zip5" in validated_addr["current_address"]
-        ):
-            return validated_addr["current_address"]["zip5"]
-        return self.try_value("zip")
-
-    def precinct_address(self):
-        parts = []
-        parts.append(self.try_value("addr"))
-        parts.append(self.try_value("city"))
-        parts.append(self.try_value("state"))
-        parts.append(self.try_value("zip"))
-        return " ".join(parts)
-
     @classmethod
     def lookup_by_session_id(cls, sid):
         return cls.objects.filter(session_id=sid).first()
@@ -147,10 +56,10 @@ class Registrant(TimeStampedModel):
 
     @classmethod
     def load_fixtures(cls):
-        if not os.getenv("DEMO_UUID"):
+        if not os.getenv("DEMO_UUID"):  # pragma: no cover
             raise Exception("Must define env var DEMO_UUID")
 
-        r, _ = cls.get_or_create(session_id=os.getenv("DEMO_UUID"))
+        r, _ = cls.objects.get_or_create(session_id=os.getenv("DEMO_UUID"))
         r.registration = {}
         r.update(
             {
@@ -175,7 +84,7 @@ class Registrant(TimeStampedModel):
         r.save()
 
     @classmethod
-    def for_each(cls, func, *where):
+    def for_each(cls, func, *where):  # pragma: no cover
         queryset = cls.objects.filter(*where).all()
         paginator = Paginator(queryset, 200)
         for page_number in paginator.page_range:
@@ -212,7 +121,105 @@ class Registrant(TimeStampedModel):
             for r in page.object_list:
                 cls.redact(r)
                 updates.append(r)
-            cls.objects.bulk_update(updates, ["registration", "redacted_at"])
+            cls.objects.bulk_update(
+                updates,
+                [
+                    "registration",
+                    "redacted_at",
+                    "identification_found",
+                    "ab_identification_found",
+                ],
+            )
+
+    def to_dict(self):
+        return {
+            "registration": self.registration_as_dict(),
+            "vr_completed_at": self.vr_completed_at,
+            "ab_completed_at": self.ab_completed_at,
+            "ref": self.ref,
+            "is_citizen": self.is_citizen,
+            "is_eighteen": self.is_eighteen,
+            "dob_year": self.dob_year,
+            "party": self.party,
+            "county": self.county,
+            "lang": self.lang,
+            "signed_at": self.signed_at,
+            "reg_lookup_complete": self.reg_lookup_complete,
+            "addr_lookup_complete": self.addr_lookup_complete,
+            "reg_found": self.reg_found,
+            "identification_found": self.identification_found,
+            "ab_identification_found": self.ab_identification_found,
+        }
+
+    def registration_as_dict(self):
+        if not self.registration:
+            return {}
+        return json.loads(self.registration)
+
+    def column_names(self):
+        return [f.name for f in Registrant._meta.get_fields()]
+
+    # update() is set_value() for a dict (bulk) to save encrypt/decrypt overhead
+    def update(self, update_payload):
+        rval = {}
+        if self.registration:
+            rval = self.registration_as_dict()
+        for k, v in update_payload.items():
+            if k in self.column_names():
+                setattr(self, k, v)
+            else:
+                rval[k] = v
+        self.registration = json.dumps(rval)
+
+    def set_value(self, name, value):
+        if name in self.column_names():
+            return setattr(self, name, value)
+        else:
+            rval = {}
+            if self.registration:
+                rval = self.registration_as_dict()
+            rval[name] = value
+            self.registration = json.dumps(rval)
+            return self
+
+    def has_value_for_req(self, req):
+        if req in self.column_names():
+            if not getattr(self, req):
+                return False
+        else:
+            if not self.registration_as_dict().get(req):
+                return False
+        return True
+
+    def try_value(self, field_name, default_value=""):
+        return self.registration_as_dict().get(field_name, default_value)
+
+    def try_clerk(self):
+        from ksvotes.models import Clerk
+
+        return Clerk.find_by_county(self.county)
+
+    def get_dob_year(self):
+        dob_dt = datetime.strptime(self.try_value("dob"), "%m/%d/%Y")
+        return int(dob_dt.year)
+
+    def best_zip5(self):
+        validated_addr = self.try_value("validated_addresses")
+        if (
+            validated_addr
+            and "current_address" in validated_addr
+            and "zip5" in validated_addr["current_address"]
+        ):
+            return validated_addr["current_address"]["zip5"]
+        return self.try_value("zip")
+
+    def precinct_address(self):
+        parts = []
+        parts.append(self.try_value("addr"))
+        parts.append(self.try_value("city"))
+        parts.append(self.try_value("state"))
+        parts.append(self.try_value("zip"))
+        return " ".join(parts)
 
     def middle_initial(self):
         middle_name = self.try_value("name_middle")
@@ -241,7 +248,7 @@ class Registrant(TimeStampedModel):
         if not sig_string:
             return False
 
-        from app.services.nvris_client import NVRISClient
+        from ksvotes.services.nvris_client import NVRISClient
 
         nvris_client = NVRISClient(self)
         ab_forms = []
