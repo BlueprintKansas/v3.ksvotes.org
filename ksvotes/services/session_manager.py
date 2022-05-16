@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.utils.translation import get_language
 
 
 class SessionManager:
@@ -48,8 +49,7 @@ class SessionManager:
         return False
 
     def get_locale_url(self, endpoint):
-        raise "TODO get_lang_code"
-        lang_code = "en"
+        lang_code = get_language()
         if lang_code:
             return "/" + lang_code + endpoint
         else:
