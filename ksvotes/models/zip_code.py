@@ -7,7 +7,8 @@ import csv
 
 class ZIPCode(TimeStampedModel):
     zipcode = models.CharField(max_length=10, unique=True)
-    counties = models.ManyToManyField(Clerk, through="ZipCodeCounty")
+    counties = models.ManyToManyField("ZipCodeCounty", related_name="zip_codes")
+    clerks = models.ManyToManyField(Clerk, through="ZipCodeCounty")
 
     @classmethod
     def find_by_zip5(cls, zip5):
@@ -18,13 +19,13 @@ class ZIPCode(TimeStampedModel):
         z = cls.find_by_zip5(zip5)
         if not z:
             return None
-        if len(z.counties) == 1:
-            return z.counties[0].county.county
+        if z.counties.count() == 1:
+            return z.counties.first().clerk.county
 
         # more than one county for this ZIP5.
         # sort the list by voter_count and pick the biggest.
         sorted_by_voter_count = sorted(
-            z.counties, key=lambda zc: zc.voter_count, reverse=True
+            z.counties.all(), key=lambda zc: zc.voter_count, reverse=True
         )
         return sorted_by_voter_count[0].clerk.county
 

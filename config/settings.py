@@ -218,5 +218,20 @@ EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER", default="")
 EMAIL_PORT = env.int("DJANGO_EMAIL_PORT", default=25)
 EMAIL_USE_TLS = env.bool("DJANGO_EMAIL_USE_TLS", default=False)
 
+# ksvotes
+GA_KEY = env("GA_KEY", default=None)
+EMAIL_FROM = env("EMAIL_FROM", "noreply@ksvotes.org")
+EMAIL_BCC = env("EMAIL_BCC", "registration@ksvotes.org")
+AWS_DEFAULT_REGION = env("AWS_DEFAULT_REGION", "us-east-1")
+SES_ACCESS_KEY_ID = env("SES_ACCESS_KEY_ID", default=None)
+SES_SECRET_ACCESS_KEY = env("SES_SECRET_ACCESS_KEY", default=None)
+SEND_EMAIL = env.bool("SEND_EMAIL", default=False)
+DEMO_UUID = env("DEMO_UUID", default=None)
+ENABLE_AB = env.bool("ENABLE_AB", default=False)
+ENABLE_AB_TRACKER = env.bool("ENABLE_AB_TRACKER", default=False)
+ENABLE_VOTING_LOCATION = env.bool("ENABLE_VOTING_LOCATION", default=False)
+FAIL_EMAIL = env("FAIL_EMAIL", default="fail@ksvotes.org")
+STAGE_BANNER = env.bool("STAGE_BANNER", default=False)
+
 # registrants.registration encryption
 FERNET_KEYS = env.list("FERNET_KEYS")

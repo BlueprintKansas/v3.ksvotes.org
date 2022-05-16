@@ -9,10 +9,13 @@ djangorestframework
 djfernet
 email_validator
 environs[django]
+formfiller
 gevent
 gunicorn
 ksmyvoteinfo
+newrelic
 psycopg2-binary
+pyusps
 whitenoise
 WTForms
 wtforms-recaptcha

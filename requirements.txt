@@ -109,6 +109,8 @@ factory-boy==3.2.1
     # via -r ./requirements.in
 faker==9.9.0
     # via factory-boy
+formfiller==0.3
+    # via -r ./requirements.in
 fs==2.4.14
     # via django-bakery
 future==0.18.2
@@ -135,12 +137,16 @@ kombu==5.2.2
     # via celery
 ksmyvoteinfo==1.4
     # via -r ./requirements.in
+lxml==4.8.0
+    # via pyusps
 markupsafe==2.1.1
     # via wtforms
 marshmallow==3.14.1
     # via environs
 mypy-extensions==0.4.3
     # via black
+newrelic==7.10.0.175
+    # via -r ./requirements.in
 packaging==21.3
     # via pytest
 pathspec==0.9.0
@@ -200,6 +206,8 @@ pytz==2021.3
     # via
     #   celery
     #   fs
+pyusps==0.0.7
+    # via -r ./requirements.in
 redis==4.0.2
     # via -r ./requirements.in
 regex==2021.11.10
@@ -250,6 +258,8 @@ vine==5.0.0
     #   amqp
     #   celery
     #   kombu
+wand==0.6.7
+    # via formfiller
 wcwidth==0.2.5
     # via prompt-toolkit
 wheel==0.37.0
