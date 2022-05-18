@@ -7,7 +7,6 @@ import csv
 
 class ZIPCode(TimeStampedModel):
     zipcode = models.CharField(max_length=10, unique=True)
-    counties = models.ManyToManyField("ZipCodeCounty")
     clerks = models.ManyToManyField(Clerk, through="ZipCodeCounty")
 
     @classmethod
@@ -60,5 +59,7 @@ class ZIPCodeCounty(TimeStampedModel):
         ]
 
     clerk = models.ForeignKey(Clerk, null=False, on_delete=models.CASCADE)
-    zipcode = models.ForeignKey(ZIPCode, null=False, on_delete=models.CASCADE)
+    zipcode = models.ForeignKey(
+        ZIPCode, null=False, on_delete=models.CASCADE, related_name="counties"
+    )
     voter_count = models.IntegerField(null=True)

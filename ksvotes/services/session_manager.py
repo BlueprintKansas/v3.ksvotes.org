@@ -20,6 +20,7 @@ class SessionManager:
         self.current_step = current_step
         self._init_next_step()
         self._init_prev_step()
+        # we don't really care, just need a way to "use" ksvotes.services.steps to avoid flake8 error.
         self.steps_are_modules = ismodule(ksvotes.services.steps)
 
     def _init_next_step(self):
