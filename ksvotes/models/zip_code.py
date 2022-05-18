@@ -7,7 +7,7 @@ import csv
 
 class ZIPCode(TimeStampedModel):
     zipcode = models.CharField(max_length=10, unique=True)
-    counties = models.ManyToManyField("ZipCodeCounty", related_name="zip_codes")
+    counties = models.ManyToManyField("ZipCodeCounty")
     clerks = models.ManyToManyField(Clerk, through="ZipCodeCounty")
 
     @classmethod

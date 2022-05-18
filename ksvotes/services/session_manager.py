@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.utils.translation import get_language
+from django.conf import settings
+import ksvotes.services.steps
+from inspect import ismodule
 
 
 class SessionManager:
@@ -17,13 +20,14 @@ class SessionManager:
         self.current_step = current_step
         self._init_next_step()
         self._init_prev_step()
+        self.steps_are_modules = ismodule(ksvotes.services.steps)
 
     def _init_next_step(self):
         """
         If the current step has a next step set, initialize the next step class and save it to self.
         """
         if self.current_step.next_step:
-            next_step = globals()[self.current_step.next_step]
+            next_step = eval(f"ksvotes.services.steps.{self.current_step.next_step}")
             self.next_step = next_step()
 
     def _init_prev_step(self):
@@ -31,7 +35,7 @@ class SessionManager:
         If the current step has a previous step set, initialize the previous step class and save it to self.
         """
         if self.current_step.prev_step:
-            prev_step = globals()[self.current_step.prev_step]
+            prev_step = eval(f"ksvotes.services.steps.{self.current_step.prev_step}")
             self.prev_step = prev_step()
 
     def vr_completed(self):
@@ -50,7 +54,7 @@ class SessionManager:
 
     def get_locale_url(self, endpoint):
         lang_code = get_language()
-        if lang_code:
+        if lang_code and lang_code != settings.LANGUAGE_CODE:
             return "/" + lang_code + endpoint
         else:
             return endpoint

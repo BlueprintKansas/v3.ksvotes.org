@@ -20,13 +20,12 @@ class RegistrantTestCase(TestCase):
             }
         )
         # registration value should be automatically encrypted and decrypted
-        Registrant.objects.create(
+        registrant = Registrant.objects.create(
             lang="en",
             county="Johnson",
             registration=registrant_data,
         )
 
-        registrant = Registrant.objects.all().first()
         # confirm that registration was modified from dictionary value
         assert isinstance(registrant.registration, (dict)) is False
 

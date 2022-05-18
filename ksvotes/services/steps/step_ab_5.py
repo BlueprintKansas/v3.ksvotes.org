@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from ksvotes.services.steps import Step
+from ksvotes.utils import KS_DL_PATTERN
+import re
 
 
 class Step_AB_5(Step):
@@ -24,9 +26,6 @@ class Step_AB_5(Step):
         return True
 
     def valid_id(self):
-        from app.main.helpers import KS_DL_PATTERN
-        import re
-
         k = "ab_identification"
 
         # it's ok if k is None but if present must match pattern.

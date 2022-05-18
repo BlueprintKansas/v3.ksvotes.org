@@ -1,6 +1,7 @@
 airtable
 Django>4.0
 bumpversion
+dateparser
 django-db-geventpool
 django-extensions
 django-health-check

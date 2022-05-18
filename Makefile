@@ -96,3 +96,7 @@ locales:
 .PHONY: coverage
 coverage: ## Run Django tests with coverage
 	pytest -s --cov=ksvotes --cov-report=term-missing:skip-covered --cov-fail-under=90
+
+.PHONY: services-stop
+services-stop:
+	docker-compose down
