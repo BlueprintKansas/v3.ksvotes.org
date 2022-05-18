@@ -5,8 +5,8 @@
     </a>
   </div>
   <div class="float-right mt-4">
-    <button id="btn-next" class="btn btn-outline-default" type="submit" data-disabled="{{disabled_btn or _('btn_disabled')}}">
-      <i class="fa checkmark fa-check mr-2"></i>{{next_btn or _('btn_next')}}
+    <button id="btn-next" class="btn btn-outline-default" type="submit" data-disabled="{{disabled_btn|default:_('btn_disabled')}}">
+      <i class="fa checkmark fa-check mr-2"></i>{{next_btn|default:_('btn_next')}}
     </button>
   </div>
 </div>

@@ -133,6 +133,7 @@ class Registrant(TimeStampedModel):
 
     def to_dict(self):
         return {
+            "session_id": str(self.session_id),
             "registration": self.registration_as_dict(),
             "vr_completed_at": self.vr_completed_at,
             "ab_completed_at": self.ab_completed_at,
@@ -150,6 +151,9 @@ class Registrant(TimeStampedModel):
             "identification_found": self.identification_found,
             "ab_identification_found": self.ab_identification_found,
         }
+
+    def as_dict(self):
+        return self.to_dict()
 
     def registration_as_dict(self):
         if not self.registration:

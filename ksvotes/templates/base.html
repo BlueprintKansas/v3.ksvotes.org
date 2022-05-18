@@ -145,7 +145,7 @@
       </li>
       {% if ENABLE_AB %}
       <li class="list-inline-item">
-        <a href="{% url "/ab/election-picker/" %}">{{_('nav_advance_ballot')}}</a>
+        <a href="{% url "ksvotes:ab.election_picker" %}">{{_('nav_advance_ballot')}}</a>
       </li>
       {% endif %}
     </ul>

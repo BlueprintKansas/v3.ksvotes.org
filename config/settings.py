@@ -108,6 +108,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "config.context_processors.base_url",
                 "config.context_processors.common_vars",
+                "ksvotes.context_processors.steps",
             ]
         },
     }

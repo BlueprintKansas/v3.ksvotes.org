@@ -1,21 +1,21 @@
 <div class="">
  <div class="">
-  <a class="btn btn-outline-default d-block mb-3" href="{{url_for('main.vr1_citizenship')}}">
+  <a class="btn btn-outline-default d-block mb-3" href="{% url "ksvotes:vr.citizenship" %}">
     <i class="fa fa-check"></i>
-    {{register_link or _('1AB_sorry_no_reg_link')}}
+    {{ register_link|default:_('1AB_sorry_no_reg_link') }}
   </a>
   <p class='fs-14 font-italic'>{{_('change_reg_help')}}</p>
  </div>
- {% if config['ENABLE_AB'] %}
+ {% if ENABLE_AB %}
  <div class="">
-  <a class="btn btn-outline-primary d-block mb-3" href="{{url_for('main.ab1_election_picker')}}">
+  <a class="btn btn-outline-primary d-block mb-3" href="{% url "ksvotes:ab.election_picker" %}">
     <i class="fa fa-edit"></i>
     {{_('1AB_apply_ab_link')}}
   </a>
   <p class="fs-14 font-italic">{{_('apply_ab_help')}}</p>
  </div>
  {% endif %}
- {% if config['ENABLE_AB_TRACKER'] %}
+ {% if ENABLE_AB_TRACKER %}
  <div class="">
   <a class="btn btn-outline-primary d-block mb-3" target="_blank" href="https://myvoteinfo.voteks.org/voterview">
     <i class="fa fa-external-link"></i>

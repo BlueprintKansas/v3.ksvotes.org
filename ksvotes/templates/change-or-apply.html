@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
 {% block title %}{{_('1AB_whats_next')}}{% endblock %}
 
 {% block content %}
@@ -7,7 +9,7 @@
     <div class="col-md-8">
       <div class="card">
         <div class="card-body">
-        {% if sos_reg: %}
+        {% if sos_reg %}
           <h3>{{_('1AB_reg_found_title')}}</h3>
           <h5 class="mb-3">{{_('1AB_whats_next')}}</h5>
           {% with register_link=_('1AB_change_reg_link') %}
@@ -38,13 +40,13 @@
           <div class="clearfix"></div>
           {% include 'forget-session-button.html' %}
 
-        {% elif skip_sos: %}
+        {% elif skip_sos %}
           <h4 class='mb-4'>{{_('1AB_whats_next')}}</h4>
           {% include 'reg-choices.html' %}
           {% include '_vit_map.html' %}
-        {% elif sos_failure: %}
+        {% elif sos_failure %}
           <h4 class='mb-4'>{{_('1_sos_failure')}}</h4>
-          <p>{{_('1_sos_failure_explain').format(link=sos_failure)}}</p>
+          <p>{% blocktranslate with link=sos_failure %}1_sos_failure_explain{% endblocktranslate %}</p>
           {% include 'reg-choices.html' %}
           {% include '_vit_map.html' %}
         {% else %}
@@ -72,18 +74,18 @@
 {% endblock %}
 
 {% block js_footer %}
-{% if config['ENABLE_VOTING_LOCATION'] %}
+{% if ENABLE_VOTING_LOCATION %}
 <script type="text/javascript" src="https://tool.votinginfoproject.org/app.js"></script>
-<script type="text/javascript" src="{{url_for('static', filename='js/arrive.min.js')}}"></script>
+<script type="text/javascript" src="{% static "js/arrive.min.js" %}"></script>
 <script type="text/javascript">
   vit.load({
     modal: true,
     title: 'Map your Kansas voting location',
     colors: { 'header': '#229acd', 'landscapeBackgroundHeader': '#228a9d' },
-    language: '{{g.locale}}'
+    language: '{{locale}}'
   });
   $(document).arrive('#address-input', function() {
-    $('#address-input').val("{{registrant.precinct_address()}}");
+    $('#address-input').val("{{ precinct_address }}");
   });
 </script>
 {% endif %}

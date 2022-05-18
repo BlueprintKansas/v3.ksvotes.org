@@ -1,33 +1,18 @@
 {% extends 'base-form.html' %}
-{% set current_step = '1' %}
-{% set previous_step_url = url_for('main.index') %}
-
+{% load wtf %}
 {% block title %}Citizenship{% endblock %}
 
 {% block form_content %}
-<form id="step_1" name="step_1" method="POST" action="{{url_for('main.vr1_citizenship')}}">
+<form id="step_1" name="step_1" method="POST" action="{% url "ksvotes:vr.citizenship" %}">
  <fieldset>
   <legend>{{_('1_legend')}}</legend>
 
-  {{form.hidden_tag()}}
-
-  {{wtf.render_field(
-    form.is_citizen,
-    _('1VR_citizen_help'),
-    {
-      'required':'required',
-    }
-    )}}
-    <div id="is-citizen-error" class="parsley-error parsley-errors-list mtn-075" style="display:none">
-      {{_('1VR_citizen_help')}}
-    </div>
-
-    {{wtf.render_field(
-      form.is_eighteen,
-      _('1VR_18_help'),
-
-      )}}
-
+  {% csrf_token %}
+  {% boolean_field form.is_citizen help_text=_('1VR_citizen_help') required=True %}
+  <div id="is-citizen-error" class="parsley-error parsley-errors-list mtn-075 mb-2" style="display:none">
+    {{_('1VR_citizen_help')}}
+  </div>
+  {% boolean_field form.is_eighteen help_text=_('1VR_18_help') %}
   {% include 'form-buttons.html' %}
 
  </fieldset>

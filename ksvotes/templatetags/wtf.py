@@ -108,3 +108,18 @@ def phone_field(field, required=False):
         "html": field(**html_attrs),
         "errors": field.errors,
     }
+
+
+@register.inclusion_tag("wtf/boolean.html")
+def boolean_field(field, help_text, required=False):
+    html_attrs = {}
+    if required:
+        html_attrs["required"] = "required"
+        html_attrs["data-parsley-required-message"] = _("Required")
+    label_attrs = {"class": "pr-3"}
+    return {
+        "label": field.label(**label_attrs),
+        "help_text": help_text,
+        "html": field(**html_attrs),
+        "errors": field.errors,
+    }

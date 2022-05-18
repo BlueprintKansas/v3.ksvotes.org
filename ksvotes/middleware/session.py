@@ -9,21 +9,12 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# some routes do not require a session, but most do.
-# So we explicitly skip some and assume required otherwise.
-REGISTRANT_SESSION_OPTIONAL = [
-    "/about",
-    "/terms",
-    "/privacy-policy",
-    # skip entire namespaces
-    "/api",
-    "/admin",
-    "/users",
-    "/200",
-    "/403",
-    "/404",
-    "/500",
-    "/this/should/not/exist",
+REGISTRANT_SESSION_REQUIRED = [
+    "/vr/",
+    "/ab/",
+    "/change-or-apply/",
+    "/ref/",
+    "/debug/",
 ]
 
 
@@ -32,13 +23,20 @@ class SessionTimeout(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.path in REGISTRANT_SESSION_OPTIONAL:
-            return self.get_response(request)
+        if request.path in REGISTRANT_SESSION_REQUIRED:
+            return self.require_session(request)
 
-        for path in REGISTRANT_SESSION_OPTIONAL:
+        for path in REGISTRANT_SESSION_REQUIRED:
             if request.path.startswith(path):
-                return self.get_response(request)
+                return self.require_session(request)
 
+        # root page is a little tricky since we want autofill to work for ref etc.
+        if request.session.get("id") and request.path == "/":
+            return self.require_session(request)
+
+        return self.get_response(request)
+
+    def require_session(self, request):
         existing_session = request.session.get("id")
         session_id = request.session.get("id", str(uuid4()))
         registrant, is_new = Registrant.objects.get_or_create(session_id=session_id)
