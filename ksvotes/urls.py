@@ -8,6 +8,7 @@ from .views.vr.party import VR4View
 from .views.vr.identification import VR5View
 from .views.vr.preview_sign import VR6View
 from .views.vr.affirmation import VR7View
+from .views.vr.submission import VR8View
 
 urlpatterns = [
     path("", home.HomepageView.as_view(), name="home.index"),
@@ -31,5 +32,5 @@ urlpatterns = [
     path("vr/identification/", VR5View.as_view(), name="vr.identification"),
     path("vr/preview/", VR6View.as_view(), name="vr.preview_sign"),
     path("vr/affirmation/", VR7View.as_view(), name="vr.affirmation"),
-    path("vr/submission/", home.privacy, name="vr.submission"),  # TODO
+    path("vr/submission/", VR8View.as_view(), name="vr.submission"),
 ]

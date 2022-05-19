@@ -29,7 +29,7 @@ def zipcode_field(field, required=False):
 
 
 @register.inclusion_tag("wtf/text.html")
-def text_field(field, help_text_key, required=False):
+def text_field(field, help_text_key=None, required=False):
     html_attrs = {
         "class": "form-control",
         "autocomplete": "off",
@@ -39,7 +39,7 @@ def text_field(field, help_text_key, required=False):
         html_attrs["required"] = "required"
         html_attrs["data-parsley-required-message"] = _("Required")
     return {
-        "help_text": _(help_text_key),
+        "help_text": (_(help_text_key) if help_text_key else None),
         "label": field.label,
         "html": field(**html_attrs),
         "errors": field.errors,
@@ -121,5 +121,35 @@ def boolean_field(field, help_text, required=False):
         "label": field.label(**label_attrs),
         "help_text": help_text,
         "html": field(**html_attrs),
+        "errors": field.errors,
+    }
+
+
+@register.inclusion_tag("wtf/checkbox.html")
+def checkbox_field(field, help_text, required=False):
+    html_attrs = {
+        "class": "form-check-input",
+    }
+    if required:
+        html_attrs["required"] = "required"
+        html_attrs["data-parsley-required-message"] = _("Required")
+    label_attrs = {"class": "form-check-label pr-3"}
+    return {
+        "label": field.label(**label_attrs),
+        "help_text": help_text,
+        "html": field(**html_attrs),
+        "errors": field.errors,
+    }
+
+
+@register.inclusion_tag("wtf/multicheckbox.html")
+def multicheckbox_field(field, help_text, required=False):
+    label_attrs = {"class": "fs-16"}
+    return {
+        "id": field.id,
+        "label": field.label(**label_attrs),
+        "required": required,
+        "field": field,
+        "help_text": help_text,
         "errors": field.errors,
     }
