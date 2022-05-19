@@ -199,6 +199,7 @@ structlog.configure(
 
 # Configure Redis
 REDIS_HOST = env("REDIS_HOST", default="redis")
+REDIS_URL = env("REDIS_URL", default=f"redis://{REDIS_HOST}:6379/0")
 
 # Configure Celery
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379"
@@ -220,6 +221,7 @@ EMAIL_PORT = env.int("DJANGO_EMAIL_PORT", default=25)
 EMAIL_USE_TLS = env.bool("DJANGO_EMAIL_USE_TLS", default=False)
 
 # ksvotes
+APP_CONFIG = env("APP_CONFIG", default="development")
 GA_KEY = env("GA_KEY", default=None)
 EMAIL_FROM = env("EMAIL_FROM", "noreply@ksvotes.org")
 EMAIL_BCC = env("EMAIL_BCC", "registration@ksvotes.org")

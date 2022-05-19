@@ -52,9 +52,9 @@ class FormFillerService:
 
     def __get_or_load_definitions(self):
         if self.form_name not in self.DEFINITIONS or self.debug:
-            def_file = os.path.join(
-                settings.BASE_DIR, self.FORMS[self.form_name]["definitions"]
-            )
+            def_file = settings.BASE_DIR.joinpath(
+                "ksvotes", self.FORMS[self.form_name]["definitions"]
+            ).as_posix()
             logger.info(
                 "{} loading {} form defs from {}".format(
                     self.payload["uuid"], self.form_name, def_file
@@ -68,6 +68,7 @@ class FormFillerService:
 
     def __get_or_load_image(self):
         url = self.FORMS[self.form_name]["base"]
+        logger.debug("original image from {}".format(url))
         redis = KSVotesRedis()
         img_def_cached = redis.get(url)
         if not img_def_cached:

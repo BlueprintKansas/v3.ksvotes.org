@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 from redis import WatchError
-import os
 import redis
+from django.conf import settings
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class KSVotesRedis:
     def __init__(self):
-        self.redis_client = redis.Redis.from_url(os.getenv("REDIS_URL"))
-        self.namespace = os.getenv("APP_CONFIG") or "default"
+        self.redis_client = redis.Redis.from_url(settings.REDIS_URL)
+        self.namespace = settings.APP_CONFIG
 
     def get(self, key):
         return self.redis_client.get(self.namespace + ":" + key)

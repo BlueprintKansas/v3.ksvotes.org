@@ -78,8 +78,6 @@ services:
     image: "redis:alpine"
     expose:
       - "6379"
-    profiles:
-      - celery
     volumes:
       - redis-data:/data
 
@@ -91,6 +89,7 @@ services:
     depends_on:
       - db
       - maildev
+      - redis
     env_file:
       - .env
     expose:
