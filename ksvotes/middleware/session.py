@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as lazy_gettext
 from uuid import uuid4
 from ksvotes.models import Registrant
@@ -12,9 +13,10 @@ logger = logging.getLogger(__name__)
 REGISTRANT_SESSION_REQUIRED = [
     "/vr/",
     "/ab/",
-    "/change-or-apply/",
+    "/change-",
     "/ref/",
     "/debug/",
+    "/forget/",
 ]
 
 
@@ -48,12 +50,12 @@ class SessionTimeout(object):
                 messages.warning(request, lazy_gettext("session_interrupted_error"))
                 if existing_session:
                     request.session.flush()
-                return redirect("/")
+                return redirect(reverse("ksvotes:home.index"))
 
             # we must have *some* registration info if we are beyond the root (step_0) page.
             if len(registrant.registration_as_dict()) == 0:
                 logger.debug("empty registration -- redirect to /")
-                return redirect("/")
+                return redirect(reverse("ksvotes:home.index"))
 
         # Security belt-and-suspenders. Disallow session continuation if the Registrant
         # has not been updated within the SESSION_TTL window.
@@ -64,7 +66,7 @@ class SessionTimeout(object):
             logger.error("Discontinuing old session for existing Registrant")
             messages.warning(request, lazy_gettext("session_interrupted_error"))
             request.session.flush()
-            return redirect("/")
+            return redirect(reverse("ksvotes:home.index"))
 
         request.registrant = registrant
         return self.get_response(request)

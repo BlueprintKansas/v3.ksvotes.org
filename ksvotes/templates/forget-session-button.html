@@ -1,4 +1,4 @@
-<form class="mt-4 plain" action="{{url_for('main.forget_session')}}" method="POST">
+<form class="mt-4 plain" action="{% url "ksvotes:home.forget" %}" method="POST">
   <div class="text-center">
    <button class="btn btn-outline-blue-grey">
     <i class="fa fa-thumbs-up mr-2"></i>{{_('btn_forget_session')}}

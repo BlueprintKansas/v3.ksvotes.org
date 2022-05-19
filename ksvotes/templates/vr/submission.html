@@ -1,6 +1,4 @@
 {% extends 'base.html' %}
-{% set current_step = '8' %}
-{% set previous_step_url = url_for('main.vr7_affirmation') %}
 {% block title %}{{_('voter_receipt_email_subject')}}{% endblock %}
 
 {% block content %}
@@ -22,7 +20,7 @@
       <div class="form-buttons text-center mt-4">
         {% if ENABLE_AB %}
         <div class="mb-4">
-          <a class="btn btn-outline-primary" href="{{url_for('main.ab1_election_picker')}}">
+          <a class="btn btn-outline-primary" href="{% url "ksvotes:ab.election_picker" %}">
             <i class="fa fa-edit mr-2"></i>
             {{_('1AB_apply_ab_link')}}
           </a>

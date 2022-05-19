@@ -20,6 +20,7 @@ urlpatterns = [
     path("privacy-policy/", home.privacy, name="home.privacy"),
     path("change-or-apply/", home.change_or_apply, name="home.change_or_apply"),
     path("change-county/", home.change_county, name="home.change_county"),
+    path("forget/", home.forget, name="home.forget"),
     path("ab/election-picker/", home.privacy, name="ab.election_picker"),  # TODO
     path("ab/address/", home.privacy, name="ab.address"),  # TODO
     path("ab/identification/", home.privacy, name="ab.identification"),  # TODO

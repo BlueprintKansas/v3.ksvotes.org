@@ -3,7 +3,11 @@ from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.http import HttpResponse, JsonResponse, Http404
 from django.conf import settings
+from django.urls import reverse
 from django.utils.translation import get_language
+from django.views.decorators.http import require_http_methods
+from django.contrib import messages
+from django.utils.translation import gettext_lazy as lazy_gettext
 from ksvotes.forms.step_0 import FormStep0
 from ksvotes.services.steps import Step_0
 from ksvotes.services.session_manager import SessionManager
@@ -77,16 +81,44 @@ def change_or_apply(request):
     )
 
 
+@require_http_methods(["POST"])
 def change_county(request):
-    # TODO must be POST
-    pass
+    reg = request.registrant
+    existing_county = reg.county
+    new_county = request.POST.get("county")
+    redirect_url = request.POST.get("return")
+
+    if not redirect_url:
+        redirect_url = reverse("ksvotes:home.index")
+
+    if not new_county or new_county == existing_county:
+        logger.error("unable to change county")
+        redirect(redirect_url)
+
+    logger.debug("new county %s return to %s" % (new_county, redirect_url))
+    reg.county = new_county
+
+    # must invalidate any cached images since county is on the forms
+    if reg.try_value("ab_forms"):
+        reg.sign_ab_forms()
+        messages.info(request, lazy_gettext("ab_forms_county_changed"))
+
+    reg.save()
+
+    return redirect(redirect_url)
+
+
+@require_http_methods(["GET", "POST"])
+def forget(request):
+    request.session.flush()
+    return redirect(reverse("ksvotes:home.index"))
 
 
 def demo(request):
     if settings.DEMO_UUID:
         logger.debug("loading demo fixture")
         request.session["id"] = settings.DEMO_UUID
-    return redirect("/ref/?ref=demo")
+    return redirect("/ref/?ref=demo")  # TODO lang
 
 
 def referring_org(request):
@@ -99,7 +131,7 @@ def referring_org(request):
 
     if request.method == "GET":
         request.session["ref"] = ref
-        return redirect("/")
+        return redirect(reverse("ksvotes:home.index"))
 
     # special 'ref' value of 'demo' attaches to the DEMO_UUID if defined
     if ref == "demo" and settings.DEMO_UUID:
@@ -119,7 +151,7 @@ def referring_org(request):
         registrant.update(registration)
         registrant.save()
 
-    return redirect("/")
+    return redirect(reverse("ksvotes:home.index"))
 
 
 def debug(request):
@@ -215,7 +247,7 @@ class HomepageView(TemplateView):
 
             # small optimization for common case.
             if skip_sos and not settings.ENABLE_AB:
-                return redirect("/vr/citizenship")
+                return redirect(reverse("ksvotes:vr.citizenship"))
 
             session_manager = SessionManager(registrant, step)
             return redirect(session_manager.get_redirect_url())
