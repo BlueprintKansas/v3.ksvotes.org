@@ -28,18 +28,9 @@
 
               {% csrf_token %}
 
-              {{wtf.render_field(
-              form.affirmation,
-              _('7_affirm_help'),
-              {
-                'required':'required',
-                'data-parsley-error-message': _('Required'),
-              }
-              )}}
+              {% checkbox_field form.affirmation help_text=_('7_affirm_help') required=True %}
 
-              {% with next_btn=_('btn_submit') %}
-              {% include 'form-buttons.html' %}
-              {% endwith %}
+              {% include 'form-buttons.html' with next_btn=_('btn_submit') %}
 
              </fieldset>
             </form>
