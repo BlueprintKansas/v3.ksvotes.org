@@ -1,28 +1,17 @@
 {% extends 'base-form.html' %}
-{% set current_step = '5' %}
-{% set previous_step_url = url_for('main.vr4_party') %}
-
+{% load wtf %}
 {% block title %}Identification{% endblock %}
 
 {% block form_content %}
-<form name="step_5" id="step_5" method="POST" action="{{url_for('main.vr5_identification')}}">
+<form name="step_5" id="step_5" method="POST" action="{% url "ksvotes:vr.identification" %}">
  <fieldset>
   <legend>{{_('5_legend')}}</legend>
 
-  {{form.hidden_tag()}}
+  {% csrf_token %}
 
   <div class="mb-4"> {{_('5VR_id_shorthelp')}} </div>
 
-  {{wtf.render_field(
-      form.identification,
-      _('5VR_id_shorthelp'),
-      {
-        'required':'required',
-        'data-parsley-error-message': _('Required'),
-        'autocomplete':'off',
-        'data-parsley-trigger':'focusout'
-      }
-      )}}
+  {% text_field form.identification help_text_key='5VR_id_shorthelp' required=True %}
 
   <div class="small"> {{_('5VR_id_help')}} </div>
 
