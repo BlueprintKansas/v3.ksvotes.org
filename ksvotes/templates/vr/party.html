@@ -1,13 +1,11 @@
 {% extends 'base-form.html' %}
-{% set current_step = '4' %}
-{% set previous_step_url = url_for('main.vr3_address') %}
-
+{% load wtf %}
 {% block title %}{{_('4_legend')}}{% endblock %}
 
 {% block form_content %}
 <div id="address-validation" class="">
-{% if registrant.registration_value.validated_addresses %}
-  {% for k,v in registrant.registration_value.validated_addresses.items() %}
+{% if validated_addresses %}
+  {% for k,v in validated_addresses.items %}
    <div class="address-{{k}}">
     <div class='mb-2 h6'>
     {% if k == 'current_address' %}
@@ -18,16 +16,16 @@
       {{_('3_mail_addr')}}
     {% endif %}
     </div>
-    {% if 'error' in registrant.registration_value.validated_addresses[k] %}
-    <!-- {{registrant.registration_value.validated_addresses[k]['error']}} -->
+    {% if v|get_item:"error" %}
+    <!-- {{ v|get_item:"error" }} -->
     <div class="alert alert-warning address-error">
       <i class="fa fa-exclamation-triangle amber-text"></i>
-      <a href="{{url_for('main.vr3_address')}}">{{_('3_invalid')}}</a>
+      <a href="{% url "ksvotes:vr.address" %}">{{_('3_invalid')}}</a>
     </div>
     {% else %}
      <div class="alert alert-success validated"><i class="fa fa-check green-text"></i>
-       {% for f in ['address', 'unit', 'city', 'state', 'zip5'] %}
-         {{registrant.registration_value.validated_addresses.get(k).get(f, '')}}
+       {% for f in usps_fields %}
+         {{ v|get_item_default:f }}
        {% endfor %}
      </div>
     {% endif%}
@@ -38,25 +36,18 @@
    <h4 class='mb-3'>{{_('3_addr')}}</h4>
    <div class="alert alert-warning address-error">
      <i class="fa fa-exclamation-triangle amber-text"></i>
-     <a href="{{url_for('main.vr3_address')}}">{{_('3_invalid')}}</a>
+     <a href="{% url "ksvotes:vr.address" %}">{{_('3_invalid')}}</a>
    </div>
   </div>
 {% endif %}
 </div>
-<form name="step_4" id="step_4" method="POST" action="{{url_for('main.vr4_party')}}">
+<form name="step_4" id="step_4" method="POST" action="{% url "ksvotes:vr.party" %}">
  <fieldset>
   <legend>{{_('4_legend')}}</legend>
 
-  {{form.hidden_tag()}}
+  {% csrf_token %}
 
-  {{wtf.render_field(
-    form.party,
-    _('4_party_help'),
-    {
-      'required':'required',
-      'data-parsley-error-message': _('Required'),
-    }
-    )}}
+  {% text_field form.party help_text_key='4_party_help' required=True %}
 
   {% include 'form-buttons.html' %}
 

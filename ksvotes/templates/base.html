@@ -221,7 +221,7 @@
       });
       */
     });
-    {% if previous_step_url is defined %}
+    {% if previous_step_url %}
     $('#btn-back').attr('href', '{{previous_step_url}}');
     $('#btn-back').click(function (ev) {
       showMask();

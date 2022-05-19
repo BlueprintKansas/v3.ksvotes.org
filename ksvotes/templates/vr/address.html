@@ -1,184 +1,43 @@
 {% extends 'base-form.html' %}
-{% set current_step = '3' %}
-{% set previous_step_url = url_for('main.vr2_name') %}
-
+{% load wtf %}
 {% block title %}Address{% endblock %}
 
 {% block form_content %}
-<form name="step_3" id="step_3" method="POST" action="{{url_for('main.vr3_address')}}">
+<form name="step_3" id="step_3" method="POST" action="{% url "ksvotes:vr.address" %}">
  <fieldset>
   <legend>{{_('3_legend')}}</legend>
 
-  {{form.hidden_tag()}}
+  {% csrf_token %}
 
-  {{wtf.render_field(
-    form.addr,
-    _('3_addr_help'),
-    {
-      'required':'required',
-      'data-parsley-error-message': _('Required'),
-      'autocomplete':'off',
-      'data-parsley-trigger':'focusout'
-    }
-    )}}
-
-    {{wtf.render_field(
-      form.unit,
-      _('3_unit'),
-      None,
-      )}}
-
-    {{wtf.render_field(
-      form.city,
-      _('3_city'),
-      {
-        'required':'required',
-        'data-parsley-error-message': _('Required'),
-        'autocomplete':'off',
-        'data-parsley-trigger':'focusout'
-      }
-      )}}
-
-    {{wtf.render_field(
-      form.state,
-      _('3_state_help'),
-      {
-        'required':'required',
-        'readonly':'readonly',
-        'data-parsley-error-message': _('Required'),
-        'autocomplete':'off',
-        'data-parsley-trigger':'focusout'
-      }
-      )}}
-
-    {{wtf.render_field(
-      form.zip,
-      _('3_zip_help'),
-      {
-        'required':'required',
-        'pattern': '\d{5}(-\d{4})?',
-        'data-parsley-required-message': _('Required'),
-        'autocomplete':'off',
-        'data-parsley-trigger':'focusout',
-        'data-parsley-pattern-message': _('3_zip_help'),
-        'data-parsley-pattern': "/^\d{5}(-\d{4})?$/",
-      }
-      )}}
-
-      {{wtf.render_field(
-        form.has_prev_addr,
-        _('3_has_prev_addr'),
-        )}}
+  {% text_field form.addr help_text_key='3_addr_help' required=True %}
+  {% text_field form.unit help_text_key='3_unit' required=False %}
+  {% text_field form.city help_text_key='3_city' required=True %}
+  {% readonly_field form.state help_text_key='3_state_help' required=True %}
+  {% zipcode_field form.zip required=True %}
+  {% checkbox_field form.has_prev_addr help_text=_('3_has_prev_addr') %}
 
   <div class="previous-address-fields">
     <div class='mt-3 h5'>{{_('3_prev_addr_header')}}</div>
-    {{wtf.render_field(
-      form.prev_addr,
-      _('3a_prev_addr'),
-      {
-        'data-parsley-error-message': _('Required'),
-        'autocomplete':'off',
-        'data-parsley-trigger':'focusout'
-      }
-      )}}
-
-      {{wtf.render_field(
-        form.prev_unit,
-        _('3a_prev_unit'),
-        None,
-        )}}
-
-      {{wtf.render_field(
-        form.prev_city,
-        _('3a_prev_city'),
-        {
-          'data-parsley-error-message': _('Required'),
-          'autocomplete':'off',
-          'data-parsley-trigger':'focusout'
-        }
-        )}}
-
-      {{wtf.render_field(
-        form.prev_state,
-        _('3a_prev_state'),
-        {
-          'data-parsley-error-message': _('Required'),
-          'autocomplete':'off',
-          'data-parsley-trigger':'focusout'
-        }
-        )}}
-
-      {{wtf.render_field(
-        form.prev_zip,
-        _('3_zip_help'),
-        {
-          'pattern': '\d{5}(-\d{4})?',
-          'data-parsley-required-message': _('Required'),
-          'autocomplete':'off',
-          'data-parsley-trigger':'focusout',
-          'data-parsley-pattern-message': _('3_zip_help'),
-          'data-parsley-pattern': "/^\d{5}(-\d{4})?$/",
-        }
-        )}}
+    {% text_field form.prev_addr help_text_key='3a_prev_addr' required=True %}
+    {% text_field form.prev_unit help_text_key='3a_prev_unit' required=False %}
+    {% text_field form.prev_city help_text_key='3a_prev_city' required=True %}
+    {% text_field form.prev_state help_text_key='3a_prev_state' required=True %}
+    {% zipcode_field form.prev_zip required=True %}
   </div><!--/previous-address-fields-->
 
-  {{wtf.render_field(
-    form.has_mail_addr,
-    _('3_has_mail_addr'),
-    )}}
+  {% checkbox_field form.has_mail_addr help_text=_('3_has_mail_addr') %}
 
   <div class="mail-address-fields">
     <div class='mt-3 h5'>{{_('3_mail_addr_header')}}</div>
-    {{wtf.render_field(
-      form.mail_addr,
-      _('3_mail_addr'),
-      {
-        'data-parsley-error-message': _('Required'),
-        'autocomplete':'off',
-        'data-parsley-trigger':'focusout'
-      }
-      )}}
-
-      {{wtf.render_field(
-        form.mail_unit,
-        _('3_mail_unit'),
-        None,
-        )}}
-
-      {{wtf.render_field(
-        form.mail_city,
-        _('3_mail_city'),
-        {
-          'data-parsley-error-message': _('Required'),
-          'autocomplete':'off',
-          'data-parsley-trigger':'focusout'
-        }
-        )}}
-
-      {{wtf.render_field(
-        form.mail_state,
-        _('3_mail_state'),
-        {
-          'data-parsley-error-message': _('Required'),
-          'autocomplete':'off',
-          'data-parsley-trigger':'focusout'
-        }
-        )}}
-
-      {{wtf.render_field(
-        form.mail_zip,
-        _('3_zip_help'),
-        {
-          'pattern': '\d{5}(-\d{4})?',
-          'data-parsley-required-message': _('Required'),
-          'autocomplete':'off',
-          'data-parsley-trigger':'focusout',
-          'data-parsley-pattern-message': _('3_zip_help'),
-          'data-parsley-pattern': "/^\d{5}$/",
-        }
-        )}}
+    {% text_field form.mail_addr help_text_key='3_mail_addr' required=True %}
+    {% text_field form.mail_unit help_text_key='3_mail_unit' required=False %}
+    {% text_field form.mail_city help_text_key='3_mail_city' required=True %}
+    {% text_field form.mail_state help_text_key='3_mail_state' required=True %}
+    {% zipcode_field form.mail_zip required=True %}
   </div><!-- mail address fields -->
+
   {% include 'form-buttons.html' %}
+
  </fieldset>
 </form>
 {% endblock %}

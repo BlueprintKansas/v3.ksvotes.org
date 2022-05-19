@@ -47,6 +47,26 @@ def text_field(field, help_text_key=None, required=False):
 
 
 @register.inclusion_tag("wtf/text.html")
+def readonly_field(field, help_text_key=None, required=False):
+    html_attrs = {
+        "class": "form-control",
+        "autocomplete": "off",
+        "data-parsley-trigger": "focusout",
+        "disabled": "disabled",
+        "readonly": "readonly",
+    }
+    if required:
+        html_attrs["required"] = "required"
+        html_attrs["data-parsley-required-message"] = _("Required")
+    return {
+        "help_text": (_(help_text_key) if help_text_key else None),
+        "label": field.label,
+        "html": field(**html_attrs),
+        "errors": field.errors,
+    }
+
+
+@register.inclusion_tag("wtf/text.html")
 def dob_field(field, required=False):
     html_attrs = {
         "class": "form-control",

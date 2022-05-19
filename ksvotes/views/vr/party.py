@@ -43,4 +43,8 @@ class VR4View(TemplateView):
         context["form"] = self.get_form()
         context["current_step"] = 4
         context["previous_step_url"] = reverse("ksvotes:vr.address")
+        context["usps_fields"] = ["address", "unit", "city", "state", "zip5"]
+        context["validated_addresses"] = self.request.registrant.try_value(
+            "validated_addresses"
+        )
         return context
