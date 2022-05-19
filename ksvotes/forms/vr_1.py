@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from wtforms import Form, BooleanField, RadioField, widgets
+from wtforms import Form, RadioField, widgets
 from wtforms.widgets import html_params
 from wtforms.validators import DataRequired
 from markupsafe import Markup
@@ -61,6 +61,6 @@ class FormVR1(Form):
             (True, lazy_gettext("choice_yes")),
             (False, lazy_gettext("choice_no")),
         ],
-        validate_choice=False,
+        validate_choice=False,  # TODO is this optimal for optional value?
         coerce=str_to_bool,
     )
