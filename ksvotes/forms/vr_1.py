@@ -4,6 +4,7 @@ from wtforms.widgets import html_params
 from wtforms.validators import DataRequired
 from markupsafe import Markup
 from django.utils.translation import gettext_lazy as lazy_gettext
+from ksvotes.utils import str_to_bool
 
 import logging
 
@@ -33,15 +34,6 @@ class InlineListWidget(widgets.ListWidget):
 class RadioBooleanField(RadioField):
     widget = InlineListWidget()
     option_widget = widgets.RadioInput()
-
-
-def str_to_bool(string):
-    if isinstance(string, bool):
-        return string
-    if string == "True":
-        return True
-    else:
-        return False
 
 
 class FormVR1(Form):

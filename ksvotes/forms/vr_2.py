@@ -39,8 +39,9 @@ class FormVR2(Form):
     has_prev_name = BooleanField(lazy_gettext("2_has_prev_name"))
     prev_prefix = SelectField(
         lazy_gettext("2_prev_prefix"),
+        default="",
         choices=[
-            ("", lazy_gettext("2_prev_prefix")),
+            ("", lazy_gettext("2_optional_select")),
             ("mr", "Mr."),
             ("mrs", "Mrs."),
             ("miss", "Miss"),
@@ -58,8 +59,9 @@ class FormVR2(Form):
     )
     prev_suffix = SelectField(
         lazy_gettext("2_prev_suffix"),
+        default="",
         choices=[
-            ("", lazy_gettext("2_prev_suffix")),
+            ("", lazy_gettext("2_optional_select")),
             ("jr", "Jr."),
             ("sr", "Sr."),
             ("ii", "II"),

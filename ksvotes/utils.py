@@ -8,6 +8,9 @@ import pytz
 from dateutil.parser import parse
 from django.utils.translation import gettext_lazy as lazy_gettext
 from wtforms.validators import DataRequired
+import logging
+
+logger = logging.getLogger(__name__)
 
 COUNTIES = [
     "Allen",
@@ -207,6 +210,15 @@ def is_even_year(year=None):
         return False
 
 
+def str_to_bool(string):
+    if isinstance(string, bool):
+        return string
+    if string == "True":
+        return True
+    else:
+        return False
+
+
 class RequiredIfBool(DataRequired):
     def __init__(self, check, *args, **kwargs):
         self.check = check
@@ -214,6 +226,11 @@ class RequiredIfBool(DataRequired):
 
     def __call__(self, form, field):
         check_field = form._fields.get(self.check)
+        logger.debug(
+            "check_field={} value={} type={}".format(
+                check_field, check_field.data, type(check_field.data)
+            )
+        )
         if check_field is None:
             raise Exception("invalid field" % self.check)
         if bool(check_field.data):
