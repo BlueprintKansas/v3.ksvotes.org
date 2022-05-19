@@ -1,4 +1,5 @@
-<script src="{{url_for('static', filename='js/signature_pad.min.js')}}"></script>
+{% load static %}
+<script src="{% static 'js/signature_pad.min.js' %}"></script>
 <script>
     $(document).ready(function() {
       // add canvas element

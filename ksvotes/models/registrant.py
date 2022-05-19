@@ -268,10 +268,8 @@ class Registrant(TimeStampedModel):
         return ab_forms
 
     def signed_at_central_tz(self):
-        utc_tz = pytz.timezone("UTC")
         central_tz = pytz.timezone("US/Central")
-        signed_at_utc = utc_tz.localize(self.signed_at)
-        return signed_at_utc.astimezone(central_tz)
+        return self.signed_at.astimezone(central_tz)
 
     def populate_address(self, sosrec):
         address = sosrec["Address"].replace("<br/>", " ")

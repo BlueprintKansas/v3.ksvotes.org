@@ -13,7 +13,7 @@ from uuid import uuid4
 from ksvotes.services.registrant_stats import RegistrantStats
 from ksvotes.services.early_voting_locations import EarlyVotingLocations
 from ksvotes.services.dropboxes import Dropboxes
-from ksvotes.models import Clerk
+from ksvotes.models import Clerk, Registrant, ZIPCode
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +75,11 @@ def change_or_apply(request):
             "precinct_address": reg.precinct_address(),
         },
     )
+
+
+def change_county(request):
+    # TODO must be POST
+    pass
 
 
 def demo(request):

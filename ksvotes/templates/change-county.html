@@ -1,3 +1,4 @@
+{% load wtf %}
 <div id="change-county">
   <div class="mt-2">
     <a id="change-county-btn" class="btn btn-outline-primary" href="#change-county-picker">
@@ -5,11 +6,12 @@
     </a>
   </div>
   <div id="change-county-picker" class="mt-2" style="display:none">
-    <form name="change-county-form" id="change-county-form" method="POST"  action="{{url_for('main.change_county')}}">
+    <form name="change-county-form" id="change-county-form" method="POST"  action="{% url "ksvotes:home.change_county" %}">
      <fieldset>
-      <input type="hidden" name="return" value="{{url_for(this_url)}}" />
-      {{county_picker.hidden_tag()}}
-      {{wtf.render_field( county_picker.county, _('0_county_help'), {} )}}
+      <input type="hidden" name="return" value="{{ this_url }}" />
+      {% csrf_token %}
+
+      {% text_field county_picker.county help_text_key='0_county_help' %}
 
       <div class="float-right mt-2">
         <button id="btn-apply" class="btn btn-outline-default" type="submit">

@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
-{% set current_step = '6' %}
-{% set previous_step_url = url_for('main.vr5_identification') %}
-
+{% load wtf %}
 {% block title %}Preview{% endblock %}
 
 {% block content %}
@@ -24,12 +22,13 @@
       <div class="mt-4 col-md-12">
         <div class=''>
           <div class=''>
-            <form name="step_6" id="step_6" class='position-relative' method="POST" action="{{url_for('main.vr6_preview_sign')}}">
+            <form name="step_6" id="step_6" class='position-relative' method="POST" action="{% url "ksvotes:vr.preview" %}">
              <fieldset>
               <legend>{{_('6_legend')}}</legend>
 
-              {{form.hidden_tag()}}
-              {{wtf.render_field(form.signature_string, _('6_sign_help'), {})}}
+              {% csrf_token %}
+
+              {% text_field form.signature_string help_text_key='6_sign_help' %}
 
               <div class="form-group">
                 <div id="signature-wrapper">
