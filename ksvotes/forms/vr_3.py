@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask_wtf import FlaskForm
-from wtforms import BooleanField, StringField, SelectField
+from wtforms import Form, BooleanField, StringField
 from wtforms.validators import DataRequired, Regexp, Optional
-from flask_babel import lazy_gettext
-from app.main.helpers import RequiredIfBool
+from ksvotes.utils import RequiredIfBool
+from django.utils.translation import gettext_lazy as lazy_gettext
 
 
-class FormVR3(FlaskForm):
+class FormVR3(Form):
     addr = StringField(
         lazy_gettext("3_addr"),
         validators=[DataRequired(message=lazy_gettext("Required"))],

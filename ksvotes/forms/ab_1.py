@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
-import datetime
-
-from flask_wtf import FlaskForm
-from wtforms import SelectField, SelectMultipleField, widgets, StringField
+from wtforms import Form, SelectField, SelectMultipleField, widgets, StringField
 from wtforms.validators import DataRequired
-from flask_babel import lazy_gettext
-
-from app.main.helpers import is_even_year
+from django.utils.translation import gettext_lazy as lazy_gettext
+from ksvotes.utils import is_even_year
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -44,7 +40,7 @@ class RequiredIfFieldContains(DataRequired):
             super(RequiredIfFieldContains, self).__call__(form, field)
 
 
-class FormAB1(FlaskForm):
+class FormAB1(Form):
     elections = MultiCheckboxField(
         lazy_gettext("1AB_select_election"),
         choices=[],  # defer till runtime

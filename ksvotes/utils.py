@@ -7,6 +7,7 @@ import dateparser
 import pytz
 from dateutil.parser import parse
 from django.utils.translation import gettext_lazy as lazy_gettext
+from wtforms.validators import DataRequired
 
 COUNTIES = [
     "Allen",
@@ -204,3 +205,16 @@ def is_even_year(year=None):
         return True
     else:
         return False
+
+
+class RequiredIfBool(DataRequired):
+    def __init__(self, check, *args, **kwargs):
+        self.check = check
+        super(RequiredIfBool, self).__init__(*args, **kwargs)
+
+    def __call__(self, form, field):
+        check_field = form._fields.get(self.check)
+        if check_field is None:
+            raise Exception("invalid field" % self.check)
+        if bool(check_field.data):
+            super(RequiredIfBool, self).__call__(form, field)

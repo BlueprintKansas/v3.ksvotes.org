@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask_wtf import FlaskForm
-from wtforms import BooleanField, StringField, SelectField
+from wtforms import Form, BooleanField, StringField, SelectField
 from wtforms.validators import DataRequired
-from flask_babel import lazy_gettext
-from app.main.helpers import RequiredIfBool
+from ksvotes.utils import RequiredIfBool
+from django.utils.translation import gettext_lazy as lazy_gettext
 
 
-class FormVR2(FlaskForm):
+class FormVR2(Form):
     prefix = SelectField(
         lazy_gettext("2_prefix"),
         choices=[

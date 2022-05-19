@@ -2,6 +2,12 @@
 from django.urls import path
 from .views import home
 from .views.vr.citizenship import VR1View
+from .views.vr.name import VR2View
+from .views.vr.address import VR3View
+from .views.vr.party import VR4View
+from .views.vr.identification import VR5View
+from .views.vr.preview_sign import VR6View
+from .views.vr.affirmation import VR7View
 
 urlpatterns = [
     path("", home.HomepageView.as_view(), name="home.index"),
@@ -19,11 +25,11 @@ urlpatterns = [
     path("ab/affirmation/", home.privacy, name="ab.affirmation"),  # TODO
     path("ab/submission/", home.privacy, name="ab.submission"),  # TODO
     path("vr/citizenship/", VR1View.as_view(), name="vr.citizenship"),
-    path("vr/name/", home.privacy, name="vr.name"),  # TODO
-    path("vr/address/", home.privacy, name="vr.address"),  # TODO
-    path("vr/party/", home.privacy, name="vr.party"),  # TODO
-    path("vr/identification/", home.privacy, name="vr.identification"),  # TODO
-    path("vr/preview/", home.privacy, name="vr.preview_sign"),  # TODO
-    path("vr/affirmation/", home.privacy, name="vr.affirmation"),  # TODO
+    path("vr/name/", VR2View.as_view(), name="vr.name"),
+    path("vr/address/", VR3View.as_view(), name="vr.address"),
+    path("vr/party/", VR4View.as_view(), name="vr.party"),
+    path("vr/identification/", VR5View.as_view(), name="vr.identification"),
+    path("vr/preview/", VR6View.as_view(), name="vr.preview_sign"),
+    path("vr/affirmation/", VR7View.as_view(), name="vr.affirmation"),
     path("vr/submission/", home.privacy, name="vr.submission"),  # TODO
 ]

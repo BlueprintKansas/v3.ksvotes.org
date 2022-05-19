@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ksvotes.services.forms.VR.example_form import signature_img_string
+from ksvotes.views.vr.example_form import signature_img_string
 import os
 import re
 from ksvotes.services.form_filler_service import FormFillerService

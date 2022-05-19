@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from flask_wtf import FlaskForm
-from wtforms import StringField
+from wtforms import Form, StringField
 from wtforms.validators import DataRequired
-from flask_babel import lazy_gettext
+from django.utils.translation import gettext_lazy as lazy_gettext
 
 
-class FormVR5(FlaskForm):
+class FormVR5(Form):
     identification = StringField(
         lazy_gettext("5VR_id"),
         validators=[DataRequired(message=lazy_gettext("Required"))],

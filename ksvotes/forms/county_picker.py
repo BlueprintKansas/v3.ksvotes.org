@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask_wtf import FlaskForm
-from wtforms import SelectField
+from wtforms import Form, SelectField
 from wtforms.validators import Optional
-from flask_babel import lazy_gettext
-from app.main.helpers import construct_county_choices
+from ksvotes.utils import construct_county_choices
+from django.utils.translation import gettext_lazy as lazy_gettext
 
 
-class CountyPicker(FlaskForm):
+class CountyPicker(Form):
     county = SelectField(
         lazy_gettext("0_county"),
         validators=[Optional()],

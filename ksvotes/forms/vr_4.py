@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
-from flask_wtf import FlaskForm
-from wtforms import SelectField
+from wtforms import Form, SelectField
 from wtforms.validators import DataRequired
-from flask_babel import lazy_gettext
+from django.utils.translation import gettext_lazy as lazy_gettext
 
 
-class FormVR4(FlaskForm):
+class FormVR4(Form):
     party = SelectField(
         lazy_gettext("4_party"),
         validators=[DataRequired(message=lazy_gettext("Required"))],

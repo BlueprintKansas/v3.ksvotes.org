@@ -5,8 +5,11 @@ import newrelic.agent
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from flask import current_app
 import os
+import logging
+from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 
 class SESMailer:
@@ -53,7 +56,7 @@ class SESMailer:
     def send_msg(self, msg, sender):
         msg["From"] = sender
         # no email sent unless explicitly configured.
-        if not current_app.config["SEND_EMAIL"]:
+        if not settings.SEND_EMAIL:
             return {"msg": msg, "MessageId": "set SEND_EMAIL env var to enable email"}
 
         try:
@@ -62,14 +65,14 @@ class SESMailer:
                 raise RuntimeError("Missing To in %s" % (msg.as_string()))
 
             # test our error handling
-            if msg["To"] == current_app.config["FAIL_EMAIL"]:
+            if msg["To"] == settings.FAIL_EMAIL:
                 raise RuntimeError("Failure testing works")
 
             ses = boto3.client(
                 "ses",
-                region_name=current_app.config["AWS_DEFAULT_REGION"],
-                aws_access_key_id=current_app.config["SES_ACCESS_KEY_ID"],
-                aws_secret_access_key=current_app.config["SES_SECRET_ACCESS_KEY"],
+                region_name=settings.AWS_DEFAULT_REGION,
+                aws_access_key_id=settings.SES_ACCESS_KEY_ID,
+                aws_secret_access_key=settings.SES_SECRET_ACCESS_KEY,
             )
             resp = ses.send_raw_email(
                 RawMessage={"Data": msg.as_string()},
@@ -78,11 +81,11 @@ class SESMailer:
             return resp
 
         except botocore.exceptions.ClientError as err:
-            current_app.logger.error(str(err))
+            logger.exception(err)
             newrelic.agent.record_exception()
             return {"msg": msg, "MessageId": False, "error": err}
 
         except (RuntimeError, TypeError, NameError) as err:
-            current_app.logger.error(str(err))
+            logger.exception(err)
             newrelic.agent.record_exception()
             return {"msg": msg, "MessageId": False, "error": err}
