@@ -100,3 +100,6 @@ coverage: ## Run Django tests with coverage
 .PHONY: services-stop
 services-stop:
 	docker-compose down
+
+fernet-key:
+	dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
