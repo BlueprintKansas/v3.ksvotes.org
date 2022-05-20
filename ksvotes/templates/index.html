@@ -1,0 +1,109 @@
+{% extends 'base-form.html' %}
+{% load wtf %}
+{% block title %}Home{% endblock %}
+
+{% block form_content %}
+
+{% if browser_ua == 'msie' %}
+{% include '_ie_warning.html' %}
+{% endif %}
+
+<form name="step_0" id="step_0" method="POST" action="{% url "ksvotes:home.index" %}">
+ <fieldset>
+  <legend>{{_('0_form_explain')}}</legend>
+
+  {% if has_announcements %}
+   <div class="alert alert-info">{{_('announce')}}</div>
+  {% endif %}
+
+  {% csrf_token %}
+
+  {% text_field form.name_first "0_name_help" required=True %}
+  {% text_field form.name_last "0_name_help" required=True %}
+  {% dob_field form.dob required=True %}
+  {% zipcode_field form.zip required=True %}
+  {% email_field form.email required=True %}
+  <!-- client-side only -->
+  <div class="form-group">
+    <label for="email-confirm">{{_('0_email_confirm')}}</label>
+    <input id="email-confirm" name="email-confirm" type="email" required="required" class="form-control"
+         placeholder="{{_('0_email_confirm')}}"
+         data-parsley-required-message="{{_('Required')}}"
+         data-parsley-trigger="focusout"
+         data-parsley-type="email"
+         data-parsley-type-message="{{_('0_email_flag')}}"
+         data-parsley-email-confirm="true"
+         data-parsley-email-confirm-message="{{_('0_email_confirm_error_msg')}}"
+    >
+    <i class="fa fa-info-circle postfix" data-html="true" data-toggle="tooltip"
+       data-placement="left" title="{{_('0_email_confirm_help')}}"></i>
+  </div>
+  {% phone_field form.phone %}
+
+  <input type="hidden" name="skip-sos" id="skip-sos" value="" />
+  <div class="mt-4">
+    <button id="btn-next" class="btn btn-outline-default" type="submit">
+      <i class="fa checkmark fa-check mr-2"></i>{{_('btn_check')}}
+    </button>
+    <a href="#" id="skip-sos-link" class="d-block mt-3 fs-14" onclick="return false">
+      {{_('skip_sos_check')}}
+    </a>
+  </div>
+ </fieldset>
+</form>
+{% endblock %}
+
+{% block js_footer %}
+<script>
+$(function () {
+  //initialize form with parsley validation
+  var form = $('#step_0');
+  window.Parsley.addValidator('dobLimit', {
+    requirementType: 'string',
+    validateString: function(value) {
+      var mdy = value.match(/^(\d{2})[\/-]?(\d{2})[\/\-]?(\d{4})$/);
+      mdy.shift();
+      var dob = mdy.join('/');
+      //console.log(mdy, dob);
+      var compare = Math.floor(moment(new Date()).diff(moment(dob,"MM/DD/YYYY"),'years',true));
+      if (compare <= 15) {
+        return false;
+      }
+      $('#dob').val(dob); // normalize input
+      return true;
+    }
+  });
+  window.Parsley.addValidator('phoneLimit', {
+    requirementType: 'string',
+    validateString: function(value) {
+      var phone_parts = value.match(/^(\d{3})[\.\-]?(\d{3})[\.\-]?(\d{4})$/);
+      phone_parts.shift();
+      $('#phone').val(phone_parts.join('-')); // normalize
+      return true; // no actual check, just normalize
+    }
+  });
+  window.Parsley.addValidator('emailConfirm', {
+    requirementType: 'string',
+    validateString: function(value) {
+      let emailOne = $('#email').val();
+      return emailOne == value;
+    }
+  });
+  form.parsley();
+
+  // smooth scroll effect
+  $('#arrow-down').click(function() {
+    let tag = $(this);
+    let scrollTarget = tag.attr('href');
+    $([document.documentElement, document.body]).animate({
+      scrollTop: $(scrollTarget).offset().top
+    }, 1000);
+  });
+
+  $('#skip-sos-link').click(function() {
+    $('#skip-sos').val('true');
+    $('#btn-next').trigger('click');
+  });
+});
+</script>
+{% endblock %}

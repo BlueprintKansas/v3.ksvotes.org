@@ -1,0 +1,67 @@
+{% extends 'base-form.html' %}
+{% load wtf %}
+{% block title %}{{_('4_legend')}}{% endblock %}
+
+{% block form_content %}
+<div id="address-validation" class="">
+{% if validated_addresses %}
+  {% for k,v in validated_addresses.items %}
+   <div class="address-{{k}}">
+    <div class='mb-2 h6'>
+    {% if k == 'current_address' %}
+      {{_('3_addr')}}
+    {% elif k == 'prev_addr'%}
+      {{_('3_prev_addr')}}
+    {% elif k == 'mail_addr'%}
+      {{_('3_mail_addr')}}
+    {% endif %}
+    </div>
+    {% if v|get_item:"error" %}
+    <!-- {{ v|get_item:"error" }} -->
+    <div class="alert alert-warning address-error">
+      <i class="fa fa-exclamation-triangle amber-text"></i>
+      <a href="{% url "ksvotes:vr.address" %}">{{_('3_invalid')}}</a>
+    </div>
+    {% else %}
+     <div class="alert alert-success validated"><i class="fa fa-check green-text"></i>
+       {% for f in usps_fields %}
+         {{ v|get_item_default:f }}
+       {% endfor %}
+     </div>
+    {% endif%}
+   </div>
+  {% endfor %}
+{% else %}
+  <div class="address-current_address">
+   <h4 class='mb-3'>{{_('3_addr')}}</h4>
+   <div class="alert alert-warning address-error">
+     <i class="fa fa-exclamation-triangle amber-text"></i>
+     <a href="{% url "ksvotes:vr.address" %}">{{_('3_invalid')}}</a>
+   </div>
+  </div>
+{% endif %}
+</div>
+<form name="step_4" id="step_4" method="POST" action="{% url "ksvotes:vr.party" %}">
+ <fieldset>
+  <legend>{{_('4_legend')}}</legend>
+
+  {% csrf_token %}
+
+  {% text_field form.party help_text_key='4_party_help' required=True %}
+
+  {% include 'form-buttons.html' %}
+
+ </fieldset>
+</form>
+{% endblock %}
+
+{% block js_footer %}
+<script>
+$(function () {
+  //initialize form with parsley validation
+  var form = $('#step_4');
+  form.parsley()
+});
+
+</script>
+{% endblock %}

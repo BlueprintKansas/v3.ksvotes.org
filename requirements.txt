@@ -4,6 +4,8 @@
 #
 #    pip-compile --output-file=./requirements.txt ./requirements.in
 #
+airtable==0.4.8
+    # via -r ./requirements.in
 amqp==5.0.6
     # via kombu
 appdirs==1.4.4
@@ -14,6 +16,8 @@ attrs==21.2.0
     # via
     #   interrogate
     #   pytest
+beautifulsoup4==4.11.1
+    # via ksmyvoteinfo
 billiard==3.6.4.0
     # via celery
 black==21.11b1
@@ -30,6 +34,12 @@ bumpversion==0.6.0
     # via -r ./requirements.in
 celery==5.2.1
     # via -r ./requirements.in
+certifi==2021.10.8
+    # via requests
+cffi==1.15.0
+    # via cryptography
+charset-normalizer==2.0.12
+    # via requests
 click==8.0.3
     # via
     #   black
@@ -49,6 +59,10 @@ colorama==0.4.4
     # via interrogate
 coverage[toml]==6.2
     # via pytest-cov
+cryptography==37.0.2
+    # via djfernet
+dateparser==1.1.1
+    # via -r ./requirements.in
 deprecated==1.2.13
     # via redis
 dj-database-url==0.5.0
@@ -83,6 +97,12 @@ djangorestframework==3.12.4
     # via
     #   -r ./requirements.in
     #   django-rest-auth
+djfernet==0.8.1
+    # via -r ./requirements.in
+dnspython==2.2.1
+    # via email-validator
+email-validator==1.2.1
+    # via -r ./requirements.in
 environs[django]==9.3.5
     # via -r ./requirements.in
 execnet==1.9.0
@@ -91,14 +111,22 @@ factory-boy==3.2.1
     # via -r ./requirements.in
 faker==9.9.0
     # via factory-boy
+formfiller==0.3
+    # via -r ./requirements.in
 fs==2.4.14
     # via django-bakery
+future==0.18.2
+    # via usaddress
 gevent==21.8.0
     # via -r ./requirements.in
 greenlet==1.1.2
     # via gevent
 gunicorn==20.1.0
     # via -r ./requirements.in
+idna==3.3
+    # via
+    #   email-validator
+    #   requests
 iniconfig==1.1.1
     # via pytest
 interrogate==1.5.0
@@ -109,10 +137,18 @@ jmespath==0.10.0
     #   botocore
 kombu==5.2.2
     # via celery
+ksmyvoteinfo==1.4
+    # via -r ./requirements.in
+lxml==4.8.0
+    # via pyusps
+markupsafe==2.1.1
+    # via wtforms
 marshmallow==3.14.1
     # via environs
 mypy-extensions==0.4.3
     # via black
+newrelic==7.10.0.175
+    # via -r ./requirements.in
 packaging==21.3
     # via pytest
 pathspec==0.9.0
@@ -125,6 +161,8 @@ platformdirs==2.4.0
     # via black
 pluggy==1.0.0
     # via pytest
+probableparsing==0.0.1
+    # via usaddress
 prompt-toolkit==3.0.23
     # via click-repl
 psycogreen==1.0.2
@@ -136,6 +174,8 @@ py==1.11.0
     #   interrogate
     #   pytest
     #   pytest-forked
+pycparser==2.21
+    # via cffi
 pyparsing==3.0.6
     # via packaging
 pytest==6.2.5
@@ -153,10 +193,14 @@ pytest-forked==1.3.0
     # via pytest-xdist
 pytest-xdist==2.4.0
     # via -r ./requirements.in
+python-crfsuite==0.9.8
+    # via usaddress
 python-dateutil==2.8.2
     # via
     #   botocore
+    #   dateparser
     #   faker
+    #   ksmyvoteinfo
 python-dotenv==0.19.2
     # via environs
 python-json-logger==2.0.2
@@ -164,20 +208,34 @@ python-json-logger==2.0.2
 pytz==2021.3
     # via
     #   celery
+    #   dateparser
     #   fs
+pytz-deprecation-shim==0.1.0.post0
+    # via tzlocal
+pyusps==0.0.7
+    # via -r ./requirements.in
 redis==4.0.2
     # via -r ./requirements.in
 regex==2021.11.10
-    # via black
+    # via
+    #   black
+    #   dateparser
+requests==2.27.1
+    # via
+    #   airtable
+    #   ksmyvoteinfo
 s3transfer==0.5.0
     # via boto3
 six==1.16.0
     # via
+    #   airtable
     #   click-repl
     #   django-bakery
     #   django-rest-auth
     #   fs
     #   python-dateutil
+soupsieve==2.3.2.post1
+    # via beautifulsoup4
 sqlparse==0.4.2
     # via django
 structlog==21.4.0
@@ -197,13 +255,23 @@ tomli==1.2.2
     #   pep517
 typing-extensions==4.0.1
     # via black
+tzdata==2022.1
+    # via pytz-deprecation-shim
+tzlocal==4.2
+    # via dateparser
 urllib3==1.26.7
-    # via botocore
+    # via
+    #   botocore
+    #   requests
+usaddress==0.5.10
+    # via -r ./requirements.in
 vine==5.0.0
     # via
     #   amqp
     #   celery
     #   kombu
+wand==0.6.7
+    # via formfiller
 wcwidth==0.2.5
     # via prompt-toolkit
 wheel==0.37.0
@@ -212,6 +280,12 @@ whitenoise==5.3.0
     # via -r ./requirements.in
 wrapt==1.13.3
     # via deprecated
+wtforms==3.0.1
+    # via
+    #   -r ./requirements.in
+    #   wtforms-recaptcha
+wtforms-recaptcha==0.3.2
+    # via -r ./requirements.in
 zope-event==4.5.0
     # via gevent
 zope-interface==5.4.0

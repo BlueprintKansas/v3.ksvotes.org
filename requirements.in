@@ -1,15 +1,26 @@
+airtable
 Django>4.0
 bumpversion
+dateparser
 django-db-geventpool
 django-extensions
 django-health-check
 django-rest-auth
 djangorestframework
+djfernet
+email_validator
 environs[django]
+formfiller
 gevent
 gunicorn
+ksmyvoteinfo
+newrelic
 psycopg2-binary
+pyusps
 whitenoise
+WTForms
+wtforms-recaptcha
+usaddress
 
 # Logging
 django-tracer

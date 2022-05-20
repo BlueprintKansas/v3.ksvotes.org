@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*swp
 
 # C extensions
 *.so
@@ -143,3 +144,6 @@ deployed_static
 
 *.DS_Store
 node_modules
+
+# ksvotes specific
+ksvotes/locale/

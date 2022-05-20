@@ -1,0 +1,90 @@
+{% extends 'base-form.html' %}
+{% load wtf %}
+{% block title %}Address{% endblock %}
+
+{% block form_content %}
+<form name="step_3" id="step_3" method="POST" action="{% url "ksvotes:vr.address" %}">
+ <fieldset>
+  <legend>{{_('3_legend')}}</legend>
+
+  {% csrf_token %}
+
+  {% text_field form.addr help_text_key='3_addr_help' required=True %}
+  {% text_field form.unit help_text_key='3_unit' required=False %}
+  {% text_field form.city help_text_key='3_city' required=True %}
+  {% readonly_field form.state help_text_key='3_state_help' required=True %}
+  {% zipcode_field form.zip required=True %}
+  {% checkbox_field form.has_prev_addr help_text=_('3_has_prev_addr') %}
+
+  <div class="previous-address-fields">
+    <div class='mt-3 h5'>{{_('3_prev_addr_header')}}</div>
+    {% text_field form.prev_addr help_text_key='3a_prev_addr' required=True %}
+    {% text_field form.prev_unit help_text_key='3a_prev_unit' required=False %}
+    {% text_field form.prev_city help_text_key='3a_prev_city' required=True %}
+    {% text_field form.prev_state help_text_key='3a_prev_state' required=True %}
+    {% zipcode_field form.prev_zip required=True %}
+  </div><!--/previous-address-fields-->
+
+  {% checkbox_field form.has_mail_addr help_text=_('3_has_mail_addr') %}
+
+  <div class="mail-address-fields">
+    <div class='mt-3 h5'>{{_('3_mail_addr_header')}}</div>
+    {% text_field form.mail_addr help_text_key='3_mail_addr' required=True %}
+    {% text_field form.mail_unit help_text_key='3_mail_unit' required=False %}
+    {% text_field form.mail_city help_text_key='3_mail_city' required=True %}
+    {% text_field form.mail_state help_text_key='3_mail_state' required=True %}
+    {% zipcode_field form.mail_zip required=True %}
+  </div><!-- mail address fields -->
+
+  {% include 'form-buttons.html' %}
+
+ </fieldset>
+</form>
+{% endblock %}
+
+{% block js_footer %}
+<script>
+$(function () {
+  //initialize form with parsley validation
+  var form = $('#step_3');
+
+  const requiredFieldsCheck = function() {
+    if($('input[name=has_prev_addr]').is(':checked')) {
+      $('.previous-address-fields').show();
+      $('#prev_zip').attr("required", true);
+      $('#prev_state').attr("required", true);
+      $('#prev_city').attr("required", true);
+      $('#prev_addr').attr("required", true);
+    } else {
+      $('.previous-address-fields').hide();
+      $('#prev_zip').removeAttr("required").val('').blur();
+      $('#prev_state').removeAttr("required").val('').blur();
+      $('#prev_city').removeAttr("required").val('').blur();
+      $('#prev_unit').val('').blur();
+      $('#prev_addr').removeAttr("required").val('').blur();
+    }
+    if($('input[name=has_mail_addr]').is(':checked')) {
+      $('.mail-address-fields').show();
+      $('#mail_zip').attr("required", true);
+      $('#mail_state').attr("required", true);
+      $('#mail_city').attr("required", true);
+      $('#mail_addr').attr("required", true);
+    } else {
+      $('.mail-address-fields').hide();
+      $('#mail_zip').removeAttr("required").val('').blur();
+      $('#mail_state').removeAttr("required").val('').blur();
+      $('#mail_city').removeAttr("required").val('').blur();
+      $('#mail_unit').val('').blur();
+      $('#mail_addr').removeAttr("required").val('').blur();
+    }
+  };
+
+  // call immediately, and then listen for checkbox clicks
+  requiredFieldsCheck();
+  $('input[name=has_prev_addr]').change(requiredFieldsCheck);
+  $('input[name=has_mail_addr]').change(requiredFieldsCheck);
+
+  form.parsley();
+});
+</script>
+{% endblock %}

@@ -27,6 +27,7 @@ if DEBUG:
     handler = logging.StreamHandler(sys.stderr)
     root.addHandler(handler)
     env.log_level("LOG_LEVEL", default="DEBUG")
+    root.setLevel(logging.DEBUG)
 
 else:
     handler = logging.FileHandler("./python.log")
@@ -66,7 +67,7 @@ INSTALLED_APPS += [
 ]
 
 # Our Apps
-INSTALLED_APPS += ["ak", "users"]
+INSTALLED_APPS += ["ak", "ksvotes", "users"]
 
 AUTH_USER_MODEL = "users.User"
 
@@ -79,6 +80,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "ksvotes.middleware.session.SessionTimeout",
 ]
 
 if DEBUG:
@@ -93,7 +95,10 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR.joinpath("templates").as_posix()],
+        "DIRS": [
+            BASE_DIR.joinpath("ksvotes", "templates").as_posix(),
+            BASE_DIR.joinpath("templates").as_posix(),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -101,6 +106,9 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "config.context_processors.base_url",
+                "config.context_processors.common_vars",
+                "ksvotes.context_processors.steps",
             ]
         },
     }
@@ -136,15 +144,15 @@ AUTH_PASSWORD_VALIDATORS = []
 
 # Give each project their own session cookie name to avoid local development
 # login conflicts
-SESSION_COOKIE_NAME = "config-sessionid"
-
-# Increase default cookie age from 2 to 12 weeks
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 7 * 12
+SESSION_COOKIE_NAME = "ksvotes-sessionid"
+SESSION_TTL = env.int("SESSION_TTL", 60 * 5)
+SESSION_COOKIE_AGE = SESSION_TTL
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en"
 
 TIME_ZONE = "UTC"
 
@@ -191,6 +199,7 @@ structlog.configure(
 
 # Configure Redis
 REDIS_HOST = env("REDIS_HOST", default="redis")
+REDIS_URL = env("REDIS_URL", default=f"redis://{REDIS_HOST}:6379/0")
 
 # Configure Celery
 CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379"
@@ -210,3 +219,22 @@ EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD", default="")
 EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER", default="")
 EMAIL_PORT = env.int("DJANGO_EMAIL_PORT", default=25)
 EMAIL_USE_TLS = env.bool("DJANGO_EMAIL_USE_TLS", default=False)
+
+# ksvotes
+APP_CONFIG = env("APP_CONFIG", default="development")
+GA_KEY = env("GA_KEY", default=None)
+EMAIL_FROM = env("EMAIL_FROM", "noreply@ksvotes.org")
+EMAIL_BCC = env("EMAIL_BCC", "registration@ksvotes.org")
+AWS_DEFAULT_REGION = env("AWS_DEFAULT_REGION", "us-east-1")
+SES_ACCESS_KEY_ID = env("SES_ACCESS_KEY_ID", default=None)
+SES_SECRET_ACCESS_KEY = env("SES_SECRET_ACCESS_KEY", default=None)
+SEND_EMAIL = env.bool("SEND_EMAIL", default=False)
+DEMO_UUID = env("DEMO_UUID", default=None)
+ENABLE_AB = env.bool("ENABLE_AB", default=False)
+ENABLE_AB_TRACKER = env.bool("ENABLE_AB_TRACKER", default=False)
+ENABLE_VOTING_LOCATION = env.bool("ENABLE_VOTING_LOCATION", default=False)
+FAIL_EMAIL = env("FAIL_EMAIL", default="fail@ksvotes.org")
+STAGE_BANNER = env.bool("STAGE_BANNER", default=False)
+
+# registrants.registration encryption
+FERNET_KEYS = env.list("FERNET_KEYS")

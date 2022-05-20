@@ -1,0 +1,25 @@
+<div class="modal fade" id="ksv-confirm-modal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert alert-warning">
+        <h5 class="modal-title" id="">{{modal_title}}</h5>
+      </div>
+      <div class="modal-body">
+        {{modal_body}}
+        {% if clerk %}
+          {% include 'clerk-details.html' %}
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button id="confirm-modal-try-again" type="button" class="btn btn-outline-blue-grey" data-dismiss="modal">
+          <i class="fa fa-times mr-2"></i>
+          {{cancel_btn or _('btn_try_again')}}
+        </button>
+        <button id="confirm-modal-ok" type="button" class="btn btn-outline-default submit">
+          <i class="fa checkmark fa-check mr-2"></i>
+          {{submit_btn or _('btn_ok')}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

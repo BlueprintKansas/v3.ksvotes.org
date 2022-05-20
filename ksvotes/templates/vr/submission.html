@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}{{_('voter_receipt_email_subject')}}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+   <div class="col-md-8">
+    <div class="card">
+     <div class="card-body">
+      <h1>{{_('8VR_confirm_1')}}</h1>
+      <p>{{_('8VR_confirm_2')}}</p>
+      <p>{{_('8VR_confirm_3')}}</p>
+      <p>{{_('8VR_confirm_4')}}</p>
+      <p>{{_('8VR_confirm_5')}}</p>
+      <div class="clerk-details">
+        <p>{{_('8_clerk_sent_to')}}</p>
+        {% include 'clerk-details.html' %}
+      </div>
+
+      <div class="form-buttons text-center mt-4">
+        {% if ENABLE_AB %}
+        <div class="mb-4">
+          <a class="btn btn-outline-primary" href="{% url "ksvotes:ab.election_picker" %}">
+            <i class="fa fa-edit mr-2"></i>
+            {{_('1AB_apply_ab_link')}}
+          </a>
+        </div>
+        {% endif %}
+
+        {% include 'forget-session-button.html' %}
+
+      </div>
+
+     </div>
+    </div>
+   </div>
+  </div>
+</div>
+{% endblock %}

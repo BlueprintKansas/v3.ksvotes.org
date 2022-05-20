@@ -1,0 +1,66 @@
+{% extends 'base-form.html' %}
+{% load wtf %}
+{% block title %}Name{% endblock %}
+
+{% block form_content %}
+<form name="step_2" id="step_2" method="POST" action="{% url "ksvotes:vr.name" %}" novalidate>
+ <fieldset>
+  <legend>{{_('2_legend')}}</legend>
+
+  {% csrf_token %}
+
+  {% text_field form.prefix %}
+  {% text_field form.name_first help_text_key='2_name_help' required=True %}
+  {% text_field form.name_middle help_text_key='2_name_help' required=False %}
+  {% text_field form.name_last help_text_key='2_name_help' required=True %}
+  {% text_field form.suffix %}
+  {% checkbox_field form.has_prev_name help_text=_('2_has_prev_name') %}
+
+ </fieldset>
+ <fieldset class="previous-name-fields">
+  <legend>{{_('2_legend_previous')}}</legend>
+
+  {% text_field form.prev_prefix %}
+  {% text_field form.prev_name_first help_text_key=None required=True %}
+  {% text_field form.prev_name_middle %}
+  {% text_field form.prev_name_last help_text_key=None required=True %}
+  {% text_field form.prev_suffix %}
+
+ </fieldset>
+
+ <fieldset class="name-buttons">
+  {% include 'form-buttons.html' %}
+ </fieldset>
+</form>
+{% endblock %}
+
+{% block js_footer %}
+<script>
+$(function () {
+  //initialize form with parsley validation
+  let form = $('#step_2');
+  let checkbox = $('input[name=has_prev_name]');
+  let checkHandler = function() {
+    if (checkbox.is(':checked')) {
+      $('.previous-name-fields').show();
+      $('#prev_name_first').attr("required", true);
+      $('#prev_name_last').attr("required", true);
+    } else {
+      $('.previous-name-fields').hide();
+      $('#prev_name_first').removeAttr("required").val('').blur();
+      $('#prev_name_last').removeAttr("required").val('').blur();
+      $('#prev_prefix').val([]);
+      $('#prev_suffix').val([]);
+      $('#prev_name_middle').val('').blur();
+    }
+  };
+
+  // always call once on page load.
+  checkHandler();
+
+  $('input[name=has_prev_name]').change(checkHandler);
+  form.parsley();
+});
+
+</script>
+{% endblock %}

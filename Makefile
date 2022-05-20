@@ -22,7 +22,7 @@ cibuild:  ## invoked by continuous integration servers to run tests
 
 .PHONY: console
 console:  ## opens a console
-	@docker-compose run --rm web bash
+	@docker-compose run -p 8000:8000 --rm web bash
 
 .PHONY: server
 server:  ## starts app
@@ -72,8 +72,34 @@ ci-logs: ## view all the docker-compose logs
 ci-logs-tail: ## tail the docker-compose logs
 	@docker-compose --file $(COMPOSE_FILE) logs -f
 
+.PHONY: css
+css: ## Build css artifacts from scss
+	npm run css
+
 # ----
 
 .PHONY: pip-compile
 pip-compile:  ## rebuilds our pip requirements
-	@docker-compose run --rm web pip-compile ./requirements.in --output-file ./requirements.txt
+	pip-compile ./requirements.in --output-file ./requirements.txt
+
+# targets intended to be run *inside* a container
+.PHONY: run
+run:
+	DJANGO_READ_DOT_ENV_FILE=true python manage.py runserver 0:8000
+
+.PHONY: locales
+locales:
+	rm -f ksvotes/locale/*/*/*o
+	python manage.py build_locales
+	python manage.py compilemessages
+
+.PHONY: coverage
+coverage: ## Run Django tests with coverage
+	pytest -s --cov=ksvotes --cov-report=term-missing:skip-covered --cov-fail-under=90
+
+.PHONY: services-stop
+services-stop:
+	docker-compose down
+
+fernet-key:
+	dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64

@@ -3,17 +3,6 @@ import pytest
 import random
 
 
-def test_homepage(db, tp):
-    """Ensure we can hit the homepage"""
-    # Use any page that is named 'home' otherwise use /
-    url = tp.reverse("home")
-    if not url:
-        url = "/"
-
-    response = tp.get(url)
-    tp.response_200(response)
-
-
 def test_200_page(db, tp):
     """Test a 200 OK page"""
 

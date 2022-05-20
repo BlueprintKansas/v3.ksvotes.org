@@ -1,0 +1,80 @@
+{% extends 'base-form.html' %}
+{% set current_step = '3' %}
+{% set previous_step_url = url_for('main.ab3_address') %}
+{% set flow_flavor = 'ab' %}
+
+{% block title %}Identification{% endblock %}
+
+{% block form_content %}
+<form name="step_AB5" id="step_AB5" method="POST" action="{{url_for('main.ab5_identification')}}">
+ <fieldset>
+  <legend>{{_('5_legend')}}</legend>
+
+  {{form.hidden_tag()}}
+
+  {{wtf.render_field(
+      form.ab_identification,
+      _('5AB_id_shorthelp'),
+      {
+        'autocomplete':'off',
+        'data-parsley-trigger':'focusout',
+        'data-parsley-id-pattern':"true",
+        'data-parsley-id-pattern-message': _('5AB_id_pattern'),
+        'placeholder': 'Knn-nn-nnnn',
+      }
+      )}}
+
+  <div class="small">{{_('5AB_id_shorthelp')}}</div>
+
+  {% include 'form-buttons.html' %}
+
+ </fieldset>
+</form>
+{% endblock %}
+
+{% block hidden_modal %}
+{% with modal_body=_('5AB_id_help'), modal_title=_('important') %}
+{% include '_confirm_modal.html' %}
+{% endwith %}
+{% endblock %}
+
+{% block js_footer %}
+<script>
+$(function () {
+  //initialize form with parsley validation
+  var form = $('#step_AB5');
+  window.Parsley.addValidator('idPattern', {
+    requirementType: 'string',
+    validateString: function(value) {
+      $('.parsley-errors-list').show();
+      let dlid = value.replace(/\W/g, '');
+      let parts = dlid.match(/^(\w\d\w\d\w|K\d{8}|\d{9})$/i);
+      if (parts) {
+        if (dlid.length == 9) {
+          let segs = dlid.match(/^(\w\w\w)(\w\w)(\w\w\w\w)$/);
+          segs.shift();
+          $('#ab_identification').val(segs.join('-').toUpperCase()); // normalize
+        }
+        $('.parsley-errors-list').hide(); // in case we reloaded
+        return true;
+      }
+      return false;
+    }
+  });
+  form.parsley();
+
+  // ID may be empty, but if so, we must warn voter they must act offline.
+  $('#btn-next').on('click', function(ev) {
+    if ($('#ab_identification').val().length == 0) {
+      ev.preventDefault();
+      $('#ksv-confirm-modal').modal('show');
+      $('#ksv-confirm-modal .submit').on('click', function(ev2) {
+        $('#ksv-confirm-modal').modal('hide');
+        form.submit();
+      });
+    }
+  });
+});
+
+</script>
+{% endblock %}
