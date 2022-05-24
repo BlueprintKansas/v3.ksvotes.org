@@ -53,7 +53,6 @@ def api_total_processed(request):
     ttl = 60 * 60
     reg_count = int(r.get_or_set("vr-total-processed", get_vr_total, ttl))
     ab_count = int(r.get_or_set("ab-total-processed", get_ab_total, ttl))
-
     return JsonResponse({"registrations": reg_count, "advanced_ballots": ab_count})
 
 

@@ -3,7 +3,7 @@ from ksvotes.services.steps import Step
 
 
 class Step_AB_8(Step):
-    endpoint = "/ab/submission"
+    endpoint = "/ab/submission/"
     form_requirements = []
     step_requirements = []
     prev_step = "Step_AB_7"

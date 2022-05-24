@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
-{% set current_step = '5' %}
-{% set previous_step_url = url_for('main.ab6_preview_sign') %}
-{% set flow_flavor = 'ab' %}
-
+{% load wtf %}
 {% block title %}Affirmation{% endblock %}
 
 {% block content %}
@@ -27,11 +24,11 @@
       <div class="mt-4 col-md-8">
         <div class='card'>
           <div class='card-body'>
-            <form name="step_7" id="step_7" method="POST"  action="{{url_for('main.ab7_affirmation')}}">
+            <form name="step_7" id="step_7" method="POST"  action="{% url "ksvotes:ab.affirmation" %}">
              <fieldset>
               <legend>{{_('7_legend')}}</legend>
 
-              {{form.hidden_tag()}}
+              {% csrf_token %}
 
               {{wtf.render_field(
               form.affirmation,
