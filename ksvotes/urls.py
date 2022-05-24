@@ -20,6 +20,7 @@ urlpatterns = [
     path("", home.HomepageView.as_view(), name="home.index"),
     # allow optional trailing slash for /ref to preserve existing 3rd party integrations.
     re_path(r"ref/?", home.referring_org, name="home.ref"),
+    path("api/total-processed/", home.api_total_processed, name="api.total_processed"),
     path("demo/", home.demo, name="home.demo"),
     path("debug/", home.debug, name="home.debug"),
     path("terms/", home.terms, name="home.terms"),

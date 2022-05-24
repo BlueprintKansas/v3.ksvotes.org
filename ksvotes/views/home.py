@@ -17,6 +17,7 @@ from uuid import uuid4
 from ksvotes.services.registrant_stats import RegistrantStats
 from ksvotes.services.early_voting_locations import EarlyVotingLocations
 from ksvotes.services.dropboxes import Dropboxes
+from ksvotes.services.ksvotes_redis import KSVotesRedis
 from ksvotes.models import Clerk, Registrant, ZIPCode
 
 logger = logging.getLogger(__name__)
@@ -36,6 +37,24 @@ def stats(request):  # TODO
         stats["ab"].append(r.values())
 
     return render(request, "stats.html", {"stats": stats})
+
+
+def api_total_processed(request):
+    s = RegistrantStats()
+    r = KSVotesRedis()
+
+    def get_vr_total():
+        return s.vr_total_processed()
+
+    def get_ab_total():
+        return s.ab_total_processed()
+
+    # cache for 1 hour
+    ttl = 60 * 60
+    reg_count = int(r.get_or_set("vr-total-processed", get_vr_total, ttl))
+    ab_count = int(r.get_or_set("ab-total-processed", get_ab_total, ttl))
+
+    return JsonResponse({"registrations": reg_count, "advanced_ballots": ab_count})
 
 
 def terms(request):
