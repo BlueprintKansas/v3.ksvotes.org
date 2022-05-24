@@ -129,9 +129,11 @@ def referring_org(request):
 
     ref = request.GET["ref"]
 
+    home_page_url = reverse("ksvotes:home.index")
+
     if request.method == "GET":
         request.session["ref"] = ref
-        return redirect(reverse("ksvotes:home.index"))
+        return redirect(home_page_url)
 
     # special 'ref' value of 'demo' attaches to the DEMO_UUID if defined
     if ref == "demo" and settings.DEMO_UUID:
@@ -140,18 +142,12 @@ def referring_org(request):
     else:
         request.session["id"] = str(uuid4())
         registrant = Registrant(session_id=request.session["id"], ref=ref)
-        registration = {
-            "name_last": request.GET.get("name_last", ""),
-            "name_first": request.GET.get("name_first", ""),
-            "dob": request.GET.get("dob", ""),
-            "email": request.GET.get("email", ""),
-            "phone": request.GET.get("phone", ""),
-            "zip": request.GET.get("zip", ""),
-        }
+        registration = {}
+        for p in ["name_last", "name_first", "dob", "email", "phone", "zip"]:
+            registration[p] = request.GET.get(p, request.POST.get(p, ""))
         registrant.update(registration)
         registrant.save()
-
-    return redirect(reverse("ksvotes:home.index"))
+    return redirect(home_page_url)
 
 
 def debug(request):

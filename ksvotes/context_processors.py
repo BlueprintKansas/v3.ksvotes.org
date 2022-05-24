@@ -28,6 +28,10 @@ def steps(request):
     else:
         flow_flavor = "ab"
     return {
+        "registrant": None,
+        "current_step": None,
+        "previous_step_url": None,
+        "flow_flavor": flow_flavor,
         "flows": flows,
         "flow_map": flows[flow_flavor],
         "total_steps": len(flows[flow_flavor]),

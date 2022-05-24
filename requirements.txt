@@ -6,7 +6,7 @@
 #
 airtable==0.4.8
     # via -r ./requirements.in
-amqp==5.0.6
+amqp==5.1.1
     # via kombu
 appdirs==1.4.4
     # via fs
@@ -57,6 +57,8 @@ click-repl==0.2.0
     # via celery
 colorama==0.4.4
     # via interrogate
+colorlog==6.6.0
+    # via -r ./requirements.in
 coverage[toml]==6.2
     # via pytest-cov
 cryptography==37.0.2
@@ -135,22 +137,28 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-kombu==5.2.2
-    # via celery
+kombu==5.2.4
+    # via
+    #   -r ./requirements.in
+    #   celery
 ksmyvoteinfo==1.4
     # via -r ./requirements.in
 lxml==4.8.0
     # via pyusps
 markupsafe==2.1.1
     # via wtforms
-marshmallow==3.14.1
-    # via environs
+marshmallow==3.15.0
+    # via
+    #   -r ./requirements.in
+    #   environs
 mypy-extensions==0.4.3
     # via black
 newrelic==7.10.0.175
     # via -r ./requirements.in
 packaging==21.3
-    # via pytest
+    # via
+    #   marshmallow
+    #   pytest
 pathspec==0.9.0
     # via black
 pep517==0.12.0
@@ -203,8 +211,6 @@ python-dateutil==2.8.2
     #   ksmyvoteinfo
 python-dotenv==0.19.2
     # via environs
-python-json-logger==2.0.2
-    # via -r ./requirements.in
 pytz==2021.3
     # via
     #   celery
@@ -220,6 +226,8 @@ regex==2021.11.10
     # via
     #   black
     #   dateparser
+request-id-django-log==0.2.0
+    # via -r ./requirements.in
 requests==2.27.1
     # via
     #   airtable
@@ -238,8 +246,6 @@ soupsieve==2.3.2.post1
     # via beautifulsoup4
 sqlparse==0.4.2
     # via django
-structlog==21.4.0
-    # via -r ./requirements.in
 tabulate==0.8.9
     # via interrogate
 text-unidecode==1.3

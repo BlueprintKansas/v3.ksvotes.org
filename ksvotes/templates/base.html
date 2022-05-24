@@ -1,7 +1,7 @@
 {% load static %}
 {% load i18n %}
 <!doctype html>
-<html lang="{{g.locale}}">
+<html lang="{{locale}}">
 
 <head>
   <meta charset="utf-8">
@@ -138,7 +138,7 @@
     <ul class="list-unstyled list-inline px-2 mb-3">
       <li class="list-inline-item">{{_('0_footer_SOS')}}</li>
     </ul>
-    {% if registrant.id is defined %}
+    {% if registrant %}
     <ul class="list-unstyled list-inline px-2 mb-3">
       <li class="list-inline-item {% if ENABLE_AB %}mr-3{% endif %}">
         <a href="{% url "ksvotes:home.about" %}">{{_('nav_register_vote')}}</a>
