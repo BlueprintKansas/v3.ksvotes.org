@@ -209,7 +209,7 @@ class HomepageView(TemplateView):
                 request.session["id"] = sid
 
             registrant.update(form.data)
-            skip_sos = request.GET.get("skip-sos")
+            skip_sos = request.GET.get("skip-sos", request.POST.get("skip-sos"))
             step.run(skip_sos)
             registrant.reg_lookup_complete = step.reg_lookup_complete
             registrant.reg_found = True if step.reg_found else False

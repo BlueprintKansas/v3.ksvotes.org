@@ -75,10 +75,12 @@ class Step_0(Step):
                 return sosrecs
         except requests.exceptions.ConnectionError as err:
             self.voter_view_fail = kmvi.url
-            logger.warn("voter view connection failure: %s" % (err))
+            logger.warning("voter view connection failure: %s" % (err))
+            logger.exception(err)
             return False
         except Exception as err:
-            logger.warn("voter view failure: %s" % (err))
+            logger.warning("voter view failure: %s" % (err))
+            logger.exception(err)
             return False
 
         return False

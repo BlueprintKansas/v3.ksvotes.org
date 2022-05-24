@@ -16,8 +16,8 @@
       {{_('3_mail_addr')}}
     {% endif %}
     </div>
-    {% if v|get_item:"error" %}
-    <!-- {{ v|get_item:"error" }} -->
+    {% if v.error %}
+    <!-- {{ v.error }} -->
     <div class="alert alert-warning address-error">
       <i class="fa fa-exclamation-triangle amber-text"></i>
       <a href="{% url "ksvotes:vr.address" %}">{{_('3_invalid')}}</a>
