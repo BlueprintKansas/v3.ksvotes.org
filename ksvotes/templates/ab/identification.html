@@ -1,28 +1,15 @@
 {% extends 'base-form.html' %}
-{% set current_step = '3' %}
-{% set previous_step_url = url_for('main.ab3_address') %}
-{% set flow_flavor = 'ab' %}
-
+{% load wtf %}
 {% block title %}Identification{% endblock %}
 
 {% block form_content %}
-<form name="step_AB5" id="step_AB5" method="POST" action="{{url_for('main.ab5_identification')}}">
+<form name="step_AB5" id="step_AB5" method="POST" action="{% url "ksvotes:ab.identification" %}">
  <fieldset>
   <legend>{{_('5_legend')}}</legend>
 
-  {{form.hidden_tag()}}
+  {% csrf_token %}
 
-  {{wtf.render_field(
-      form.ab_identification,
-      _('5AB_id_shorthelp'),
-      {
-        'autocomplete':'off',
-        'data-parsley-trigger':'focusout',
-        'data-parsley-id-pattern':"true",
-        'data-parsley-id-pattern-message': _('5AB_id_pattern'),
-        'placeholder': 'Knn-nn-nnnn',
-      }
-      )}}
+  {% ks_id_field form.ab_identification required=False %}
 
   <div class="small">{{_('5AB_id_shorthelp')}}</div>
 
@@ -33,9 +20,7 @@
 {% endblock %}
 
 {% block hidden_modal %}
-{% with modal_body=_('5AB_id_help'), modal_title=_('important') %}
-{% include '_confirm_modal.html' %}
-{% endwith %}
+{% include '_confirm_modal.html' with modal_body=_('5AB_id_help') modal_title=_('important') %}
 {% endblock %}
 
 {% block js_footer %}

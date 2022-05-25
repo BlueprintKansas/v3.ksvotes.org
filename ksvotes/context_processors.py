@@ -28,6 +28,10 @@ def steps(request):
     else:
         flow_flavor = "ab"
     return {
+        "next_btn": None,
+        "disabled_btn": None,
+        "submit_btn": None,
+        "cancel_btn": None,
         "registrant": None,
         "current_step": None,
         "previous_step_url": None,

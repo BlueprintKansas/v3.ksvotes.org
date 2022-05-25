@@ -28,7 +28,7 @@ class AB1View(TemplateView):
         form = FormAB1(request.POST)
         reg = request.registrant
         if form.validate():
-            step = Step_AB_1(form.data)
+            step = Step_AB_1(form.data, registrant=reg)
             if step.run():
                 reg.update(form.data)
 

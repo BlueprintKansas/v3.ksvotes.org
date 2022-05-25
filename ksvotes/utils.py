@@ -202,7 +202,7 @@ def list_of_elections():
 def is_even_year(year=None):
     """Determine if it's an even year"""
     if year is None:
-        today = datetime.date.today()
+        today = datetime.today()
         year = today.year
 
     if year % 2 == 0:

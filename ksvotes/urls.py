@@ -19,7 +19,7 @@ from .views.ab.submission import AB8View
 urlpatterns = [
     path("", home.HomepageView.as_view(), name="home.index"),
     # allow optional trailing slash for /ref to preserve existing 3rd party integrations.
-    re_path(r"ref/?", home.referring_org, name="home.ref"),
+    re_path(r"ref/?", home.referring_org, name="home.ref_v2"),
     path("api/total-processed/", home.api_total_processed, name="api.total_processed"),
     path("demo/", home.demo, name="home.demo"),
     path("debug/", home.debug, name="home.debug"),
@@ -29,6 +29,8 @@ urlpatterns = [
     path("change-or-apply/", home.change_or_apply, name="home.change_or_apply"),
     path("change-county/", home.change_county, name="home.change_county"),
     path("forget/", home.forget, name="home.forget"),
+    # underscore path backcompat for v2
+    path("ab/election_picker/", AB1View.as_view(), name="ab.election_picker_v2"),
     path("ab/election-picker/", AB1View.as_view(), name="ab.election_picker"),
     path("ab/address/", AB3View.as_view(), name="ab.address"),
     path("ab/identification/", AB5View.as_view(), name="ab.identification"),
