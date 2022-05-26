@@ -7,6 +7,9 @@ from django.utils.translation import gettext_lazy as lazy_gettext
 
 class KSIDField(StringField):
     def process_formdata(self, valuelist):
+        if len(valuelist) == 0:
+            self.data = ""
+            return
         dl = valuelist[0].replace("-", "").replace("/", "")
         if len(dl) == 9:
             dl = "-".join((dl[:3], dl[3:5], dl[5:]))
