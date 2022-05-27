@@ -79,7 +79,7 @@ css: ## Build css artifacts from scss (
 
 .PHONY: playwright
 playwright: ## Run playwrite tests
-	pytest -s -vv --noconftest -o addopts='' --base-url=http://test.ksvotes.org:8000 playwright/
+	pytest -s -vv --noconftest -c /dev/null --base-url=http://test.ksvotes.org:8000 playwright/
 
 
 # ----
