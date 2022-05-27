@@ -45,9 +45,6 @@ test_interrogate:
 
 .PHONY: test_pytest
 test_pytest:
-	docker-compose run --rm web ls -la
-	docker-compose run --rm web cat /etc/passwd
-	docker-compose run --rm web touch test-coverage-file
 	@docker-compose run --rm web make coverage
 
 .PHONY: test
