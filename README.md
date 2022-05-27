@@ -6,7 +6,7 @@ A Django implementation of ksvotes.org.
 
 ## Local Development Setup
 
-This project uses Python 3.10.x, Docker, and Docker Compose.
+This project uses Python 3.10.x, Node 14.x or newer, Docker, and Docker Compose.
 
 Make a Python 3.9.x (or newer) virtualenv.
 
@@ -27,6 +27,8 @@ Then run:
 ```shell
 # install dev dependencies
 $ make dev-setup
+# browser test dependencies
+$ playwright install --with-deps
 # rebuild our services
 $ make setup
 

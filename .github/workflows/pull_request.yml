@@ -76,7 +76,6 @@ jobs:
         run: |
           sudo apt-get update
           make dev-setup
-          npm ci
           playwright install --with-deps
       - name: Start CI docker compose
         run: make setup
@@ -91,9 +90,10 @@ jobs:
           unzip chromedriver_linux64.zip -d ~/bin
       - name: Run tests
         run: make test_pytest
-        # TODO test_coverage
-      # - name: Run playwright tests
-      #   run: make playwright
+      - name: Browser tests
+        run: |
+          make server
+          make playwright
       - name: Docker logs
         run: |
           make ci-logs

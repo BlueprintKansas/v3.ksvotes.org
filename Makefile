@@ -38,6 +38,7 @@ setup: ## sets up a project to be used for the first time
 dev-setup: ## install local development dependencies
 	pip install -U pre-commit black
 	pip install -r requirements-ci.txt
+	npm install
 
 .PHONY: test_interrogate
 test_interrogate:
@@ -73,8 +74,13 @@ ci-logs-tail: ## tail the docker-compose logs
 	@docker-compose --file $(COMPOSE_FILE) logs -f
 
 .PHONY: css
-css: ## Build css artifacts from scss
+css: ## Build css artifacts from scss (
 	npm run css
+
+.PHONY: playwright
+playwright: ## Run playwrite tests
+	pytest -s -vv --noconftest -o addopts='' --base-url=http://test.ksvotes.org:8000 playwright/
+
 
 # ----
 
@@ -104,3 +110,9 @@ services-stop:
 .PHONY: fernet-key
 fernet-key: ## Create Fernet encrypt key and echo to stdout
 	dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
+
+.PHONY: fixtures
+fixtures: ## Load fixtures (inside container)
+	python manage.py load_clerks
+	python manage.py load_zipcodes
+	python manage.py load_demo

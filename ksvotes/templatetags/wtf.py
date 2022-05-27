@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 def zipcode_field(field, required=False):
     html_attrs = {
         "class": "form-control",
-        "pattern": r"\d{5}.*",
+        "pattern": r"\d{5}(-\d{4})?",
         "autocomplete": "off",
         "data-parsley-trigger": "focusout",
         "data-parsley-pattern-message": _("3_zip_help"),

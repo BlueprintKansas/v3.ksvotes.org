@@ -8,6 +8,6 @@
 
 python manage.py collectstatic --noinput
 
-make locales
+make locales fixtures
 
 gunicorn -c gunicorn.conf.py --log-level INFO --reload -b 0.0.0.0:8000 config.wsgi
