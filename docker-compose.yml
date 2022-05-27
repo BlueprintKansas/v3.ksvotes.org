@@ -97,8 +97,6 @@ services:
     # init: true
     ports:
       - "8000:8000"
-    volumes:
-      - .:/code
 
 volumes:
   postgres-data:
