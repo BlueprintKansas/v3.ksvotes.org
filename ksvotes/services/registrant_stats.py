@@ -26,8 +26,8 @@ class RegistrantStats:
         today = datetime.date.today() + datetime.timedelta(days=1)
         sql = """
       select cast(vr_completed_at at time zone 'utc' at time zone 'america/chicago' as date) as vr_date, count(id)
-      from registrants
-      where vr_completed_at is not null and vr_completed_at at time zone 'utc' at time zone 'america/chicago' between '%s' and '%s'
+      from ksvotes_registrant
+      where vr_completed_at is not null and vr_completed_at at time zone 'utc' at time zone 'america/chicago' between %s and %s
       group by vr_date
       order by 1
     """
@@ -39,8 +39,8 @@ class RegistrantStats:
         today = datetime.date.today() + datetime.timedelta(days=1)
         sql = """
       select cast(ab_completed_at at time zone 'utc' at time zone 'america/chicago' as date) as ab_date, count(id)
-      from registrants
-      where ab_completed_at is not null and ab_completed_at at time zone 'utc' at time zone 'america/chicago' between '%s' and '%s'
+      from ksvotes_registrant
+      where ab_completed_at is not null and ab_completed_at at time zone 'utc' at time zone 'america/chicago' between %s and %s
       group by ab_date
       order by 1
     """

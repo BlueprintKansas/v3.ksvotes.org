@@ -20,6 +20,7 @@ class Registrant(TimeStampedModel):
             models.Index(fields=["created_at"]),
             models.Index(fields=["updated_at"]),
         ]
+        ordering = ["-id"]
 
     # PII all encrypted in a "registration" column
     registration = EncryptedTextField()

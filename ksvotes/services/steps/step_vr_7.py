@@ -3,7 +3,7 @@ from ksvotes.services.steps import Step
 
 
 class Step_VR_7(Step):
-    endpoint = "/vr/affirmation"
+    endpoint = "/vr/affirmation/"
     form_requirements = ["affirmation"]
     step_requirements = []
     prev_step = "Step_VR_6"

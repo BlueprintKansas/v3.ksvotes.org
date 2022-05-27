@@ -90,6 +90,27 @@ def dob_field(field, required=False):
 
 
 @register.inclusion_tag("wtf/text.html")
+def ks_id_field(field, required=False):
+    html_attrs = {
+        "class": "form-control",
+        "autocomplete": "off",
+        "data-parsley-trigger": "focusout",
+        "data-parsley-id-pattern": "true",
+        "data-parsley-id-pattern-message": _("5AB_id_pattern"),
+        "placeholder": "Knn-nn-nnnn",
+    }
+    if required:
+        html_attrs["required"] = "required"
+        html_attrs["data-parsley-required-message"] = _("Required")
+    return {
+        "help_text": _("5AB_id_shorthelp"),
+        "label": field.label,
+        "html": field(**html_attrs),
+        "errors": field.errors,
+    }
+
+
+@register.inclusion_tag("wtf/text.html")
 def email_field(field, required=False):
     html_attrs = {
         "class": "form-control",

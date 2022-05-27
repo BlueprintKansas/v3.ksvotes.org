@@ -23,11 +23,19 @@ def steps(request):
             8: reverse("ksvotes:vr.submission"),
         },
     }
-    if "/vr" in request.path:
-        flow_flavor = "vr"
-    else:
+    if "/ab/" in request.path:
         flow_flavor = "ab"
+    else:
+        flow_flavor = "vr"
     return {
+        "next_btn": None,
+        "disabled_btn": None,
+        "submit_btn": None,
+        "cancel_btn": None,
+        "registrant": None,
+        "current_step": None,
+        "previous_step_url": None,
+        "flow_flavor": flow_flavor,
         "flows": flows,
         "flow_map": flows[flow_flavor],
         "total_steps": len(flows[flow_flavor]),

@@ -8,7 +8,7 @@ class Step_VR_3(Step):
     step_requirements = ["addr_lookup_complete"]
     address_order = ["current_address"]
     addr_lookup_complete = False
-    endpoint = "/vr/address"
+    endpoint = "/vr/address/"
     prev_step = "Step_VR_2"
     next_step = None
 

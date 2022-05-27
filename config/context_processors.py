@@ -3,6 +3,7 @@ from django.conf import settings
 import os
 import logging
 from django.utils import translation
+from django.utils.translation import gettext_lazy as lazy_gettext
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,7 @@ def base_url(request):  # pragma: no cover
 # errors, even when the vars are not used.
 def common_vars(request):
     params = {
+        "name": "ksvotes",
         "DEBUG": settings.DEBUG,
         "GIT_SHA": os.environ.get("GIT_SHA", "set GIT_SHA env var"),
         "GA_KEY": os.environ.get("GA_KEY", None),
@@ -26,6 +28,9 @@ def common_vars(request):
         "ENABLE_AB": settings.ENABLE_AB,
         "ENABLE_AB_TRACKER": settings.ENABLE_AB_TRACKER,
         "locale": translation.get_language(),
+        "browser_ua": None,  # TODO
+        "has_announcements": lazy_gettext("announce") != "announce",
+        "use_hero": False,
         "SESSION_TTL": settings.SESSION_TTL,
         "ENABLE_VOTING_LOCATION": settings.ENABLE_VOTING_LOCATION,
     }

@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 import environs
 import logging
-import structlog
-import sys
-
+import logging.config
 from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
-from pythonjsonlogger import jsonlogger
-
 
 env = environs.Env()
 
@@ -20,20 +16,48 @@ if READ_DOT_ENV_FILE:
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
 # Configure Python logging
-root = logging.getLogger()
-root.setLevel(logging.INFO)
-
-if DEBUG:
-    handler = logging.StreamHandler(sys.stderr)
-    root.addHandler(handler)
-    env.log_level("LOG_LEVEL", default="DEBUG")
-    root.setLevel(logging.DEBUG)
-
-else:
-    handler = logging.FileHandler("./python.log")
-    handler.setFormatter(jsonlogger.JsonFormatter())
-    root.addHandler(handler)
-
+logging.basicConfig(
+    level=logging.DEBUG if DEBUG else logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+LOGGING_CONFIG = None  # This empties out Django's logging config
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {"request_id": {"()": "request_id_django_log.filters.RequestIDFilter"}},
+    "formatters": {
+        "colored": {
+            "()": "colorlog.ColoredFormatter",  # colored output
+            # --> %(log_color)s is very important, that's what colors the line
+            "format": "%(log_color)s[%(levelname)s] %(reset)s %(green)s[%(request_id)s] %(reset)s%(blue)s%(name)s - %(asctime)s :: %(reset)s %(message)s",
+            "log_colors": {
+                "DEBUG": "blue",
+                "INFO": "green",
+                "WARNING": "yellow",
+                "ERROR": "red",
+                "CRITICAL": "bold_red",
+            },
+        },
+        "verbose": {
+            "format": "[%(levelname)s] [%(request_id)s] %(name)s - %(asctime)s :: %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": ("DEBUG" if DEBUG else "INFO"),
+            "class": "colorlog.StreamHandler",
+            "formatter": (
+                "colored" if env.bool("COLOR_LOGGING", default=False) else "verbose"
+            ),
+            "filters": ["request_id"],
+        },
+    },
+    "loggers": {
+        "django.utils.autoreload": {"level": "INFO"},
+        "": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
+    },
+}
+logging.config.dictConfig(LOGGING)  # Finally replace our config in python logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = Path(__file__).parent.parent
@@ -61,9 +85,9 @@ INSTALLED_APPS = [
 INSTALLED_APPS += [
     "rest_framework",
     "django_extensions",
-    "health_check",
-    "health_check.db",
-    "health_check.contrib.celery",
+    #    "health_check",
+    #    "health_check.db",
+    #    "health_check.contrib.celery",
 ]
 
 # Our Apps
@@ -176,26 +200,6 @@ STATIC_ROOT = BASE_DIR.joinpath("deployed_static").as_posix()
 
 # Default auto keys
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
-
-# Logging setup
-# Configure struct log
-structlog.configure(
-    processors=[
-        structlog.stdlib.filter_by_level,
-        structlog.stdlib.add_logger_name,
-        structlog.stdlib.add_log_level,
-        structlog.stdlib.PositionalArgumentsFormatter(),
-        structlog.processors.TimeStamper(fmt="iso"),
-        structlog.processors.StackInfoRenderer(),
-        structlog.processors.format_exc_info,
-        structlog.processors.UnicodeDecoder(),
-        structlog.stdlib.render_to_log_kwargs,
-    ],
-    context_class=dict,
-    logger_factory=structlog.stdlib.LoggerFactory(),
-    wrapper_class=structlog.stdlib.BoundLogger,
-    cache_logger_on_first_use=True,
-)
 
 # Configure Redis
 REDIS_HOST = env("REDIS_HOST", default="redis")

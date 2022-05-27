@@ -1,43 +1,42 @@
 <div class='mt-4' id="voter-view">
  {% if sos_reg|length == 1 %}
-   {% set r = sos_reg[0] %}
    <table>
     <tbody>
-     {% for th, td in r['tree'].items() %}
+     {% for th, td in sos_reg.0.tree.items %}
       <tr><th>{{th}}</th><td>{{td|safe}}</td></tr>
      {% endfor %}
-     {% if r['polling'] %}
+     {% if sos_reg.0.polling %}
       <tr>
        <th>Polling Location</th>
-       <td><a target="_blank" href="{{r['polling'][0]['href']}}">{{r['polling'][0]['name']}}</a></td>
+       <td><a target="_blank" href="{{sos_reg.0.polling.0.href}}">{{sos_reg.0.polling.0.name}}</a></td>
       </tr>
      {% endif %}
-     {% for sample_ballot in r['sample_ballot'] %}
+     {% for sample_ballot in sos_reg.0.sample_ballot %}
       <tr>
        <th>Sample Ballot</th>
-       <td><a href="{{sample_ballot['href']}}" target="_blank">{{sample_ballot['text']}}</a></td>
+       <td><a href="{{sample_ballot.href}}" target="_blank">{{sample_ballot.text}}</a></td>
       </tr>
      {% endfor %}
-     {% if r['districts'] %}
+     {% if sos_reg.0.districts %}
        <tr>
         <th>Districts</th>
         <td><table><tbody>
-       {% for district in r['districts'] %}
-         <tr><th>{{district['name']}}</th><td>{{district['type']}}</td></tr>
+       {% for district in sos_reg.0.districts %}
+         <tr><th>{{district.name}}</th><td>{{district.type}}</td></tr>
        {% endfor %}
         </tbody></table></td>
        </tr>
      {% endif %}
-     {% if r['elections'] %}
+     {% if sos_reg.0.elections %}
        <tr>
         <th>Voting History</th>
         <td><table><tbody>
-       {% for election in r['elections'] %}
+       {% for election in sos_reg.0.elections %}
          <tr>
-          <td class='nowrap'>{{election['date']}}</td>
-          <td>{{election['name']}}</td>
-          <td>{{election['type']}}</td>
-          <td>{{election['how']}}</td>
+          <td class='nowrap'>{{election.date}}</td>
+          <td>{{election.name}}</td>
+          <td>{{election.type}}</td>
+          <td>{{election.how}}</td>
          </tr>
        {% endfor %}
         </tbody></table></td>

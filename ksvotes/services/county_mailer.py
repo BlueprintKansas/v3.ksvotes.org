@@ -19,7 +19,7 @@ class CountyMailer:
             self.form_imgs = [self.form_imgs]
         self.clerk = clerk
         if self.clerk == None:
-            raise Exception("No Clerk for County %s" % (registrant.county))
+            raise ValueError("No Clerk for County %s" % (registrant.county))
         self.set_clerk_subject(form_img_type)
         self.set_receipt_subject(form_img_type)
         self.receipt_body = self.get_body(form_img_type).format(

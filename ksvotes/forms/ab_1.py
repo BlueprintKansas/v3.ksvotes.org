@@ -3,6 +3,9 @@ from wtforms import Form, SelectField, SelectMultipleField, widgets, StringField
 from wtforms.validators import DataRequired
 from django.utils.translation import gettext_lazy as lazy_gettext
 from ksvotes.utils import is_even_year
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -60,6 +63,7 @@ class FormAB1(Form):
             ("Republican", "Republican"),
             ("Unaffiliated", "Unaffiliated"),
         ],
+        default="",
     )
 
     def validate_party(form, field):

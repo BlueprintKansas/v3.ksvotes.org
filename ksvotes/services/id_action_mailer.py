@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
-from flask import current_app
 from ksvotes.services.ses_mailer import SESMailer
-from flask_babel import lazy_gettext
-from jinja2 import Environment, FileSystemLoader
 import os
+from django.utils.translation import gettext_lazy as lazy_gettext
+from django.template.loader import render_to_string
+import logging
+from django.conf import settings
+
+logger = logging.getLogger(__name__)
 
 
 class IdActionMailer:
@@ -12,10 +15,7 @@ class IdActionMailer:
         self.registrant = registrant
         self.clerk = clerk
         if self.clerk == None:
-            raise Exception("No Clerk for County %s" % (registrant.county))
-        self.env = Environment(
-            loader=FileSystemLoader("%s/templates/" % current_app.root_path)
-        )
+            raise ValueError("No Clerk for County %s" % (registrant.county))
         self.set_subject()
         self.set_body()
 
@@ -38,8 +38,9 @@ class IdActionMailer:
         buf += lazy_gettext("5AB_id_help")
         buf += "\n"
         buf += lazy_gettext("voter_id_action_email_instruction")
-        template = self.env.get_template("clerk-details.html")
-        buf += template.render(clerk=self.clerk).replace("\n", "")
+        buf += render_to_string("clerk-details.html", {"clerk": self.clerk}).replace(
+            "\n", ""
+        )
         buf += "\n"
         buf += lazy_gettext("8VR_confirm_5")
         self.body = buf.format(firstname=self.registrant.try_value("name_first"))
@@ -51,8 +52,8 @@ class IdActionMailer:
             to=[reg_email], bcc=[], subject=self.subject, body=self.body
         )
 
-        response = self.ses.send_msg(message, current_app.config["EMAIL_FROM"])
-        current_app.logger.info(
+        response = self.ses.send_msg(message, settings.EMAIL_FROM)
+        logger.info(
             "%s SENT ID Action needed %s" % (self.registrant.session_id, response)
         )
 

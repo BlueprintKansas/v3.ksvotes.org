@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
-{% set current_step = '5' %}
-{% set previous_step_url = url_for('main.ab6_preview_sign') %}
-{% set flow_flavor = 'ab' %}
-
+{% load wtf %}
 {% block title %}Affirmation{% endblock %}
 
 {% block content %}
@@ -19,7 +16,7 @@
         {% endfor %}
       </div>
 
-      {% with redirect_url='main.ab7_affirmation' %}
+      {% with redirect_url='ksvotes:ab.affirmation' %}
         {% include '_county-selector-card.html' %}
       {% endwith %}
 
@@ -27,24 +24,15 @@
       <div class="mt-4 col-md-8">
         <div class='card'>
           <div class='card-body'>
-            <form name="step_7" id="step_7" method="POST"  action="{{url_for('main.ab7_affirmation')}}">
+            <form name="step_7" id="step_7" method="POST"  action="{% url "ksvotes:ab.affirmation" %}">
              <fieldset>
               <legend>{{_('7_legend')}}</legend>
 
-              {{form.hidden_tag()}}
+              {% csrf_token %}
 
-              {{wtf.render_field(
-              form.affirmation,
-              _('7_affirm_help'),
-              {
-                'required':'required',
-                'data-parsley-error-message': _('Required'),
-              }
-              )}}
+              {% checkbox_field form.affirmation help_text=_('7_affirm_help') required=True %}
 
-              {% with next_btn=_('btn_submit') %}
-              {% include 'form-buttons.html' %}
-              {% endwith %}
+              {% include 'form-buttons.html' with next_btn=_('btn_submit') %}
 
              </fieldset>
             </form>

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.urls import path
+from django.urls import path, re_path
 from .views import home
 from .views.vr.citizenship import VR1View
 from .views.vr.name import VR2View
@@ -9,10 +9,18 @@ from .views.vr.identification import VR5View
 from .views.vr.preview_sign import VR6View
 from .views.vr.affirmation import VR7View
 from .views.vr.submission import VR8View
+from .views.ab.election_picker import AB1View
+from .views.ab.address import AB3View
+from .views.ab.identification import AB5View
+from .views.ab.preview_sign import AB6View
+from .views.ab.affirmation import AB7View
+from .views.ab.submission import AB8View
 
 urlpatterns = [
     path("", home.HomepageView.as_view(), name="home.index"),
-    path("ref/", home.referring_org, name="home.ref"),
+    # allow optional trailing slash for /ref to preserve existing 3rd party integrations.
+    re_path(r"ref/?", home.referring_org, name="home.ref_v2"),
+    path("api/total-processed/", home.api_total_processed, name="api.total_processed"),
     path("demo/", home.demo, name="home.demo"),
     path("debug/", home.debug, name="home.debug"),
     path("terms/", home.terms, name="home.terms"),
@@ -21,12 +29,16 @@ urlpatterns = [
     path("change-or-apply/", home.change_or_apply, name="home.change_or_apply"),
     path("change-county/", home.change_county, name="home.change_county"),
     path("forget/", home.forget, name="home.forget"),
-    path("ab/election-picker/", home.privacy, name="ab.election_picker"),  # TODO
-    path("ab/address/", home.privacy, name="ab.address"),  # TODO
-    path("ab/identification/", home.privacy, name="ab.identification"),  # TODO
-    path("ab/preview/", home.privacy, name="ab.preview"),  # TODO
-    path("ab/affirmation/", home.privacy, name="ab.affirmation"),  # TODO
-    path("ab/submission/", home.privacy, name="ab.submission"),  # TODO
+    path("stats/", home.stats, name="home.stats"),
+    path("county/<county>/", home.clerk_details, name="home.county"),
+    # underscore path backcompat for v2
+    path("ab/election_picker/", AB1View.as_view(), name="ab.election_picker_v2"),
+    path("ab/election-picker/", AB1View.as_view(), name="ab.election_picker"),
+    path("ab/address/", AB3View.as_view(), name="ab.address"),
+    path("ab/identification/", AB5View.as_view(), name="ab.identification"),
+    path("ab/preview/", AB6View.as_view(), name="ab.preview"),
+    path("ab/affirmation/", AB7View.as_view(), name="ab.affirmation"),
+    path("ab/submission/", AB8View.as_view(), name="ab.submission"),
     path("vr/citizenship/", VR1View.as_view(), name="vr.citizenship"),
     path("vr/name/", VR2View.as_view(), name="vr.name"),
     path("vr/address/", VR3View.as_view(), name="vr.address"),

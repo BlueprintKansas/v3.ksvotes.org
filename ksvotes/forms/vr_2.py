@@ -35,6 +35,7 @@ class FormVR2(Form):
             ("iii", "III"),
             ("iv", "IV"),
         ],
+        default="",
     )
     has_prev_name = BooleanField(lazy_gettext("2_has_prev_name"))
     prev_prefix = SelectField(

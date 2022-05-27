@@ -3,6 +3,7 @@ from test_plus import TestCase
 import json
 from ksvotes.models import Registrant, Clerk
 from datetime import datetime
+from django.utils import timezone
 import os
 from unittest import mock
 
@@ -97,7 +98,7 @@ class RegistrantTestCase(TestCase):
         assert r.redacted_at is None
         assert r.ref == "test"
 
-        Registrant.redact_pii(datetime.utcnow())
+        Registrant.redact_pii(timezone.now())
 
         reg = Registrant.find_by_session(r.session_id)
 

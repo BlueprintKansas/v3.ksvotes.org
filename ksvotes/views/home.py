@@ -17,12 +17,13 @@ from uuid import uuid4
 from ksvotes.services.registrant_stats import RegistrantStats
 from ksvotes.services.early_voting_locations import EarlyVotingLocations
 from ksvotes.services.dropboxes import Dropboxes
+from ksvotes.services.ksvotes_redis import KSVotesRedis
 from ksvotes.models import Clerk, Registrant, ZIPCode
 
 logger = logging.getLogger(__name__)
 
 
-def stats(request):  # TODO
+def stats(request):
     ninety_days = datetime.timedelta(days=90)
     today = datetime.date.today()
     s = RegistrantStats()
@@ -31,11 +32,46 @@ def stats(request):  # TODO
 
     stats = {"vr": [], "ab": []}
     for r in vr_stats:
-        stats["vr"].append(r.values())
+        stats["vr"].append(r)
     for r in ab_stats:
-        stats["ab"].append(r.values())
+        stats["ab"].append(r)
 
     return render(request, "stats.html", {"stats": stats})
+
+
+def clerk_details(request, county):
+    clerk = Clerk.find_by_county(county)
+    if clerk:
+        evl = EarlyVotingLocations(county)
+        d = Dropboxes(county)
+        return render(
+            request,
+            "county.html",
+            {
+                "clerk": clerk,
+                "early_voting_locations": evl.locations,
+                "dropboxes": d.dropboxes,
+            },
+        )
+    else:
+        raise Http404
+
+
+def api_total_processed(request):
+    s = RegistrantStats()
+    r = KSVotesRedis()
+
+    def get_vr_total():
+        return s.vr_total_processed()
+
+    def get_ab_total():
+        return s.ab_total_processed()
+
+    # cache for 1 hour
+    ttl = 60 * 60
+    reg_count = int(r.get_or_set("vr-total-processed", get_vr_total, ttl))
+    ab_count = int(r.get_or_set("ab-total-processed", get_ab_total, ttl))
+    return JsonResponse({"registrations": reg_count, "advanced_ballots": ab_count})
 
 
 def terms(request):
@@ -129,9 +165,11 @@ def referring_org(request):
 
     ref = request.GET["ref"]
 
+    home_page_url = reverse("ksvotes:home.index")
+
     if request.method == "GET":
         request.session["ref"] = ref
-        return redirect(reverse("ksvotes:home.index"))
+        return redirect(home_page_url)
 
     # special 'ref' value of 'demo' attaches to the DEMO_UUID if defined
     if ref == "demo" and settings.DEMO_UUID:
@@ -140,18 +178,12 @@ def referring_org(request):
     else:
         request.session["id"] = str(uuid4())
         registrant = Registrant(session_id=request.session["id"], ref=ref)
-        registration = {
-            "name_last": request.GET.get("name_last", ""),
-            "name_first": request.GET.get("name_first", ""),
-            "dob": request.GET.get("dob", ""),
-            "email": request.GET.get("email", ""),
-            "phone": request.GET.get("phone", ""),
-            "zip": request.GET.get("zip", ""),
-        }
+        registration = {}
+        for p in ["name_last", "name_first", "dob", "email", "phone", "zip"]:
+            registration[p] = request.GET.get(p, request.POST.get(p, ""))
         registrant.update(registration)
         registrant.save()
-
-    return redirect(reverse("ksvotes:home.index"))
+    return redirect(home_page_url)
 
 
 def debug(request):
@@ -209,7 +241,7 @@ class HomepageView(TemplateView):
                 request.session["id"] = sid
 
             registrant.update(form.data)
-            skip_sos = request.GET.get("skip-sos")
+            skip_sos = request.GET.get("skip-sos", request.POST.get("skip-sos"))
             step.run(skip_sos)
             registrant.reg_lookup_complete = step.reg_lookup_complete
             registrant.reg_found = True if step.reg_found else False

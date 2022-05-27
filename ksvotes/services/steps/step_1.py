@@ -6,7 +6,7 @@ from ksvotes.services.steps import Step
 class Step_1(Step):
     form_requirements = []
     step_requirements = []
-    endpoint = "/change-or-apply"
+    endpoint = "/change-or-apply/"
     prev_step = "Step_0"
     next_step = None
     is_complete = False

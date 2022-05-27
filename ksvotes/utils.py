@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import usaddress
 from datetime import datetime
+from django.utils import timezone
 import os
 import re
 import dateparser
@@ -168,7 +169,7 @@ def primary_election_active(deadline=None, current_time=None):
 
     # Determine if we're past deadline
     if current_time is None:
-        current_time = datetime.datetime.now(pytz.utc)
+        current_time = timezone.now()
 
     if current_time > deadline_utc:
         return False
@@ -201,7 +202,7 @@ def list_of_elections():
 def is_even_year(year=None):
     """Determine if it's an even year"""
     if year is None:
-        today = datetime.date.today()
+        today = datetime.today()
         year = today.year
 
     if year % 2 == 0:

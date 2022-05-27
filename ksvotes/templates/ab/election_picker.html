@@ -1,51 +1,26 @@
 {% extends 'base-form.html' %}
-{% set current_step = '1' %}
-{% set previous_step_url = url_for('main.index') %}
-{% set flow_flavor = 'ab' %}
-
+{% load wtf %}
 {% block title %}{{_('1AB_title')}}{% endblock %}
 
 {% block form_content %}
-<form name="step_ab1" id="step_ab1" method="POST" action="{{url_for('main.ab1_election_picker')}}" novalidate>
+<form name="step_ab1" id="step_ab1" method="POST" action="{% url "ksvotes:ab.election_picker" %}" novalidate>
  <fieldset>
   <legend>{{_('AB1_legend')}}</legend>
 
-  {{form.hidden_tag()}}
+  {% csrf_token %}
 
-  {{wtf.render_field(
-      form.elections,
-      _('1AB_election_help'),
-      {
-        'required': 'required',
-        'data-parsley-required-message': _('Required'),
-        'data-parsley-multiple': 'elections',
-      }
-    )}}
+  {% multicheckbox_field form.elections help_text=_('1AB_election_help') required=True %}
+
   <div id="elections-required-error" class="parsley-error parsley-errors-list mtn-075" style="display:none">
     {{_('Required')}}
   </div>
   <div id="permanent-reason" style="display:none">
     <div class="small">{{_('1AB_perm_help')}}</div>
-    {{wtf.render_field(
-        form.perm_reason,
-        _('1AB_perm_help'),
-        {
-          'data-parsley-error-message': _('Required'),
-          'autocomplete':'off',
-          'data-parsley-trigger':'focusout',
-        }
-        )}}
+    {% text_field form.perm_reason help_text_key='1AB_perm_help' required=True %}
   </div>
   <div id="party-picker" style="display:none">
     {% if is_even_year %}
-    {{wtf.render_field(
-        form.party,
-        _('1AB_party_help'),
-        {
-          'data-parsley-trigger':'focusout',
-          'data-parsley-required-message': _('Required')
-        }
-        )}}
+      {% text_field form.party help_text_key='1AB_party_help' required=True %}
     {% endif %}
   </div>
 

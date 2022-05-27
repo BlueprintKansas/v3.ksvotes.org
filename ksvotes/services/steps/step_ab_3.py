@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from ksvotes.services.steps import Step
-
 from ksvotes.services.usps_api import USPS_API
 
 
@@ -8,7 +7,7 @@ class Step_AB_3(Step):
     form_requirements = ["addr", "city", "state", "zip"]
     step_requirements = ["addr_lookup_complete"]
     address_order = ["current_address"]
-    endpoint = "/ab/address"
+    endpoint = "/ab/address/"
     addr_lookup_complete = False
     prev_step = "Step_AB_1"
     next_step = None
