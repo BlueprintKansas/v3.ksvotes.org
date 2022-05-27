@@ -36,7 +36,7 @@ def test_no_previous_step_is_complete():
     step.next_step = "Step_VR_1"
 
     session_manager = SessionManager(registrant, step)
-    assert session_manager.get_redirect_url() == "/vr/citizenship"
+    assert session_manager.get_redirect_url() == "/vr/citizenship/"
 
 
 @pytest.mark.django_db

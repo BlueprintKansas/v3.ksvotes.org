@@ -29,6 +29,8 @@ urlpatterns = [
     path("change-or-apply/", home.change_or_apply, name="home.change_or_apply"),
     path("change-county/", home.change_county, name="home.change_county"),
     path("forget/", home.forget, name="home.forget"),
+    path("stats/", home.stats, name="home.stats"),
+    path("county/<county>/", home.clerk_details, name="home.county"),
     # underscore path backcompat for v2
     path("ab/election_picker/", AB1View.as_view(), name="ab.election_picker_v2"),
     path("ab/election-picker/", AB1View.as_view(), name="ab.election_picker"),

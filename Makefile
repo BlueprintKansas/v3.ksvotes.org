@@ -88,18 +88,19 @@ run:
 	DJANGO_READ_DOT_ENV_FILE=true python manage.py runserver 0:8000
 
 .PHONY: locales
-locales:
+locales: ## Build i18n files (inside container)
 	rm -f ksvotes/locale/*/*/*o
 	python manage.py build_locales
 	python manage.py compilemessages
 
 .PHONY: coverage
-coverage: ## Run Django tests with coverage
+coverage: ## Run Django tests with coverage (inside container)
 	pytest -s --cov=ksvotes --cov-report=term-missing:skip-covered --cov-fail-under=90
 
 .PHONY: services-stop
 services-stop:
 	docker-compose down
 
-fernet-key:
+.PHONY: fernet-key
+fernet-key: ## Create Fernet encrypt key and echo to stdout
 	dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64

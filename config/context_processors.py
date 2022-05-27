@@ -20,6 +20,7 @@ def base_url(request):  # pragma: no cover
 # errors, even when the vars are not used.
 def common_vars(request):
     params = {
+        "name": "ksvotes",
         "DEBUG": settings.DEBUG,
         "GIT_SHA": os.environ.get("GIT_SHA", "set GIT_SHA env var"),
         "GA_KEY": os.environ.get("GA_KEY", None),

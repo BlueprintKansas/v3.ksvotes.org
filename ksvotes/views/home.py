@@ -23,7 +23,7 @@ from ksvotes.models import Clerk, Registrant, ZIPCode
 logger = logging.getLogger(__name__)
 
 
-def stats(request):  # TODO
+def stats(request):
     ninety_days = datetime.timedelta(days=90)
     today = datetime.date.today()
     s = RegistrantStats()
@@ -32,11 +32,29 @@ def stats(request):  # TODO
 
     stats = {"vr": [], "ab": []}
     for r in vr_stats:
-        stats["vr"].append(r.values())
+        stats["vr"].append(r)
     for r in ab_stats:
-        stats["ab"].append(r.values())
+        stats["ab"].append(r)
 
     return render(request, "stats.html", {"stats": stats})
+
+
+def clerk_details(request, county):
+    clerk = Clerk.find_by_county(county)
+    if clerk:
+        evl = EarlyVotingLocations(county)
+        d = Dropboxes(county)
+        return render(
+            request,
+            "county.html",
+            {
+                "clerk": clerk,
+                "early_voting_locations": evl.locations,
+                "dropboxes": d.dropboxes,
+            },
+        )
+    else:
+        raise Http404
 
 
 def api_total_processed(request):
