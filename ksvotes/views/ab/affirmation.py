@@ -31,8 +31,8 @@ class AB7View(TemplateView):
             if not reg.try_value("ab_forms", False):
                 if not reg.try_value("signature_string", False):
                     return redirect(reverse("ksvotes:home.index"))
-            else:
-                return redirect(reverse("ksvotes:ab.preview"))
+                else:
+                    return redirect(reverse("ksvotes:ab.preview"))
 
             if step.run():
                 reg.update(form.data)
