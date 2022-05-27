@@ -45,7 +45,7 @@ test_interrogate:
 
 .PHONY: test_pytest
 test_pytest:
-	@docker-compose run --rm web pytest -s
+	@docker-compose run --rm web make coverage
 
 .PHONY: test
 test: test_interrogate test_pytest
