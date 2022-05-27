@@ -92,7 +92,7 @@ jobs:
         run: make test_pytest
       - name: Browser tests
         run: |
-          make server
+          make server &
           make playwright
       - name: Docker logs
         run: |
