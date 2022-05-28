@@ -94,6 +94,7 @@ jobs:
         run: make ci-start
       - name: Browser tests
         run: |
+          wait-for-it -t 20 test.ksvotes.org:5432
           wait-for-it -t 20 test.ksvotes.org:8000
           curl -vv http://test.ksvotes.org:8000/
           make playwright

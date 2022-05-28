@@ -67,7 +67,7 @@ lint: ## run the pre-commit linters manually
 
 .PHONY: ci-start
 ci-start:
-	@docker-compose --file $(COMPOSE_FILE) up -d --no-recreate
+	docker-compose up -d
 
 .PHONY: ci-stop
 ci-stop:
