@@ -5,6 +5,7 @@
 # not necessarily use this exact setup.
 #
 set -e
+set -x
 
 wait-for-it -h db -p 5432 -t 20 -- python manage.py migrate --noinput
 
@@ -12,4 +13,4 @@ python manage.py collectstatic --noinput
 
 make locales fixtures
 
-gunicorn -c gunicorn.conf.py --log-level INFO --reload -b 0.0.0.0:8000 config.wsgi
+newrelic-admin run-program gunicorn -c gunicorn.conf.py --log-level INFO --reload -b 0.0.0.0:${PORT:=8000} config.wsgi
