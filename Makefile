@@ -26,13 +26,13 @@ console:  ## opens a console
 
 .PHONY: server
 server:  ## starts app
-	@docker-compose --file docker-compose.yml run --rm web python manage.py migrate --noinput
+	@docker-compose --file $(COMPOSE_FILE) run --rm web python manage.py migrate --noinput
 	@docker-compose up
 
 .PHONY: setup
 setup: ## sets up a project to be used for the first time
 	@docker-compose --file $(COMPOSE_FILE) build --force-rm
-	@docker-compose --file docker-compose.yml run --rm web python manage.py migrate --noinput
+	@docker-compose --file $(COMPOSE_FILE) run --rm web python manage.py migrate --noinput
 
 .PHONY: dev-setup
 dev-setup: ## install local development dependencies
@@ -64,6 +64,14 @@ update:  ## updates a project to run at its current version
 lint: ## run the pre-commit linters manually
 	pre-commit run --all-files
 	black .
+
+.PHONY: ci-start
+ci-start:
+	@docker-compose up -d
+
+.PHONY: ci-stop
+ci-stop:
+	@docker-compose down
 
 .PHONY: ci-logs
 ci-logs: ## view all the docker-compose logs

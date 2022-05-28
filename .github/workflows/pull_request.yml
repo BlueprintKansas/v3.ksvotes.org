@@ -90,9 +90,10 @@ jobs:
           unzip chromedriver_linux64.zip -d ~/bin
       - name: Run tests
         run: make test_pytest
+      - name: Start CI services
+        run: make ci-start
       - name: Browser tests
         run: |
-          make server &
           wait-for-it -t 60 test.ksvotes.org:8000
           make playwright
       - name: Docker logs
