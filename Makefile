@@ -93,6 +93,10 @@ endif
 attach: ## Attach to a running container and open a shell (like login for running container)
 	docker exec -it $(DOCKER_CONTAINER_ID) /bin/bash
 
+.PHONY: ci-test
+ci-test:
+	ENV_NAME=ci docker exec -it $(DOCKER_CONTAINER_ID) ./run-ci-tests.sh
+
 .PHONY: css
 css: ## Build css artifacts from scss (
 	npm run css

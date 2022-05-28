@@ -78,7 +78,7 @@ jobs:
           make dev-setup
           playwright install --with-deps
       - name: Build docker images
-        run: make setup
+        run: make ci-start
         env:
           DOCKER_BUILDKIT: 1
           ENV_NAME: ci
@@ -89,9 +89,9 @@ jobs:
           curl "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -O
           unzip chromedriver_linux64.zip -d ~/bin
       - name: Run tests
-        run: make test_pytest
-      - name: Start CI services
-        run: make ci-start
+        run: make ci-test
+      #- name: Start CI services
+      #  run: make ci-start
       - name: Browser tests
         run: |
           docker/wait-for-it.sh -h test.ksvotes.org -p 5432
