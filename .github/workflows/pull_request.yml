@@ -96,7 +96,7 @@ jobs:
         run: |
           wait-for-it -t 20 test.ksvotes.org:5432
           wait-for-it -t 20 test.ksvotes.org:8000
-          curl -vv http://test.ksvotes.org:8000/
+          curl -vv -s http://test.ksvotes.org:8000/ > /dev/null
           make playwright
       - name: Docker logs
         run: |
