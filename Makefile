@@ -30,9 +30,8 @@ server:  ## starts app
 	@docker-compose up
 
 .PHONY: setup
-setup: ## sets up a project to be used for the first time
-	docker-compose --file $(COMPOSE_FILE) build --force-rm
-	docker-compose --file $(COMPOSE_FILE) run --rm db-migrations
+setup: bootstrap ## sets up a project to be used for the first time
+	docker-compose --file $(COMPOSE_FILE) run --rm web make migrate
 
 .PHONY: dev-setup
 dev-setup: ## install local development dependencies

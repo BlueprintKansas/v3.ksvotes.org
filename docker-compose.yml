@@ -46,16 +46,6 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data/
 
-  db-migrations:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    command: ["make", "migrate"]
-    depends_on:
-      - db
-    env_file:
-      - .env
-
   # flower:
   #   build: ./
   #   command: python -m flower -A tasks
