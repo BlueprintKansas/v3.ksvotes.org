@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from django.conf import settings
 import json
 import os
+import os.path
 
 
 class Command(BaseCommand):
@@ -13,8 +14,14 @@ class Command(BaseCommand):
         es_file = settings.BASE_DIR.joinpath(
             "ksvotes", "locale", "es", "LC_MESSAGES", "django.po"
         ).as_posix()
-        os.remove(en_file)
-        os.remove(es_file)
+        if not os.path.exists(os.path.dirname(en_file)):
+            os.mkdir(os.path.dirname(en_file))
+        if not os.path.exists(os.path.dirname(es_file)):
+            os.mkdir(os.path.dirname(es_file))
+        if os.path.exists(en_file):
+            os.remove(en_file)
+        if os.path.exists(es_file):
+            os.remove(es_file)
         en_po = open(en_file, "w")
         es_po = open(es_file, "w")
 
