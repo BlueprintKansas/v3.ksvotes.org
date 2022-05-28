@@ -81,6 +81,18 @@ ci-logs: ## view all the docker-compose logs
 ci-logs-tail: ## tail the docker-compose logs
 	@docker-compose --file $(COMPOSE_FILE) logs -f
 
+DOCKER_IMG=ksvotes:v3ksvotesorg-web
+DOCKER_NAME=ksvotes-v3-web
+ifeq (, $(shell which docker))
+DOCKER_CONTAINER_ID := docker-is-not-installed
+else
+DOCKER_CONTAINER_ID := $(shell docker ps --filter ancestor=$(DOCKER_IMG) --format "{{.ID}}" -a)
+endif
+
+.PHONY: ci-attach
+ci-attach: ## Attach to a running container and open a shell (like login for running container)
+	docker exec -it $(DOCKER_CONTAINER_ID) /bin/bash
+
 .PHONY: css
 css: ## Build css artifacts from scss (
 	npm run css
@@ -103,7 +115,6 @@ run:
 
 .PHONY: locales
 locales: ## Build i18n files (inside container)
-	rm -f ksvotes/locale/*/*/*o
 	python manage.py build_locales
 	python manage.py compilemessages
 
