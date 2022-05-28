@@ -95,7 +95,7 @@ attach: ## Attach to a running container and open a shell (like login for runnin
 
 .PHONY: ci-test
 ci-test:
-	ENV_NAME=ci docker exec $(DOCKER_CONTAINER_ID) /code/run-ci-tests.sh
+	ENV_NAME=ci docker-compose exec web /code/run-ci-tests.sh
 
 .PHONY: css
 css: ## Build css artifacts from scss (
