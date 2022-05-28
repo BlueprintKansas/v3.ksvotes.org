@@ -135,3 +135,12 @@ fixtures: ## Load fixtures (inside container)
 	python manage.py load_clerks
 	python manage.py load_zipcodes
 	python manage.py load_demo
+
+.PHONY: migrate
+migrate: ## Run db migrations (inside container)
+	wait-for-it -h db -p 5432 -t 20
+	python manage.py migrate --noinput
+
+.PHONY: static
+static: ## Build static assets (inside container)
+	python manage.py collectstatic --noinput

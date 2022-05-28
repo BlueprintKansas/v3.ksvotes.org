@@ -50,7 +50,7 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
-    command: ["python", "manage.py", "migrate", "--noinput"]
+    command: ["make", "migrate"]
     depends_on:
       - db
     env_file:
