@@ -54,8 +54,6 @@ services:
       - db
     env_file:
       - .env
-    volumes:
-      - .:/code
 
   # flower:
   #   build: ./

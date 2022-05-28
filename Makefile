@@ -32,7 +32,7 @@ server:  ## starts app
 .PHONY: setup
 setup: ## sets up a project to be used for the first time
 	docker-compose --file $(COMPOSE_FILE) build --force-rm
-	docker/wait-for-it.sh -h db -p 5432 -t 20 -- docker-compose --file $(COMPOSE_FILE) run --rm web python manage.py migrate --noinput
+	docker-compose --file $(COMPOSE_FILE) run --rm db-migrations
 
 .PHONY: dev-setup
 dev-setup: ## install local development dependencies
