@@ -15,9 +15,9 @@ class Command(BaseCommand):
             "ksvotes", "locale", "es", "LC_MESSAGES", "django.po"
         ).as_posix()
         if not os.path.exists(os.path.dirname(en_file)):
-            os.mkdir(os.path.dirname(en_file))
+            os.makedirs(os.path.dirname(en_file))
         if not os.path.exists(os.path.dirname(es_file)):
-            os.mkdir(os.path.dirname(es_file))
+            os.makedirs(os.path.dirname(es_file))
         if os.path.exists(en_file):
             os.remove(en_file)
         if os.path.exists(es_file):
