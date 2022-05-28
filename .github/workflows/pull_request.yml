@@ -74,7 +74,7 @@ jobs:
           cat /etc/hosts
       - name: Install dependencies
         run: |
-          sudo apt-get update
+          sudo apt-get update && sudo apt-get install --yes wait-for-it
           make dev-setup
           playwright install --with-deps
       - name: Start CI docker compose
@@ -93,6 +93,7 @@ jobs:
       - name: Browser tests
         run: |
           make server &
+          wait-for-it -t 60 test.ksvotes.org:8000
           make playwright
       - name: Docker logs
         run: |
