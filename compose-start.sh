@@ -7,7 +7,7 @@
 set -e
 set -x
 
-wait-for-it -h db -p 5432 -t 20 -- python manage.py migrate --noinput
+wait-for-it -h db -p 5432 -t 20
 
 python manage.py collectstatic --noinput
 
