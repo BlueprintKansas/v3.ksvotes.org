@@ -84,7 +84,6 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     command: ["/bin/bash", "/code/compose-start.sh"]
-    container_name: v3ksvotesorg-web
     image: ksvotes:v3ksvotesorg-web
     depends_on:
       - db

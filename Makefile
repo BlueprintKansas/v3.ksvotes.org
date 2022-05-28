@@ -67,11 +67,11 @@ lint: ## run the pre-commit linters manually
 
 .PHONY: ci-start
 ci-start:
-	@docker-compose up -d
+	@docker-compose --file $(COMPOSE_FILE) --env-file=.env-ci up -d --no-recreate
 
 .PHONY: ci-stop
 ci-stop:
-	@docker-compose down
+	@docker-compose --file $(COMPOSE_FILE) down
 
 .PHONY: ci-logs
 ci-logs: ## view all the docker-compose logs
@@ -89,8 +89,8 @@ else
 DOCKER_CONTAINER_ID := $(shell docker ps --filter ancestor=$(DOCKER_IMG) --format "{{.ID}}" -a)
 endif
 
-.PHONY: ci-attach
-ci-attach: ## Attach to a running container and open a shell (like login for running container)
+.PHONY: attach
+attach: ## Attach to a running container and open a shell (like login for running container)
 	docker exec -it $(DOCKER_CONTAINER_ID) /bin/bash
 
 .PHONY: css

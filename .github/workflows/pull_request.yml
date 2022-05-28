@@ -95,7 +95,7 @@ jobs:
       - name: Browser tests
         run: |
           wait-for-it -t 20 test.ksvotes.org:8000
-          curl http://test.ksvotes.org:8000/
+          curl -vv http://test.ksvotes.org:8000/
           make playwright
       - name: Docker logs
         run: |
