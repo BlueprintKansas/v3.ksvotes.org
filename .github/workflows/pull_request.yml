@@ -94,7 +94,6 @@ jobs:
         run: make ci-start
       - name: Browser tests
         run: |
-          wait-for-it -h db -p 5432 -t 20
           wait-for-it -t 20 test.ksvotes.org:8000
           make playwright
       - name: Docker logs
