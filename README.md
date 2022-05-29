@@ -32,56 +32,33 @@ $ playwright install --with-deps
 # rebuild our services
 $ make setup
 
-# start our services
-$ docker-compose up
+# interactive bash shell in web container
+$ make console
 
 # start our services with daemon mode
-$ docker-compose up -d
+$ make server
 
-# to run database migrations
-$ docker-compose run --rm web python manage.py migrate
+# see all make targets available
+$ make
 
-# to create a superuser
-$ docker-compose run --rm web python manage.py createsuperuser
-
-# to create database migrations
-$ docker-compose run --rm web python manage.py makemigrations
 ```
-
-This will create the Docker image, install dependencies, start the services defined in `docker-compose.yml`, and start the webserver.
 
 ### Cleaning up
 
 To shut down our database and any long running services, we shut everyone down using:
 
 ```shell
-$ docker-compose down
+$ make services-stop
 ```
 
-### Running with Celery and Redis
-
-AlphaKit ships with Celery and Redis support, but they are off by default. To rebuild our image with support, we need to pass the `--profile celery` option to Docker Compose via:
-
-```shell
-# rebuild our services
-$ docker-compose --profile celery build
-
-# start our services
-$ docker-compose --profile celery up
-
-# start our services with daemon mode
-$ docker-compose --profile celery up -d
-
-# stop and unregister all of our services
-$ docker-compose --profile celery down
-```
 
 ## Running the tests
 
 To run the tests, execute:
 
 ```shell
-$ docker-compose run --rm web pytest
+$ make test
+
 ```
 
 ## Deploying
