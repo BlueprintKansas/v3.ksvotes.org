@@ -31,7 +31,6 @@ services:
     image: ksvotes:v3ksvotesorg-web
     depends_on:
       - db
-      - maildev
       - redis
     env_file:
       - .env
