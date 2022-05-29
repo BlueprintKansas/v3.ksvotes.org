@@ -4,10 +4,9 @@
 # for use with docker-compose.  In deployed or production scenarios you would
 # not necessarily use this exact setup.
 #
-./docker/wait-for-it.sh -h db -p 5432 -t 20 -- python manage.py migrate --noinput
+set -e
+set -x
 
-python manage.py collectstatic --noinput
+make migrate static locales fixtures
 
-make locales
-
-gunicorn -c gunicorn.conf.py --log-level INFO --reload -b 0.0.0.0:8000 config.wsgi
+newrelic-admin run-program gunicorn -c gunicorn.conf.py --log-level INFO --reload -b 0.0.0.0:${PORT:=8000} config.wsgi

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as lazy_gettext
 
 
 def steps(request):
@@ -40,4 +41,5 @@ def steps(request):
         "flow_map": flows[flow_flavor],
         "total_steps": len(flows[flow_flavor]),
         "step_range": range(1, len(flows[flow_flavor])),
+        "register_link": lazy_gettext("1AB_sorry_no_reg_link"),
     }

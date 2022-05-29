@@ -74,12 +74,11 @@ jobs:
           cat /etc/hosts
       - name: Install dependencies
         run: |
-          sudo apt-get update
+          sudo apt-get update && sudo apt-get install --yes wait-for-it
           make dev-setup
-          npm ci
           playwright install --with-deps
-      - name: Start CI docker compose
-        run: make setup
+      - name: Build docker images
+        run: make ci-start
         env:
           DOCKER_BUILDKIT: 1
           ENV_NAME: ci
@@ -90,15 +89,18 @@ jobs:
           curl "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -O
           unzip chromedriver_linux64.zip -d ~/bin
       - name: Run tests
-        run: make test_pytest
-        # TODO test_coverage
-      # - name: Run playwright tests
-      #   run: make playwright
+        run: make ci-test
+      - name: Browser tests
+        run: |
+          docker/wait-for-it.sh -h test.ksvotes.org -p 5432
+          docker/wait-for-it.sh -h test.ksvotes.org -p 8000
+          curl -vv -s http://test.ksvotes.org:8000/ > /dev/null
+          make playwright
       - name: Docker logs
         run: |
           make ci-logs
         if: failure()
       - name: Stop CI docker compose
         run: |
-          docker-compose down
+          make ci-stop
         if: always()

@@ -5,7 +5,7 @@ from ksvotes.services.steps import Step
 class Step_AB_1(Step):
     form_requirements = ["elections"]
     step_requirements = []
-    endpoint = "/ab/election_picker/"
+    endpoint = "/ab/election-picker/"
     prev_step = "Step_0"
     next_step = None
 

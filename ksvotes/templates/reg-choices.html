@@ -2,7 +2,7 @@
  <div class="">
   <a class="btn btn-outline-default d-block mb-3" href="{% url "ksvotes:vr.citizenship" %}">
     <i class="fa fa-check"></i>
-    {{ register_link|default:_('1AB_sorry_no_reg_link') }}
+    {{ register_link }}
   </a>
   <p class='fs-14 font-italic'>{{_('change_reg_help')}}</p>
  </div>

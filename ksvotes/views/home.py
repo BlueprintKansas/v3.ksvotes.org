@@ -127,6 +127,9 @@ def change_county(request):
     if not redirect_url:
         redirect_url = reverse("ksvotes:home.index")
 
+    if redirect_url.startswith("ksvotes:"):
+        redirect_url = reverse(redirect_url)
+
     if not new_county or new_county == existing_county:
         logger.error("unable to change county")
         redirect(redirect_url)
@@ -153,6 +156,8 @@ def forget(request):
 def demo(request):
     if settings.DEMO_UUID:
         logger.debug("loading demo fixture")
+        # always reset values as well
+        Registrant.load_fixtures()
         request.session["id"] = settings.DEMO_UUID
     return redirect("/ref/?ref=demo")  # TODO lang
 

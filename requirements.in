@@ -13,25 +13,22 @@ environs[django]
 formfiller
 gevent
 gunicorn
+hiredis
 kombu>=5.2.4
 ksmyvoteinfo
 marshmallow>=3.15
 newrelic
 psycopg2-binary
 pyusps
+redis
 whitenoise
 WTForms
 wtforms-recaptcha
 usaddress
 
 # Logging
-django-tracer
 colorlog
 request-id-django-log
-
-# Celery
-celery
-redis
 
 # Testing
 black

@@ -5,10 +5,10 @@ from django.core.paginator import Paginator
 import uuid
 import usaddress
 import pytz
-import os
 from datetime import datetime, timedelta
 import json
 from django.utils import timezone
+from django.conf import settings
 from fernet_fields import EncryptedTextField
 
 
@@ -53,14 +53,16 @@ class Registrant(TimeStampedModel):
         return cls.lookup_by_session_id(sid)
 
     def is_demo(self):
-        return self.session_id == uuid.UUID(os.getenv("DEMO_UUID"))
+        if not settings.DEMO_UUID:
+            return False
+        return self.session_id == uuid.UUID(settings.DEMO_UUID)
 
     @classmethod
     def load_fixtures(cls):
-        if not os.getenv("DEMO_UUID"):  # pragma: no cover
+        if not settings.DEMO_UUID:  # pragma: no cover
             raise Exception("Must define env var DEMO_UUID")
 
-        r, _ = cls.objects.get_or_create(session_id=os.getenv("DEMO_UUID"))
+        r, _ = cls.objects.get_or_create(session_id=settings.DEMO_UUID)
         r.registration = {}
         r.update(
             {

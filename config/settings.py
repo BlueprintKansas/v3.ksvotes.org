@@ -15,6 +15,13 @@ if READ_DOT_ENV_FILE:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
+# tie together multiple log lines with a common id
+REQUEST_ID_CONFIG = {
+    "REQUEST_ID_HEADER": "HTTP_X_REQUEST_ID",
+    "GENERATE_REQUEST_ID_IF_NOT_FOUND": True,
+    "RESPONSE_HEADER_REQUEST_ID": "HTTP_X_REQUEST_ID",
+}
+
 # Configure Python logging
 logging.basicConfig(
     level=logging.DEBUG if DEBUG else logging.INFO,
@@ -79,6 +86,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "request_id_django_log",
 ]
 
 # Third-party apps
@@ -96,7 +104,6 @@ INSTALLED_APPS += ["ak", "ksvotes", "users"]
 AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
-    "tracer.middleware.RequestID",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -104,6 +111,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "request_id_django_log.middleware.RequestIdDjangoLog",
     "ksvotes.middleware.session.SessionTimeout",
 ]
 
@@ -168,6 +176,8 @@ AUTH_PASSWORD_VALIDATORS = []
 
 # Give each project their own session cookie name to avoid local development
 # login conflicts
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
 SESSION_COOKIE_NAME = "ksvotes-sessionid"
 SESSION_TTL = env.int("SESSION_TTL", 60 * 5)
 SESSION_COOKIE_AGE = SESSION_TTL
@@ -202,27 +212,19 @@ STATIC_ROOT = BASE_DIR.joinpath("deployed_static").as_posix()
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # Configure Redis
+REDIS_DB = 0
 REDIS_HOST = env("REDIS_HOST", default="redis")
-REDIS_URL = env("REDIS_URL", default=f"redis://{REDIS_HOST}:6379/0")
+REDIS_URL = env("REDIS_URL", default=f"redis://{REDIS_HOST}:6379/{REDIS_DB}")
 
-# Configure Celery
-CELERY_BROKER_URL = f"redis://{REDIS_HOST}:6379"
-CELERY_RESULT_BACKEND = f"redis://{REDIS_HOST}:6379"
-CELERY_ACCEPT_CONTENT = ["application/json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-CELERY_TIMEZONE = "UTC"
-
-# Configure Email (defaults to local maildev service)
-DEFAULT_FROM_EMAIL = env("DJANGO_DEFAULT_FROM_EMAIL", default="testing@localhost")
-EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
-)
-EMAIL_HOST = env("DJANGO_EMAIL_HOST", default="maildev")
-EMAIL_HOST_PASSWORD = env("DJANGO_EMAIL_HOST_PASSWORD", default="")
-EMAIL_HOST_USER = env("DJANGO_EMAIL_HOST_USER", default="")
-EMAIL_PORT = env.int("DJANGO_EMAIL_PORT", default=25)
-EMAIL_USE_TLS = env.bool("DJANGO_EMAIL_USE_TLS", default=False)
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": REDIS_URL,
+        "KEY_PREFIX": "ksvotes-session",
+        # expire in 30 minutes after last activity - TODO this might be ignored by session ttl logic
+        "TIMEOUT": 60 * 30,
+    },
+}
 
 # ksvotes
 APP_CONFIG = env("APP_CONFIG", default="development")
