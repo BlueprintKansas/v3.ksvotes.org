@@ -96,7 +96,7 @@ INSTALLED_APPS += ["ak", "ksvotes", "users"]
 AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
-    "log_request_id.middleware.RequestIDMiddleware",
+    "request_id_django_log.middleware.RequestIdDjangoLog",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
