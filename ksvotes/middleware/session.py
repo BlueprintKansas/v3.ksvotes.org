@@ -14,7 +14,6 @@ REGISTRANT_SESSION_REQUIRED = [
     "/vr/",
     "/ab/",
     "/change-",
-    # "/debug/",
     "/forget/",
 ]
 

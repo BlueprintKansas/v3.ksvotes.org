@@ -102,6 +102,5 @@ jobs:
         if: failure()
       - name: Stop CI docker compose
         run: |
-          make ci-logs
-          docker-compose down
+          make ci-stop
         if: always()
