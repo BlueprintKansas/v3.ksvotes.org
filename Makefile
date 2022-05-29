@@ -14,12 +14,6 @@ help:
 bootstrap:  ## installs/updates all dependencies
 	@docker-compose --file $(COMPOSE_FILE) build --force-rm
 
-.PHONY: cibuild
-cibuild:  ## invoked by continuous integration servers to run tests
-	@python -m pytest
-	@python -m black --check .
-	@interrogate -c pyproject.toml .
-
 .PHONY: console
 console:  ## opens a console
 	@docker-compose run -p 8000:8000 -v $(PWD):/code --rm web bash
@@ -39,25 +33,19 @@ dev-setup: ## install local development dependencies
 	pip install -r requirements-ci.txt
 	npm install
 
-.PHONY: test_interrogate
-test_interrogate:
-	@docker-compose run --rm web interrogate -vv --fail-under 100 --whitelist-regex "test_.*" --exclude "node_modules" .
-
 .PHONY: test_pytest
 test_pytest:
 	@docker-compose run --rm web make coverage
 
 .PHONY: test
-test: test_interrogate test_pytest
+test: test_pytest
 
 .PHONY: update
 update:  ## updates a project to run at its current version
-	@docker-compose --file $(COMPOSE_FILE) rm --force celery
-	@docker-compose --file $(COMPOSE_FILE) rm --force celery-beat
 	@docker-compose --file $(COMPOSE_FILE) rm --force web
 	@docker-compose --file $(COMPOSE_FILE) pull
 	@docker-compose --file $(COMPOSE_FILE) build --force-rm
-	@docker-compose --file docker-compose.yml run --rm web python manage.py migrate --noinput
+	@docker-compose --file $(COMPOSE_FILE) run --rm web make migrate
 
 .PHONY: lint
 lint: ## run the pre-commit linters manually
@@ -97,20 +85,22 @@ ci-test:
 	ENV_NAME=ci docker-compose exec -T web /code/run-ci-tests.sh
 
 .PHONY: css
-css: ## Build css artifacts from scss (
+css: ## Build css artifacts from scss
 	npm run css
 
 .PHONY: playwright
 playwright: ## Run playwrite tests
 	pytest -s -vv --noconftest -c /dev/null --base-url=http://test.ksvotes.org:8000 playwright/
 
-
-# ----
-
 .PHONY: pip-compile
 pip-compile:  ## rebuilds our pip requirements
 	pip-compile ./requirements.in --output-file ./requirements.txt
 
+.PHONY: fernet-key
+fernet-key: ## Create Fernet encrypt key and echo to stdout
+	dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
+
+##################################################
 # targets intended to be run *inside* a container
 .PHONY: run
 run:
@@ -128,10 +118,6 @@ coverage: ## Run Django tests with coverage (inside container)
 .PHONY: services-stop
 services-stop:
 	docker-compose down
-
-.PHONY: fernet-key
-fernet-key: ## Create Fernet encrypt key and echo to stdout
-	dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
 
 .PHONY: fixtures
 fixtures: ## Load fixtures (inside container)
