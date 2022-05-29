@@ -15,6 +15,13 @@ if READ_DOT_ENV_FILE:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
 
+# tie together multiple log lines with a common id
+REQUEST_ID_CONFIG = {
+    "REQUEST_ID_HEADER": "HTTP_X_REQUEST_ID",
+    "GENERATE_REQUEST_ID_IF_NOT_FOUND": True,
+    "RESPONSE_HEADER_REQUEST_ID": "HTTP_X_REQUEST_ID",
+}
+
 # Configure Python logging
 logging.basicConfig(
     level=logging.DEBUG if DEBUG else logging.INFO,
@@ -79,6 +86,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "request_id_django_log",
 ]
 
 # Third-party apps
@@ -96,7 +104,6 @@ INSTALLED_APPS += ["ak", "ksvotes", "users"]
 AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
-    "request_id_django_log.middleware.RequestIdDjangoLog",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -104,6 +111,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "request_id_django_log.middleware.RequestIdDjangoLog",
     "ksvotes.middleware.session.SessionTimeout",
 ]
 
