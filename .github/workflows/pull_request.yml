@@ -90,8 +90,6 @@ jobs:
           unzip chromedriver_linux64.zip -d ~/bin
       - name: Run tests
         run: make ci-test
-      #- name: Start CI services
-      #  run: make ci-start
       - name: Browser tests
         run: |
           docker/wait-for-it.sh -h test.ksvotes.org -p 5432

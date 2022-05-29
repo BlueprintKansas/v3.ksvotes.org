@@ -25,7 +25,6 @@ wtforms-recaptcha
 usaddress
 
 # Logging
-django-tracer
 colorlog
 request-id-django-log
 

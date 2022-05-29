@@ -93,8 +93,6 @@ django-rest-auth==0.9.5
     # via -r ./requirements.in
 django-test-plus==2.2.0
     # via -r ./requirements.in
-django-tracer==0.9.3
-    # via -r ./requirements.in
 djangorestframework==3.12.4
     # via
     #   -r ./requirements.in
