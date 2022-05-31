@@ -34,5 +34,5 @@ ARG GIT_SHA=""
 ENV GIT_SHA=${GIT_SHA}
 
 USER ksvotesapp
-CMD ["gunicorn", "-c", "/code/gunicorn.conf.py", "config.wsgi"]
+CMD ["/bin/bash", "/code/compose-start.sh"]
 
