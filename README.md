@@ -1,5 +1,7 @@
 # ksvotes (v3)
 
+[![Build Status](https://github.com/BlueprintKansas/v3.ksvotes.org/actions/workflows/pull_request.yml/badge.svg)](https://github.com/BlueprintKansas/v3.ksvotes.org)
+
 ## Overview
 
 A Django implementation of ksvotes.org.
