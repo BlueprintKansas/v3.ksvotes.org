@@ -92,8 +92,8 @@ jobs:
         run: make ci-test
       - name: Browser tests
         run: |
-          docker/wait-for-it.sh -h test.ksvotes.org -p 5432
-          docker/wait-for-it.sh -h test.ksvotes.org -p 8000
+          wait-for-it -h test.ksvotes.org -p 5432
+          wait-for-it -h test.ksvotes.org -p 8000
           curl -vv -s http://test.ksvotes.org:8000/ > /dev/null
           make playwright
       - name: Docker logs

@@ -2,7 +2,7 @@ version: '3'
 services:
 
   db:
-    image: postgres:12.0
+    image: postgres:14.2
     environment:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
     ports:
@@ -26,7 +26,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
     command: ["/bin/bash", "/code/compose-start.sh"]
     image: ksvotes:v3ksvotesorg-web
     depends_on:
