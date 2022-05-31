@@ -125,9 +125,11 @@ fixtures: ## Load fixtures (inside container)
 	python manage.py load_zipcodes
 	python manage.py load_demo
 
+DATABASE_URL := db
+DATABASE_HOST := $(shell echo $(DATABASE_URL) | perl -n -e 's,.+@,,; s,:5432/.+,,; print' )
 .PHONY: migrate
 migrate: ## Run db migrations (inside container)
-	wait-for-it -h db -p 5432 -t 20
+	wait-for-it -h $(DATABASE_HOST) -p 5432 -t 20
 	python manage.py migrate --noinput
 
 .PHONY: static
