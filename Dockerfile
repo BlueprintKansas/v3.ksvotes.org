@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install --yes --no-install-recommends wget xz-util
 
 WORKDIR /code
 
-COPY requirements*txt .
+COPY requirements*txt ./
 RUN pip install -U pip pip-tools
 RUN pip install --no-cache-dir -r requirements.txt && rm requirements.txt
 
