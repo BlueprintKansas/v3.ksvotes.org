@@ -77,6 +77,7 @@ SECRET_KEY = env("SECRET_KEY")
 
 host_list = env.list("ALLOWED_HOSTS", default="localhost")
 ALLOWED_HOSTS = [el.strip() for el in host_list]
+CSRF_TRUSTED_ORIGINS = [f"https://{el.strip()}" for el in host_list]
 
 
 INSTALLED_APPS = [
@@ -183,6 +184,7 @@ SESSION_COOKIE_NAME = "ksvotes-sessionid"
 SESSION_TTL = env.int("SESSION_TTL", 60 * 5)
 SESSION_COOKIE_AGE = SESSION_TTL
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+CSRF_USE_SESSIONS = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse, Http404
 from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import get_language
+from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as lazy_gettext
@@ -204,6 +206,10 @@ def debug(request):
 
 class HomepageView(TemplateView):
     template_name = "index.html"
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
     def get_form(self):
         if hasattr(self.request, "registrant"):
