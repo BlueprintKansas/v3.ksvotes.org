@@ -100,6 +100,11 @@ pip-compile:  ## rebuilds our pip requirements
 fernet-key: ## Create Fernet encrypt key and echo to stdout
 	dd if=/dev/urandom bs=32 count=1 2>/dev/null | openssl base64
 
+.PHONY: deploy-prod
+deploy-prod: ## Deploy to production
+	heroku container:push web --app ksvotes-v3
+	heroku container:release web --app ksvotes-v3
+
 ##################################################
 # targets intended to be run *inside* a container
 .PHONY: run
