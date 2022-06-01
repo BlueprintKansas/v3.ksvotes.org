@@ -21,7 +21,6 @@ Copy .env-dist to .env and adjust values to match your local environment:
 
 ```shell
 $ cp .env-dist .env
-$ cp docker-compose.override.yml-dist docker-compose.override.yml
 ```
 
 Then run:
