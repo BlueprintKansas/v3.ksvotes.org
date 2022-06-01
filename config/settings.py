@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "request_id_django_log",
+    "whitenoise.runserver_nostatic",
 ]
 
 # Third-party apps
@@ -105,6 +106,7 @@ AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -118,7 +120,6 @@ MIDDLEWARE = [
 if DEBUG:
     # These are necessary to turn on Whitenoise which will serve our static
     # files while doing local development
-    MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
     WHITENOISE_USE_FINDERS = True
     WHITENOISE_AUTOREFRESH = True
 
