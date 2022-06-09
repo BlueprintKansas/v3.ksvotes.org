@@ -2,7 +2,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse, JsonResponse, Http404
+from django.http import HttpResponse, JsonResponse, Http404, QueryDict
 from django.conf import settings
 from django.urls import reverse
 from django.utils.translation import get_language
@@ -191,6 +191,15 @@ def referring_org(request):
         registrant.update(registration)
         registrant.save()
     return redirect(home_page_url)
+
+
+def referring_org_redirect(request, refcode):
+    query = QueryDict("", mutable=True)
+    query.update({"ref": refcode})
+    url = "{base}?{query}".format(
+        base=reverse("ksvotes:home.ref_v2"), query=query.urlencode()
+    )
+    return redirect(url)
 
 
 def debug(request):

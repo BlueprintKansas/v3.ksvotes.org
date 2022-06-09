@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.urls import path, re_path
+from django.urls import path
 from .views import home
 from .views.vr.citizenship import VR1View
 from .views.vr.name import VR2View
@@ -18,8 +18,8 @@ from .views.ab.submission import AB8View
 
 urlpatterns = [
     path("", home.HomepageView.as_view(), name="home.index"),
-    # allow optional trailing slash for /ref to preserve existing 3rd party integrations.
-    re_path(r"ref/?", home.referring_org, name="home.ref_v2"),
+    path("ref/", home.referring_org, name="home.ref_v2"),
+    path("r/<refcode>/", home.referring_org_redirect, name="home.ref_v2_redirect"),
     path("api/total-processed/", home.api_total_processed, name="api.total_processed"),
     path("demo/", home.demo, name="home.demo"),
     path("debug/", home.debug, name="home.debug"),
