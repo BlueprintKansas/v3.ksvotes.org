@@ -197,7 +197,7 @@ def referring_org_redirect(request, refcode):
     query = QueryDict("", mutable=True)
     query.update({"ref": refcode})
     url = "{base}?{query}".format(
-        base=reverse("ksvotes:home.ref_v2"), query=query.urlencode()
+        base=reverse("ksvotes:home.ref"), query=query.urlencode()
     )
     return redirect(url)
 

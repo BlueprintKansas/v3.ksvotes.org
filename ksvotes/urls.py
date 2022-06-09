@@ -18,7 +18,9 @@ from .views.ab.submission import AB8View
 
 urlpatterns = [
     path("", home.HomepageView.as_view(), name="home.index"),
-    path("ref/", home.referring_org, name="home.ref_v2"),
+    # with and w/o trailing slash
+    path("ref/", home.referring_org, name="home.ref"),
+    path("ref", home.referring_org, name="home.ref_v2"),
     path("r/<refcode>/", home.referring_org_redirect, name="home.ref_v2_redirect"),
     path("api/total-processed/", home.api_total_processed, name="api.total_processed"),
     path("demo/", home.demo, name="home.demo"),
