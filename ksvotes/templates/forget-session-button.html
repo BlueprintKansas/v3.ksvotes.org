@@ -1,4 +1,5 @@
 <form class="mt-4 plain" action="{% url "ksvotes:home.forget" %}" method="POST">
+  {% csrf_token %}
   <div class="text-center">
    <button class="btn btn-outline-blue-grey">
     <i class="fa fa-thumbs-up mr-2"></i>{{_('btn_forget_session')}}
