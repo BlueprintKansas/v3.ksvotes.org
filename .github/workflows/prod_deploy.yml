@@ -24,7 +24,7 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
 
           # Name of the heroku application to which the build is to be sent.
-          heroku_app_name: ksvotes-production
+          heroku_app_name: ksvotes-v3
 
           # (Optional, default: "./")
           # Dockerfile directory.
