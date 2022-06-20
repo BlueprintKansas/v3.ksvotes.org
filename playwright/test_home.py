@@ -101,7 +101,8 @@ def test_email_pattern(page):
     page.locator("[name=email]").fill("someone@example")
     page.locator("[name=email-confirm]").fill("someone@example")
     assert page.locator("text=Must be a valid email address").all_text_contents() == [
-        "Must be a valid email address"
+        "Must be a valid email address",
+        "Must be a valid email address",
     ]
 
 
