@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.cache import never_cache
 from django.http import HttpResponse, JsonResponse, Http404, QueryDict
 from django.conf import settings
 from django.urls import reverse
@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as lazy_gettext
+from ksvotes.views.step_view import StepView
 from ksvotes.forms.step_0 import FormStep0
 from ksvotes.services.steps import Step_0
 from ksvotes.services.session_manager import SessionManager
@@ -88,6 +89,7 @@ def about(request):
     return render(request, "about.html")
 
 
+@never_cache
 def change_or_apply(request):
     reg = request.registrant
     sos_reg = reg.try_value("sos_reg")
@@ -120,6 +122,7 @@ def change_or_apply(request):
 
 
 @require_http_methods(["POST"])
+@never_cache
 def change_county(request):
     reg = request.registrant
     existing_county = reg.county
@@ -150,11 +153,13 @@ def change_county(request):
 
 
 @require_http_methods(["GET", "POST"])
+@never_cache
 def forget(request):
     request.session.flush()
     return redirect(reverse("ksvotes:home.index"))
 
 
+@never_cache
 def demo(request):
     if settings.DEMO_UUID:
         logger.debug("loading demo fixture")
@@ -164,6 +169,7 @@ def demo(request):
     return redirect("/ref/?ref=demo")  # TODO lang
 
 
+@never_cache
 def referring_org(request):
     # we will accept whatever subset of step0 fields are provided.
     # we always start a new session, but we require a 'ref' code.
@@ -193,6 +199,7 @@ def referring_org(request):
     return redirect(home_page_url)
 
 
+@never_cache
 def referring_org_redirect(request, refcode):
     query = QueryDict("", mutable=True)
     query.update({"ref": refcode})
@@ -202,6 +209,7 @@ def referring_org_redirect(request, refcode):
     return redirect(url)
 
 
+@never_cache
 def debug(request):
     this_session = {
         "_session_key": request.session.session_key,
@@ -213,7 +221,7 @@ def debug(request):
     return JsonResponse(this_session)
 
 
-class HomepageView(TemplateView):
+class HomepageView(StepView):
     template_name = "index.html"
 
     @method_decorator(csrf_exempt)
