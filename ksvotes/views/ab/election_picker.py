@@ -3,7 +3,7 @@ from ksvotes.forms.ab_1 import FormAB1
 from ksvotes.services.steps import Step_AB_1
 from ksvotes.utils import list_of_elections, is_even_year
 from ksvotes.services.session_manager import SessionManager
-from django.views.generic import TemplateView
+from ksvotes.views.step_view import StepView
 from django.shortcuts import redirect, render
 from django.urls import reverse
 import logging
@@ -11,7 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class AB1View(TemplateView):
+class AB1View(StepView):
     template_name = "ab/election_picker.html"
 
     def get_form(self):

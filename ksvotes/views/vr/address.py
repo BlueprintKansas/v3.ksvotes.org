@@ -3,7 +3,7 @@ from ksvotes.forms.vr_3 import FormVR3
 from ksvotes.models import ZIPCode
 from ksvotes.services.steps import Step_VR_3
 from ksvotes.services.session_manager import SessionManager
-from django.views.generic import TemplateView
+from ksvotes.views.step_view import StepView
 from django.shortcuts import redirect, render
 from django.urls import reverse
 import logging
@@ -11,7 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class VR3View(TemplateView):
+class VR3View(StepView):
     template_name = "vr/address.html"
 
     def get_form(self):

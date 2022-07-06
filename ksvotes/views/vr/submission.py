@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from ksvotes.services.session_manager import SessionManager
 from ksvotes.services.steps import Step_VR_7  # previous step
-from django.views.generic import TemplateView
+from ksvotes.views.step_view import StepView
 from django.shortcuts import redirect, render
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class VR8View(TemplateView):
+class VR8View(StepView):
     http_method_names = ["get"]
 
     def get(self, request, *args, **kwargs):

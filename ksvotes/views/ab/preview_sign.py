@@ -4,7 +4,7 @@ from ksvotes.forms.county_picker import CountyPicker
 from ksvotes.forms.ab_6 import FormAB6
 from ksvotes.services.steps import Step_AB_6
 from ksvotes.services.session_manager import SessionManager
-from django.views.generic import TemplateView
+from ksvotes.views.step_view import StepView
 from django.shortcuts import redirect, render
 from django.urls import reverse
 import logging
@@ -12,7 +12,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class AB6View(TemplateView):
+class AB6View(StepView):
     template_name = "ab/preview-sign.html"
 
     def get_form(self):

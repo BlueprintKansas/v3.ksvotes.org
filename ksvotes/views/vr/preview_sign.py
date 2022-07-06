@@ -4,7 +4,7 @@ from django.utils import timezone
 from ksvotes.forms.vr_6 import FormVR6
 from ksvotes.services.session_manager import SessionManager
 from ksvotes.services.steps import Step_VR_6
-from django.views.generic import TemplateView
+from ksvotes.views.step_view import StepView
 from django.shortcuts import redirect, render
 from django.urls import reverse
 import logging
@@ -12,7 +12,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class VR6View(TemplateView):
+class VR6View(StepView):
     template_name = "vr/preview-sign.html"
 
     def get_form(self):
