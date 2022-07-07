@@ -4,7 +4,7 @@ from ksvotes.forms.county_picker import CountyPicker
 from ksvotes.services.session_manager import SessionManager
 from ksvotes.services.steps import Step_VR_7
 from ksvotes.services.county_mailer import CountyMailer
-from django.views.generic import TemplateView
+from ksvotes.views.step_view import StepView
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -13,7 +13,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class VR7View(TemplateView):
+class VR7View(StepView):
     template_name = "vr/affirmation.html"
 
     def get_form(self):

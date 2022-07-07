@@ -5,7 +5,7 @@ from ksvotes.services.id_action_mailer import IdActionMailer
 from ksvotes.services.steps import Step_AB_7
 from ksvotes.forms.ab_7 import FormAB7
 from ksvotes.forms.county_picker import CountyPicker
-from django.views.generic import TemplateView
+from ksvotes.views.step_view import StepView
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -14,7 +14,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class AB7View(TemplateView):
+class AB7View(StepView):
     template_name = "ab/affirmation.html"
 
     def get_form(self):

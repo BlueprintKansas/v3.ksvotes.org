@@ -3,7 +3,7 @@ from ksvotes.forms.ab_3 import FormAB3
 from ksvotes.services.steps import Step_AB_3
 from ksvotes.services.session_manager import SessionManager
 from ksvotes.models import ZIPCode
-from django.views.generic import TemplateView
+from ksvotes.views.step_view import StepView
 from django.shortcuts import redirect, render
 from django.urls import reverse
 import logging
@@ -11,7 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class AB3View(TemplateView):
+class AB3View(StepView):
     template_name = "ab/address.html"
 
     def get_form(self):

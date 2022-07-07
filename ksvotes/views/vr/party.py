@@ -2,7 +2,7 @@
 from ksvotes.forms.vr_4 import FormVR4
 from ksvotes.services.session_manager import SessionManager
 from ksvotes.services.steps import Step_VR_4
-from django.views.generic import TemplateView
+from ksvotes.views.step_view import StepView
 from django.shortcuts import redirect, render
 from django.urls import reverse
 import logging
@@ -10,7 +10,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class VR4View(TemplateView):
+class VR4View(StepView):
     template_name = "vr/party.html"
 
     def get_form(self):
