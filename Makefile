@@ -130,6 +130,9 @@ fixtures: ## Load fixtures (inside container)
 	python manage.py load_zipcodes
 	python manage.py load_demo
 
+v2-patch:
+	perl -pi -e 's/\{phone\}\\n/{phone}/g' ksvotes/translations.json
+
 DATABASE_HOST := $(shell echo $${DATABASE_URL:-db} | perl -n -e 's,.+@,,; s,:5432/.+,,; print' )
 .PHONY: migrate
 migrate: ## Run db migrations (inside container)
