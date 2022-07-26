@@ -177,5 +177,5 @@ class RegistrantTestCase(TestCase):
         r = Registrant()
         r.save()
         assert r.updated_since(1) is True
-        r.updated_at = datetime.utcnow() - timedelta(minutes=int(11))
+        r.updated_at = r.updated_at - timedelta(minutes=int(2))
         assert r.updated_since(1) is False

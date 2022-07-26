@@ -1,7 +1,7 @@
 COMPOSE_FILE := docker-compose.yml
 
 .PHONY: help
-help:
+help: ## View this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-24s\033[0m %s\n", $$1, $$2}'
 
 # ----
@@ -34,7 +34,7 @@ dev-setup: ## install local development dependencies
 	npm install
 
 .PHONY: test_pytest
-test_pytest:
+test_pytest: ## Run coverage tests
 	@docker-compose run --rm web make coverage
 
 .PHONY: test
@@ -53,11 +53,11 @@ lint: ## run the pre-commit linters manually
 	black .
 
 .PHONY: ci-start
-ci-start:
+ci-start: ## start CI services
 	docker-compose up -d
 
 .PHONY: ci-stop
-ci-stop:
+ci-stop: ## Stop CI services
 	@docker-compose --file $(COMPOSE_FILE) down
 
 .PHONY: ci-logs
@@ -81,7 +81,7 @@ attach: ## Attach to a running container and open a shell (like login for runnin
 	docker exec -it $(DOCKER_CONTAINER_ID) /bin/bash
 
 .PHONY: ci-test
-ci-test:
+ci-test: ## run CI tests
 	ENV_NAME=ci docker-compose exec -T web /code/run-ci-tests.sh
 
 .PHONY: css
@@ -121,7 +121,7 @@ coverage: ## Run Django tests with coverage (inside container)
 	pytest -s --cov=ksvotes --cov-report=term-missing:skip-covered --cov-fail-under=90
 
 .PHONY: services-stop
-services-stop:
+services-stop: ## stop dev services
 	docker-compose down
 
 .PHONY: fixtures
