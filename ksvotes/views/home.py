@@ -303,7 +303,7 @@ class HomepageView(StepView):
             registrant.update(
                 {"sos_reg": sos_reg, "skip_sos": skip_sos, "sos_failure": sos_failure}
             )
-            registrant.user_agent = request.META["HTTP_USER_AGENT"]
+            registrant.user_agent = request.headers.get("user-agent")
             registrant.save()
 
             # small optimization for common case.
