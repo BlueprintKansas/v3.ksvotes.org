@@ -1,5 +1,4 @@
-{% load static %}
-<script src="{% static 'js/signature_pad.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.5/dist/signature_pad.umd.min.js"></script>
 <script>
     $(document).ready(function() {
       // add canvas element
@@ -8,19 +7,27 @@
       $signature.append('<canvas></canvas>');
       let canvas = $signature.find('canvas')[0];
       let sig_pad = new SignaturePad(canvas, {
-        penColor: "blue",
-        onEnd: function() {
-          let sig_png = sig_pad.toDataURL();
-          if (sig_png.length == 0) {
-          } else {
-            $sig_string.val(sig_png);
-          }
+        penColor: "blue"
+      });
+      sig_pad.addEventListener("endStroke", () => {
+        let sig_png = sig_pad.toDataURL();
+        if (sig_png.length === 0) {
+          console.log("empty signature!");
+        } else {
+          $sig_string.val(sig_png);
         }
       });
+
+      let sigCache = null;
 
       function fillCanvasFromPNG() {
         if ($sig_string.val().length > 0) {
           sig_pad.fromDataURL($sig_string.val());
+        } else if (sigCache) {
+          console.log("set canvas value from sigCache");
+          //$('.parsley-errors-list').append($('<li>pop from sigCache</li>'));
+          sig_pad.fromDataURL(sigCache);
+          sigCache = null;
         }
       }
 
@@ -32,6 +39,10 @@
         // some browsers report devicePixelRatio as less than 1
         // and only part of the canvas is cleared then.
         let ratio =  Math.max(window.devicePixelRatio || 1, 1);
+
+        sigCache = sig_pad.toDataURL();
+
+        //$('.parsley-errors-list').append($('<li>canvas resize</li>'));
 
         // This part causes the canvas to be cleared
         canvas.width = canvas.offsetWidth * ratio;
@@ -64,6 +75,7 @@
         ev.preventDefault(); // do not submit (multiple buttons confuse browser)
         sig_pad.clear();
         $('#signature_string').val('');
+        $('.parsley-errors-list').empty();
       });
     });
 </script>

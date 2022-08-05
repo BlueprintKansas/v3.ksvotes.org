@@ -2,7 +2,7 @@
 from test_plus import TestCase
 import json
 from ksvotes.models import Registrant, Clerk
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.utils import timezone
 import os
 from unittest import mock
@@ -177,3 +177,5 @@ class RegistrantTestCase(TestCase):
         r = Registrant()
         r.save()
         assert r.updated_since(1) is True
+        r.updated_at = r.updated_at - timedelta(minutes=int(2))
+        assert r.updated_since(1) is False
