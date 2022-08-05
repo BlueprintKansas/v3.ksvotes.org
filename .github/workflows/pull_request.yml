@@ -64,6 +64,7 @@ jobs:
       - name: Setup env
         run: |
           cp .env-dist .env
+          echo AB_PRIMARY_DEADLINE=`date --date='tomorrow' -I`"T00:00:00" >> .env
           echo USPS_USER_ID=${{ secrets.USPS_USER_ID }} >> .env
           cat .env | grep -v ^# >> $GITHUB_ENV
       - name: Add /etc/hosts entries
