@@ -23,26 +23,27 @@ class SessionTimeout(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        if request.path in REGISTRANT_SESSION_REQUIRED:
-            return self.require_session(request)
+        request_path = request.path.replace("/en/", "/").replace("/es/", "/")
+        if request_path in REGISTRANT_SESSION_REQUIRED:
+            return self.require_session(request, request_path)
 
         for path in REGISTRANT_SESSION_REQUIRED:
-            if request.path.startswith(path):
-                return self.require_session(request)
+            if request_path.startswith(path):
+                return self.require_session(request, request_path)
 
         # root page is a little tricky since we want autofill to work for ref etc.
-        if request.session.get("id") and request.path == "/":
-            return self.require_session(request)
+        if request.session.get("id") and request_path == "/":
+            return self.require_session(request, request_path)
 
         return self.get_response(request)
 
-    def require_session(self, request):
+    def require_session(self, request, request_path):
         existing_session = request.session.get("id")
         session_id = request.session.get("id", str(uuid4()))
         registrant, is_new = Registrant.objects.get_or_create(session_id=session_id)
         request.session["id"] = session_id
 
-        if request.path != "/":
+        if request_path != "/":
             if is_new:
                 logger.debug("redirect to flow start")
                 messages.warning(request, lazy_gettext("session_interrupted_error"))

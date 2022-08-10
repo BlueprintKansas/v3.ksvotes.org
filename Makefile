@@ -108,7 +108,7 @@ deploy-prod: ## Deploy to production
 ##################################################
 # targets intended to be run *inside* a container
 .PHONY: run
-run:
+run: ## Run django dev server (inside container)
 	DJANGO_READ_DOT_ENV_FILE=true python manage.py runserver 0:8000
 
 .PHONY: locales

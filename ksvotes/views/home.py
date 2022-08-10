@@ -162,11 +162,11 @@ def forget(request):
 @never_cache
 def demo(request):
     if settings.DEMO_UUID:
-        logger.debug("loading demo fixture")
+        logger.debug("loading demo fixture via /demo")
         # always reset values as well
         Registrant.load_fixtures()
         request.session["id"] = settings.DEMO_UUID
-    return redirect("/ref/?ref=demo")  # TODO lang
+    return referring_org_redirect(request, "demo")
 
 
 @never_cache

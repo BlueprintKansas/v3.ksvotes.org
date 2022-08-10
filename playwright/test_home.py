@@ -4,6 +4,13 @@ def click_submit(page):
     page.locator("xpath=//button[@type='submit']").click()
 
 
+def test_locale(page):
+    page.goto("/es/")
+    assert page.locator("text=Bienvenido").all_text_contents() == [
+        "¡Bienvenido a KSVotes.org!"
+    ]
+
+
 def test_happy_path(page):
     page.goto("/")
     page.locator("[name=name_first]").fill("Kris")
