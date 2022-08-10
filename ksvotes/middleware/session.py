@@ -3,8 +3,7 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.urls import reverse
-from django.utils.translation import gettext_lazy as lazy_gettext
-from django.utils import translation
+from django.utils.translation import get_language, gettext_lazy as lazy_gettext
 from uuid import uuid4
 from ksvotes.models import Registrant
 import logging
@@ -24,7 +23,7 @@ class SessionTimeout(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        current_lang = translation.get_language()
+        current_lang = get_language()
         request_path = request.path.replace(f"/{current_lang}/", "/")
         logger.debug(
             "current_language={} path={} request_path={}".format(
