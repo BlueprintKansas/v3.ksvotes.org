@@ -16,6 +16,7 @@ router = routers.SimpleRouter()
 router.register(r"users", UserViewSet, basename="users")
 
 urlpatterns = [
+    path("", include(("ksvotes.urls", "ksvotes"), namespace="ksvotes")),
     path("admin/", admin.site.urls),
     path("users/me/", CurrentUserView.as_view(), name="current-user"),
     re_path(r"^api/v1/", include(router.urls)),
