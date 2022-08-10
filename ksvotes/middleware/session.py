@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as lazy_gettext
+from django.utils import translation
 from uuid import uuid4
 from ksvotes.models import Registrant
 import logging
@@ -23,7 +24,13 @@ class SessionTimeout(object):
         self.get_response = get_response
 
     def __call__(self, request):
-        request_path = request.path.replace("/en/", "/").replace("/es/", "/")
+        current_lang = translation.get_language()
+        request_path = request.path.replace(f"/{current_lang}/", "/")
+        logger.debug(
+            "current_language={} path={} request_path={}".format(
+                current_lang, request.path, request_path
+            )
+        )
         if request_path in REGISTRANT_SESSION_REQUIRED:
             return self.require_session(request, request_path)
 
