@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 from test_plus import TestCase
 from ksvotes.models import Registrant
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class RefTestCase(TestCase):

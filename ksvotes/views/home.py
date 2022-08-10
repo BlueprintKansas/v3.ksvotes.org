@@ -174,6 +174,7 @@ def referring_org(request):
     # we will accept whatever subset of step0 fields are provided.
     # we always start a new session, but we require a 'ref' code.
     if not request.GET.get("ref"):
+        logger.debug("missing ref param, language={}".format(get_language()))
         raise Http404("404 Not Found")
 
     ref = request.GET["ref"]

@@ -118,7 +118,7 @@ locales: ## Build i18n files (inside container)
 
 .PHONY: coverage
 coverage: ## Run Django tests with coverage (inside container)
-	pytest -s --cov=ksvotes --cov-report=term-missing:skip-covered --cov-fail-under=90
+	pytest -s --cov=ksvotes --cov-report=term-missing:skip-covered --cov-fail-under=90 --create-db
 
 .PHONY: services-stop
 services-stop: ## stop dev services

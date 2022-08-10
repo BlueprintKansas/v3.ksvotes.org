@@ -1,14 +1,22 @@
 # -*- coding: utf-8 -*-
 from test_plus import TestCase
 from django.utils import timezone
+from django.conf import settings
 import uuid
 from ksvotes.models import Registrant
 from ksvotes.services.ksvotes_redis import KSVotesRedis
+from ksvotes.services.registrant_stats import RegistrantStats
 
 
 class ApiTestCase(TestCase):
+    def setUp(self):
+        # make sure demo does NOT exist
+        Registrant.find_by_session(settings.DEMO_UUID).delete()
+
     def test_api_total_processed(self):
         redis = KSVotesRedis()
+        redis.clear("vr-total-processed")
+        redis.clear("ab-total-processed")
 
         # We should be empty at first
         response = self.client.get("/api/total-processed/")
@@ -26,6 +34,9 @@ class ApiTestCase(TestCase):
         new_registrant.save()
 
         # We should have a single registrant now
+        s = RegistrantStats()
+        self.assertEqual(s.vr_total_processed(), 1)
+
         response = self.client.get("/api/total-processed/")
         self.assertEqual(response.status_code, 200)
         payload = response.json()
