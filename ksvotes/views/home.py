@@ -162,11 +162,11 @@ def forget(request):
 @never_cache
 def demo(request):
     if settings.DEMO_UUID:
-        logger.debug("loading demo fixture")
+        logger.debug("loading demo fixture via /demo")
         # always reset values as well
         Registrant.load_fixtures()
         request.session["id"] = settings.DEMO_UUID
-    return redirect("/ref/?ref=demo")  # TODO lang
+    return referring_org_redirect(request, "demo")
 
 
 @never_cache
@@ -174,6 +174,7 @@ def referring_org(request):
     # we will accept whatever subset of step0 fields are provided.
     # we always start a new session, but we require a 'ref' code.
     if not request.GET.get("ref"):
+        logger.debug("missing ref param, language={}".format(get_language()))
         raise Http404("404 Not Found")
 
     ref = request.GET["ref"]

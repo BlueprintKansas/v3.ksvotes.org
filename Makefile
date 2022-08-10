@@ -108,7 +108,7 @@ deploy-prod: ## Deploy to production
 ##################################################
 # targets intended to be run *inside* a container
 .PHONY: run
-run:
+run: ## Run django dev server (inside container)
 	DJANGO_READ_DOT_ENV_FILE=true python manage.py runserver 0:8000
 
 .PHONY: locales
@@ -118,7 +118,7 @@ locales: ## Build i18n files (inside container)
 
 .PHONY: coverage
 coverage: ## Run Django tests with coverage (inside container)
-	pytest -s --cov=ksvotes --cov-report=term-missing:skip-covered --cov-fail-under=90
+	pytest -s --cov=ksvotes --cov-report=term-missing:skip-covered --cov-fail-under=90 --create-db
 
 .PHONY: services-stop
 services-stop: ## stop dev services
