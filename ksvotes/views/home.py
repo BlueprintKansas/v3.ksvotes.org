@@ -27,17 +27,27 @@ logger = logging.getLogger(__name__)
 
 
 def stats(request):
-    ninety_days = datetime.timedelta(days=90)
-    today = datetime.date.today()
+    span = request.GET.get("span", "30")
+    span_days = datetime.timedelta(days=int(span))
+    if request.GET.get("end"):
+        end_date = datetime.datetime.fromisoformat(request.GET.get("end"))
+    else:
+        end_date = datetime.datetime.now()
     s = RegistrantStats()
-    vr_stats = s.vr_through_today(today - ninety_days)
-    ab_stats = s.ab_through_today(today - ninety_days)
+    vr_stats = s.vr_through_today(end_date - span_days, end_date)
+    ab_stats = s.ab_through_today(end_date - span_days, end_date)
+    reg_lookups = s.reg_lookups(end_date - span_days, end_date)
+    reg_success = s.reg_lookups_successful(end_date - span_days, end_date)
 
-    stats = {"vr": [], "ab": []}
+    stats = {"vr": [], "ab": [], "reg": [], "reg_success": []}
     for r in vr_stats:
         stats["vr"].append(r)
     for r in ab_stats:
         stats["ab"].append(r)
+    for r in reg_lookups:
+        stats["reg"].append(r)
+    for r in reg_success:
+        stats["reg_success"].append(r)
 
     return render(request, "stats.html", {"stats": stats})
 
