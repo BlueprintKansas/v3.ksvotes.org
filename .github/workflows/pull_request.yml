@@ -99,7 +99,7 @@ jobs:
           make playwright
       - name: Docker logs
         run: |
-          make ci-logs
+          docker-compose logs --tail="all" web
         if: failure()
       - name: Stop CI docker compose
         run: |
