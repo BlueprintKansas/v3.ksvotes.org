@@ -61,6 +61,7 @@ def test_name(page):
     assert page.url.endswith("/vr/address/")
     # on back, the checkbox is checked and Previous Name section visible
     click_back(page)
+    assert page.url.endswith("/vr/name/")
     assert page.locator("text=Previous Name").is_visible() == True
     assert page.input_value("[name=prev_name_first]") == "Previous No"
     assert page.input_value("[name=prev_name_middle]") == "Previous Other"
