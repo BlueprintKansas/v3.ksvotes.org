@@ -25,26 +25,38 @@
   const abs = [];
   const lookups = [];
   const successful_lookups = [];
-  stats['vr'].forEach(function(val, idx, arr) {
-    days.push(new Date(val[0].replace(' GMT', '')));
-    vrs.push(val[1]);
+  stats.reg.forEach(function(val, idx, arr) {
+    days.push(new Date(val[0] + " 00:00:00"));
+    lookups.push(val[1]);
   });
   days.forEach(function(day, idx) {
     const abEvent = stats.ab.find(function(abVal, abIdx) {
-      const abDate = new Date(abVal[0].replace(' GMT', ''));
+      const abDate = new Date(abVal[0] + " 00:00:00");
       return abDate.getTime() === day.getTime();
+    });
+    const vrEvent = stats.vr.find(function(vrVal, vrIdx) {
+      const vrDate = new Date(vrVal[0] + " 00:00:00");
+      return vrDate.getTime() === day.getTime();
+    });
+    const successEvent = stats.reg_success.find(function(ssVal, ssIdx) {
+      const ssDate = new Date(ssVal[0] + " 00:00:00");
+      return ssDate.getTime() === day.getTime();
     });
     if (abEvent) {
       abs[idx] = abEvent[1];
     } else {
       abs[idx] = 0;
     }
-  });
-  stats['reg'].forEach(function(val, idx, arr) {
-    lookups.push(val[1]);
-  });
-  stats['reg_success'].forEach(function(val, idx, arr) {
-    successful_lookups.push(val[1]);
+    if (vrEvent) {
+      vrs[idx] = vrEvent[1];
+    } else {
+      vrs[idx] = 0;
+    }
+    if (successEvent) {
+      successful_lookups[idx] = successEvent[1];
+    } else {
+      successful_lookups[idx] = 0;
+    }
   });
   const colors = {
     red: 'rgb(170, 51, 57)',
