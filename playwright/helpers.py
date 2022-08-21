@@ -25,6 +25,7 @@ def click_apply_for_advance_ballot(page):
 
 def click_back(page):
     page.locator("id=btn-back").click()
+    page.wait_for_load_state()
 
 
 def click_change_of_name(page):
