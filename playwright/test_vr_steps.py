@@ -62,7 +62,7 @@ def test_name(page):
     # on back, the checkbox is checked and Previous Name section visible
     click_back(page)
     assert page.url.endswith("/vr/name/")
-    assert page.locator("text=Previous Name").is_visible() == True
+    assert page.is_visible("text=Previous Name") == True
     assert page.input_value("[name=prev_name_first]") == "Previous No"
     assert page.input_value("[name=prev_name_middle]") == "Previous Other"
     assert page.input_value("[name=prev_name_last]") == "Previous Person"
@@ -215,9 +215,7 @@ def test_address(page):
     # back works, values are sticky
     click_back(page)
     assert (
-        page.locator(
-            "text=What was your address where you were registered before?"
-        ).is_visible()
+        page.is_visible("text=What was your address where you were registered before?")
         == True
     )
     assert page.input_value("[name=prev_addr]") == "456 Any St"
