@@ -142,3 +142,15 @@ migrate: ## Run db migrations (inside container)
 .PHONY: static
 static: ## Build static assets (inside container)
 	python manage.py collectstatic --noinput
+
+.PHONY: shell
+shell: ## Open django python shell
+	python manage.py shell
+
+.PHONY: export
+export: ## Export registrants, decrypted, in CSV format
+ifeq ($(SINCE),)
+	python manage.py export_registrants
+else
+	python manage.py export_registrants --since $(SINCE)
+endif
