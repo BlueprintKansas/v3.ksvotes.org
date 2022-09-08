@@ -38,6 +38,7 @@ class RegistrantExporter:
             "reg_found",
             "identification_found",
             "ab_identification_found",
+            "user_agent",
             "r_ref",
             "r_name_first",
             "r_name_last",
@@ -88,11 +89,12 @@ class RegistrantExporter:
         writer.writeheader()
         for r in self.list_of_regs:
             r_dict = dict(r.__dict__)
-            for k, v in r.registration_value.items():
+            for k, v in r.registration_as_dict().items():
                 if k in skip_fields:
                     continue
                 r_dict["r_" + k] = v
 
             r_dict.pop("registration", None)
             r_dict.pop("_sa_instance_state", None)
+            r_dict.pop("_state", None)
             writer.writerow(r_dict)

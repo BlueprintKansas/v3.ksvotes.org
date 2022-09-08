@@ -97,10 +97,10 @@ jobs:
           wait-for-it -h test.ksvotes.org -p 8000
           curl -vv -s http://test.ksvotes.org:8000/ > /dev/null
           DEBUG=pw:api make playwright
-#      - name: Docker logs
-#        run: |
-#          docker-compose logs --tail="all" web
-#        if: failure()
+      - name: Docker logs
+        run: |
+          docker-compose logs --tail="all" web
+        if: failure()
       - name: Stop CI docker compose
         run: |
           make ci-stop
