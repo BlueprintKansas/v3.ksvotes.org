@@ -15,8 +15,9 @@ bootstrap:  ## installs/updates all dependencies
 	@docker-compose --file $(COMPOSE_FILE) build --force-rm
 
 .PHONY: console
-console:  ## opens a console
-	@docker-compose run -p 8000:8000 -v $(PWD):/code --rm web bash
+console:  ## opens a one-off console -- see attach for connecting to running container
+	@docker-compose run -p 8000:8000 -v $(PWD):/code --rm --name ksvotes-web-console web bash
+	@docker rm ksvotes-web-console
 
 .PHONY: server
 server:  ## starts app
