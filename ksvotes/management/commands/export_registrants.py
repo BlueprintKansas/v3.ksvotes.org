@@ -17,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options["since"]:
             regs = Registrant.objects.filter(
-                Registrant.updated_at > options["since"][0]
+                updated_at__gte=options["since"][0]
             ).iterator(chunk_size=CHUNK_SIZE)
         else:
             regs = Registrant.objects.iterator(chunk_size=CHUNK_SIZE)
