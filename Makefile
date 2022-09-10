@@ -155,3 +155,11 @@ ifeq ($(SINCE),)
 else
 	python manage.py export_registrants --since $(SINCE)
 endif
+
+.PHONY: redact
+redact: ## Remove sensitive PII older than OLDER days (default 2)
+ifeq ($(OLDER),)
+	python manage.py redact_registrants
+else
+	python manage.py redact_registrants --older $(OLDER)
+endif
