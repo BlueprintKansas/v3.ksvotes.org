@@ -99,7 +99,7 @@ jobs:
           DEBUG=pw:api make playwright
       - name: Docker logs
         run: |
-          docker-compose logs --tail="all" web
+          docker-compose logs web
         if: failure()
       - name: Stop CI docker compose
         run: |
