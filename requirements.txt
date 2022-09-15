@@ -125,7 +125,7 @@ jmespath==0.10.0
     #   botocore
 kombu==5.2.4
     # via -r requirements.in
-ksmyvoteinfo==1.4
+ksmyvoteinfo==1.5
     # via -r requirements.in
 lxml==4.9.1
     # via pyusps
