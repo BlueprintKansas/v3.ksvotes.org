@@ -119,6 +119,11 @@ MIDDLEWARE = [
     "ksvotes.middleware.session.SessionTimeout",
 ]
 
+if env.bool("REQUIRE_SSL", default=False):
+    print("HTTPS required")
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SECURE_SSL_REDIRECT = True
+
 if DEBUG:
     # These are necessary to turn on Whitenoise which will serve our static
     # files while doing local development
