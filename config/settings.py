@@ -120,7 +120,6 @@ MIDDLEWARE = [
 ]
 
 if env.bool("REQUIRE_SSL", default=False):
-    print("HTTPS required")
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = True
 
