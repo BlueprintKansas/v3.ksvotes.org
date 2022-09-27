@@ -230,12 +230,15 @@ REDIS_DB = 0
 REDIS_HOST = env("REDIS_HOST", default="redis")
 REDIS_URL = env("REDIS_URL", default=f"redis://{REDIS_HOST}:6379/{REDIS_DB}")
 redis_options = {}
+heroku_redis_options = {
+    "ssl": True,
+    "ssl_cert_reqs": None,
+}
 if env("REDIS_TLS_URL", None):
     REDIS_URL = env("REDIS_TLS_URL")  # prefer ssl
-    redis_options = {
-        "ssl": True,
-        "ssl_cert_reqs": None,
-    }
+    redis_options = heroku_redis_options
+elif REDIS_URL.startswith("rediss://"):
+    redis_options = heroku_redis_options
 
 CACHES = {
     "default": {
