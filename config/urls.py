@@ -24,6 +24,7 @@ urlpatterns = [
     path(
         "favicon.ico", RedirectView.as_view(url="/static/img/favicon/favicon-96x96.png")
     ),
+    path("robots.txt", RedirectView.as_view(url="/static/robots.txt")),
     path("200", OKView.as_view(), name="ok"),
     path("403", ForbiddenView.as_view(), name="forbidden"),
     path("404", NotFoundView.as_view(), name="not_found"),
