@@ -238,8 +238,8 @@ CACHES = {
         # expire in 30 minutes after last activity - TODO this might be ignored by session ttl logic
         "TIMEOUT": 60 * 30,
         "OPTIONS": {
-            # "CONNECTION_POOL_KWARGS": {"ssl_cert_reqs": None},
-            "REDIS_CLIENT_KWARGS": {"ssl": True, "ssl_cert_reqs": None},
+            "ssl": True,
+            "ssl_cert_reqs": None,
         },
     },
 }
