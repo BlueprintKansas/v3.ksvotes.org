@@ -21,6 +21,11 @@ class VR6View(StepView):
 
     def post(self, request, *args, **kwargs):
         form = FormVR6(request.POST)
+        logger.info(
+            "FormVR6 received signature {} bytes".format(
+                len(request.POST.get("signature_string", ""))
+            )
+        )
         if form.validate():
             step = Step_VR_6(form.data)
             reg = request.registrant

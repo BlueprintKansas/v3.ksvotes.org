@@ -8,6 +8,7 @@ from psycogreen.gevent import patch_psycopg  # use this if you use gevent worker
 BASE_DIR = os.environ["H"] if os.environ.get("H", None) else "/code"
 
 accesslog = "-"
+capture_output = True
 bind = "unix:/run/gunicorn.sock"
 log_level = "INFO"
 workers = int(os.environ.get("WEB_CONCURRENCY", "2"))
