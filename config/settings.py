@@ -23,6 +23,7 @@ REQUEST_ID_CONFIG = {
 }
 
 # Configure Python logging
+LOG_LEVEL = env.str("LOG_LEVEL", default="INFO")
 logging.basicConfig(
     level=logging.DEBUG if DEBUG else logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -51,7 +52,7 @@ LOGGING = {
     },
     "handlers": {
         "console": {
-            "level": ("DEBUG" if DEBUG else "INFO"),
+            "level": ("DEBUG" if DEBUG else LOG_LEVEL),
             "class": "colorlog.StreamHandler",
             "formatter": (
                 "colored" if env.bool("COLOR_LOGGING", default=False) else "verbose"
@@ -60,8 +61,8 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django.utils.autoreload": {"level": "INFO"},
-        "": {"handlers": ["console"], "level": "DEBUG", "propagate": False},
+        "django.utils.autoreload": {"level": LOG_LEVEL},
+        "": {"handlers": ["console"], "level": LOG_LEVEL, "propagate": False},
     },
 }
 logging.config.dictConfig(LOGGING)  # Finally replace our config in python logging
