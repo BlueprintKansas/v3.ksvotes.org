@@ -21,6 +21,11 @@ class AB6View(StepView):
 
     def post(self, request, *args, **kwargs):
         form = FormAB6(request.POST)
+        logger.info(
+            "FormAB6 received signature {} bytes".format(
+                len(request.POST.get("signature_string", ""))
+            )
+        )
         if form.validate():
             step = Step_AB_6(form.data)
             reg = request.registrant
