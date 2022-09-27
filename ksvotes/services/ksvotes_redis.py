@@ -9,7 +9,9 @@ logger = logging.getLogger(__name__)
 
 class KSVotesRedis:
     def __init__(self):
-        self.redis_client = redis.Redis.from_url(settings.REDIS_URL)
+        self.redis_client = redis.Redis.from_url(
+            settings.REDIS_URL, **settings.CACHES["default"]["OPTIONS"]
+        )
         self.namespace = settings.APP_CONFIG
 
     def get(self, key):

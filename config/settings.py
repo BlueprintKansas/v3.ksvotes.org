@@ -237,10 +237,8 @@ if env("REDIS_TLS_URL", None):
     REDIS_URL = env("REDIS_TLS_URL")  # prefer ssl
     redis_options = heroku_redis_options
 elif REDIS_URL.startswith("rediss://"):
-    print("REDIS_URL startswith rediss://")
     redis_options = heroku_redis_options
 
-print("redis options: {}".format(redis_options))
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
