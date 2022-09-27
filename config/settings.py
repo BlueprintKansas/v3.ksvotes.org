@@ -62,6 +62,11 @@ LOGGING = {
     },
     "loggers": {
         "django.utils.autoreload": {"level": LOG_LEVEL},
+        "django": {
+            "handlers": ["console"],
+            "level": logging.DEBUG if DEBUG else LOG_LEVEL,
+            "propagate": False,
+        },
         "": {"handlers": ["console"], "level": LOG_LEVEL, "propagate": False},
     },
 }
