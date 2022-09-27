@@ -229,6 +229,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 REDIS_DB = 0
 REDIS_HOST = env("REDIS_HOST", default="redis")
 REDIS_URL = env("REDIS_URL", default=f"redis://{REDIS_HOST}:6379/{REDIS_DB}")
+redis_options = {}
+if env("REDIS_TLS_URL", None):
+    REDIS_URL = env("REDIS_TLS_URL")  # prefer ssl
+    redis_options = {
+        "ssl": True,
+        "ssl_cert_reqs": None,
+    }
 
 CACHES = {
     "default": {
@@ -237,10 +244,7 @@ CACHES = {
         "KEY_PREFIX": "ksvotes-session",
         # expire in 30 minutes after last activity - TODO this might be ignored by session ttl logic
         "TIMEOUT": 60 * 30,
-        "OPTIONS": {
-            "ssl": True,
-            "ssl_cert_reqs": None,
-        },
+        "OPTIONS": redis_options,
     },
 }
 
