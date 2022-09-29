@@ -20,7 +20,7 @@ attrs==21.2.0
     #   pytest
 beautifulsoup4==4.11.1
     # via ksmyvoteinfo
-black==21.11b1
+black==22.8.0
     # via -r requirements.in
 boto3==1.20.20
     # via django-bakery
@@ -208,9 +208,7 @@ pyusps==0.0.7
 redis==4.3.4
     # via -r requirements.in
 regex==2021.11.10
-    # via
-    #   black
-    #   dateparser
+    # via dateparser
 request-id-django-log==0.2.0
     # via -r requirements.in
 requests==2.27.1
@@ -243,8 +241,6 @@ tomli==1.2.2
     #   black
     #   coverage
     #   pep517
-typing-extensions==4.0.1
-    # via black
 tzdata==2022.1
     # via pytz-deprecation-shim
 tzlocal==4.2
