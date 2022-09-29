@@ -26,20 +26,20 @@
   const lookups = [];
   const successful_lookups = [];
   stats.reg.forEach(function(val, idx, arr) {
-    days.push(new Date(val[0] + " 00:00:00"));
+    days.push(new Date(val[0] + "T00:00:00"));
     lookups.push(val[1]);
   });
   days.forEach(function(day, idx) {
     const abEvent = stats.ab.find(function(abVal, abIdx) {
-      const abDate = new Date(abVal[0] + " 00:00:00");
+      const abDate = new Date(abVal[0] + "T00:00:00");
       return abDate.getTime() === day.getTime();
     });
     const vrEvent = stats.vr.find(function(vrVal, vrIdx) {
-      const vrDate = new Date(vrVal[0] + " 00:00:00");
+      const vrDate = new Date(vrVal[0] + "T00:00:00");
       return vrDate.getTime() === day.getTime();
     });
     const successEvent = stats.reg_success.find(function(ssVal, ssIdx) {
-      const ssDate = new Date(ssVal[0] + " 00:00:00");
+      const ssDate = new Date(ssVal[0] + "T00:00:00");
       return ssDate.getTime() === day.getTime();
     });
     if (abEvent) {
