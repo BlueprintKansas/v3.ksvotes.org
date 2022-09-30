@@ -16,6 +16,7 @@ bootstrap:  ## installs/updates all dependencies
 
 .PHONY: console
 console:  ## opens a one-off console -- see attach for connecting to running container
+	@docker rm ksvotes-web-console || true
 	@docker-compose run -p 8000:8000 -v $(PWD):/code --rm --name ksvotes-web-console web bash
 	@docker rm ksvotes-web-console
 
