@@ -33,6 +33,8 @@ ENV ENV_NAME=${ENV_NAME}
 ARG GIT_SHA=""
 ENV GIT_SHA=${GIT_SHA}
 
+ENV PYTHONUNBUFFERED 1
+
 USER ksvotesapp
 CMD ["/bin/bash", "/code/compose-start.sh"]
 

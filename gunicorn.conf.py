@@ -10,7 +10,7 @@ BASE_DIR = os.environ["H"] if os.environ.get("H", None) else "/code"
 accesslog = "-"
 capture_output = True
 bind = "unix:/run/gunicorn.sock"
-log_level = "INFO"
+log_level = "DEBUG"
 workers = int(os.environ.get("WEB_CONCURRENCY", "2"))
 
 worker_class = "gevent"
