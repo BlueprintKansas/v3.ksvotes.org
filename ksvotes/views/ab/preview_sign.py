@@ -20,12 +20,11 @@ class AB6View(StepView):
         return FormAB6(signature_string=reg.try_value("signature_string"))
 
     def post(self, request, *args, **kwargs):
+        # reading entire body, one attempt to workaround gunicorn buffering
+        # and possible cause of H18 heroku errors
+        raw_body_bytes = request.body
+        logger.info("FormAB6 received signature {} bytes".format(len(raw_body_bytes)))
         form = FormAB6(request.POST)
-        logger.info(
-            "FormAB6 received signature {} bytes".format(
-                len(request.POST.get("signature_string", ""))
-            )
-        )
         if form.validate():
             step = Step_AB_6(form.data)
             reg = request.registrant
