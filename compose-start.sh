@@ -9,4 +9,4 @@ set -x
 
 make migrate static locales fixtures
 
-newrelic-admin run-program gunicorn -c gunicorn.conf.py --spew --reload -b 0.0.0.0:${PORT:=8000} config.wsgi
+newrelic-admin run-program gunicorn -c gunicorn.conf.py --reload -b 0.0.0.0:${PORT:=8000} config.wsgi
