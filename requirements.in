@@ -1,5 +1,6 @@
 airtable
 Django>4.0
+boto3
 bumpversion
 dateparser
 django-db-geventpool
@@ -30,7 +31,6 @@ request-id-django-log
 
 # Testing
 black
-django-bakery
 django-test-plus
 factory-boy
 interrogate
