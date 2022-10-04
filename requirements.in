@@ -5,8 +5,6 @@ dateparser
 django-db-geventpool
 django-extensions
 django-health-check
-django-rest-auth
-djangorestframework
 djfernet
 email_validator
 environs[django]
