@@ -179,6 +179,7 @@ def demo(request):
     return referring_org_redirect(request, "demo")
 
 
+@csrf_exempt
 @never_cache
 def referring_org(request):
     # we will accept whatever subset of step0 fields are provided.
