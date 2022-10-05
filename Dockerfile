@@ -8,10 +8,13 @@ USER root
 RUN apt-get update && apt-get install -y gnupg dirmngr wget
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-RUN apt-get update && apt-get install --yes --no-install-recommends wget xz-utils build-essential \
+RUN apt-get update && apt-get install --yes --no-install-recommends nginx wget xz-utils build-essential \
       gettext postgresql-client-14 libpq-dev libffi-dev libgs-dev ghostscript fonts-liberation imagemagick wait-for-it
 
 WORKDIR /code
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
 COPY requirements*txt ./
 RUN pip install -U pip pip-tools
@@ -19,7 +22,10 @@ RUN pip install --no-cache-dir -r requirements.txt && rm requirements.txt
 
 COPY . /code/
 
-# RUN make locales
+# configure nginx
+# heroku will inject PORT env at run time. this is our default when not at heroku.
+ENV PORT=8000
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
 # finish with app user and app
 RUN groupadd ksvotesapp && \
@@ -32,8 +38,6 @@ ARG ENV_NAME=""
 ENV ENV_NAME=${ENV_NAME}
 ARG GIT_SHA=""
 ENV GIT_SHA=${GIT_SHA}
-
-ENV PYTHONUNBUFFERED 1
 
 USER ksvotesapp
 CMD ["/bin/bash", "/code/compose-start.sh"]
