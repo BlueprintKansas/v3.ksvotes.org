@@ -32,7 +32,7 @@ RUN groupadd ksvotesapp && \
   useradd -g ksvotesapp ksvotesapp && \
   apt-get purge -y --auto-remove build-essential && \
   apt-get -y install make && \
-  chown -R ksvotesapp:ksvotesapp /code
+  chown -R ksvotesapp:ksvotesapp /code /etc/nginx /var/lib/nginx /var/log/nginx
 
 ARG ENV_NAME=""
 ENV ENV_NAME=${ENV_NAME}
