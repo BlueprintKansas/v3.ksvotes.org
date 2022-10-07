@@ -19,6 +19,10 @@ class RefTestCase(TestCase):
         self.assertEqual(registrant.try_value("name_first"), "Foo")
         self.assertEqual(registrant.ref, "someorg")
 
+        # mimic following redirect
+        response = self.client.get("/")
+        self.assertContains(response, "someorg")
+
     def test_ref_get_with_slash_ok(self):
         response = self.client.get("/ref/?ref=foobar-refcode")
         self.assertRedirects(response, "/")
