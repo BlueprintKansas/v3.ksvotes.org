@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from test_plus import TestCase
+from ksvotes.tests.test_utils import KSVotesTestCase
 from ksvotes.models import Registrant
 
 
-class RefTestCase(TestCase):
+class RefTestCase(KSVotesTestCase):
     def test_ref_post_external_org(self):
         ref_payload = {
             "name_first": "Foo",

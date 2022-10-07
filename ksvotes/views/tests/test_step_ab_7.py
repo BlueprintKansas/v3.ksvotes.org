@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from test_plus import TestCase
+from ksvotes.tests.test_utils import KSVotesTestCase
 from ksvotes.models import Registrant
 import json
 from ksvotes.views.vr.example_form import signature_img_string
 
 
-class StepAB7TestCase(TestCase):
+class StepAB7TestCase(KSVotesTestCase):
     def create_registrant(self):
         registrant = Registrant(
             registration=json.dumps(
@@ -31,9 +31,7 @@ class StepAB7TestCase(TestCase):
             party="unaffiliated",
         )
         registrant.save()
-        session = self.client.session
-        session["id"] = str(registrant.session_id)
-        session.save()
+        self.update_session(registrant)
         return registrant
 
     def test_no_affirmation(self):

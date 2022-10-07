@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from test_plus import TestCase
+from ksvotes.tests.test_utils import KSVotesTestCase
 from ksvotes.models import Registrant
 import json
 
 
-class StepVR4TestCase(TestCase):
+class StepVR4TestCase(KSVotesTestCase):
     def create_registrant(self):
         registrant = Registrant(
             registration=json.dumps(
@@ -26,9 +26,7 @@ class StepVR4TestCase(TestCase):
             is_citizen=True,
         )
         registrant.save()
-        session = self.client.session
-        session["id"] = str(registrant.session_id)
-        session.save()
+        self.update_session(registrant)
         return registrant
 
     def test_vr_4_no_party_provided(self):

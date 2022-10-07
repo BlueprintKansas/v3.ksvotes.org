@@ -1,5 +1,16 @@
 # -*- coding: utf-8 -*-
 from ksvotes.utils import zip_code_matches
+from test_plus import TestCase
+from django.conf import settings
+
+
+class KSVotesTestCase(TestCase):
+    def update_session(self, registrant):
+        session = self.client.session
+        session["id"] = str(registrant.session_id)
+        session.save()
+        self.client.cookies[settings.SESSION_COOKIE_NAME] = session.session_key
+        return session
 
 
 def test_zip_code_matches():
