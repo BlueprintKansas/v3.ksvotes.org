@@ -244,7 +244,11 @@ class HomepageView(StepView):
         if hasattr(self.request, "registrant"):
             registrant = self.request.registrant
             return FormStep0(
-                ref=self.request.GET.get("ref", self.request.session.get("ref")),
+                ref=(
+                    registrant.ref
+                    if registrant.ref
+                    else self.request.GET.get("ref", self.request.session.get("ref"))
+                ),
                 name_first=registrant.try_value("name_first"),
                 name_last=registrant.try_value("name_last"),
                 dob=registrant.try_value("dob"),
