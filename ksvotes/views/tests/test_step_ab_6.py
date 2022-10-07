@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from ksvotes.views.vr.example_form import signature_img_string
 from ksvotes.models import Registrant
-from test_plus import TestCase
+from ksvotes.tests.test_utils import KSVotesTestCase
 import json
 
 
-class AB6TestCase(TestCase):
+class AB6TestCase(KSVotesTestCase):
     def create_registrant(self):
         registrant = Registrant(
             registration=json.dumps(
@@ -30,9 +30,7 @@ class AB6TestCase(TestCase):
             party="unaffiliated",
         )
         registrant.save()
-        session = self.client.session
-        session["id"] = str(registrant.session_id)
-        session.save()
+        self.update_session(registrant)
         return registrant
 
     def test_ab_6_no_signature_provided(self):

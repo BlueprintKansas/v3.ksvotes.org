@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import requests
-from ksvotes.services.ksvotes_redis import KSVotesRedis
 import json
 from formfiller import FormFiller
 import base64
@@ -42,6 +41,7 @@ class FormFillerService:
     }
 
     DEFINITIONS = {}
+    IMAGE_CACHE = {}
 
     def __init__(self, payload, form_name):
         self.payload = payload
@@ -67,26 +67,22 @@ class FormFillerService:
         return self.DEFINITIONS[self.form_name]
 
     def __get_or_load_image(self):
-        url = self.FORMS[self.form_name]["base"]
-        logger.debug("original image from {}".format(url))
-        redis = KSVotesRedis()
-        img_def_cached = redis.get(url)
-        if not img_def_cached:
+        if self.form_name not in self.IMAGE_CACHE or self.debug:
+            url = self.FORMS[self.form_name]["base"]
             logger.info(
                 "{} loading {} image from {}".format(
                     self.payload["uuid"], self.form_name, url
                 )
             )
             img = requests.get(url)
-            img_def_cached = json.dumps(
+            self.IMAGE_CACHE[self.form_name] = json.dumps(
                 {
                     "bytes": base64.b64encode(img.content).decode(),
                     "size": len(img.content),
                     "format": img.headers["content-type"],
                 }
             )
-            redis.set(url, img_def_cached, 3600)  # cache for an hour
-        return json.loads(img_def_cached)
+        return json.loads(self.IMAGE_CACHE[self.form_name])
 
     def __set_filler(self):
         defs = self.__get_or_load_definitions()

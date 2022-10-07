@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from test_plus import TestCase
+from ksvotes.tests.test_utils import KSVotesTestCase
 from django.utils import timezone
 from django.conf import settings
 import uuid
@@ -8,7 +8,7 @@ from ksvotes.services.ksvotes_redis import KSVotesRedis
 from ksvotes.services.registrant_stats import RegistrantStats
 
 
-class ApiTestCase(TestCase):
+class ApiTestCase(KSVotesTestCase):
     def setUp(self):
         # make sure demo does NOT exist
         Registrant.find_by_session(settings.DEMO_UUID).delete()

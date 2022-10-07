@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from test_plus import TestCase
+from ksvotes.tests.test_utils import KSVotesTestCase
 from ksvotes.models import Registrant
 import json
 
 
-class StepAB5TestCase(TestCase):
+class StepAB5TestCase(KSVotesTestCase):
     def create_registrant(self):
         registrant = Registrant(
             registration=json.dumps(
@@ -27,9 +27,7 @@ class StepAB5TestCase(TestCase):
             is_citizen=True,
         )
         registrant.save()
-        session = self.client.session
-        session["id"] = str(registrant.session_id)
-        session.save()
+        self.update_session(registrant)
         return registrant
 
     def test_ab_5_no_id_provided_ok(self):

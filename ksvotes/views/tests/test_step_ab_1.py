@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from test_plus import TestCase
+from ksvotes.tests.test_utils import KSVotesTestCase
 from ksvotes.models import Registrant
 import json
 from ksvotes.utils import is_even_year
 from django.utils import timezone
 
 
-class StepAB1TestCase(TestCase):
+class StepAB1TestCase(KSVotesTestCase):
     def create_registrant(self):
         registrant = Registrant(
             registration=json.dumps(
@@ -21,9 +21,7 @@ class StepAB1TestCase(TestCase):
             reg_lookup_complete=True,
         )
         registrant.save()
-        session = self.client.session
-        session["id"] = str(registrant.session_id)
-        session.save()
+        self.update_session(registrant)
         return registrant
 
     def test_ab_1_general_election(self):

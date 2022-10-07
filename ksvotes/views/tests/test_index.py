@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from test_plus import TestCase
+from ksvotes.tests.test_utils import KSVotesTestCase
 from ksvotes.models import Registrant
 import json
 from django.test.utils import override_settings
 
 
-class Step0TestCase(TestCase):
+class Step0TestCase(KSVotesTestCase):
     def find_current_registrant(self):
         return Registrant.find_by_session(self.client.session.get("id"))
 
@@ -47,9 +47,7 @@ class Step0TestCase(TestCase):
         )
         new_registrant.save()
 
-        session = self.client.session
-        session["id"] = str(new_registrant.session_id)
-        session.save()
+        self.update_session(new_registrant)
 
         current_registrant = self.find_current_registrant()
 
