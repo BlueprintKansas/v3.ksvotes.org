@@ -189,7 +189,7 @@ AUTH_PASSWORD_VALIDATORS = []
 
 # Give each project their own session cookie name to avoid local development
 # login conflicts
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_CACHE_ALIAS = "default"
 SESSION_COOKIE_NAME = "ksvotes-sessionid"
 SESSION_TTL = env.int("SESSION_TTL", 60 * 5)
