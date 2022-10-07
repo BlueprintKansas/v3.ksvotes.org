@@ -18,6 +18,7 @@
 
   {% csrf_token %}
 
+  {% hidden_field form.ref %}
   {% text_field form.name_first "0_name_help" required=True %}
   {% text_field form.name_last "0_name_help" required=True %}
   {% dob_field form.dob required=True %}
