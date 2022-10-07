@@ -20,14 +20,14 @@ class RefTestCase(TestCase):
         self.assertEqual(registrant.ref, "someorg")
 
     def test_ref_get_with_slash_ok(self):
-        response = self.client.get("/ref/?ref=foo")
+        response = self.client.get("/ref/?ref=foobar-refcode")
         self.assertRedirects(response, "/")
         # 'ref' in session but not yet 'id'
         self.assertTrue(self.client.session.get("ref"))
         self.assertFalse(self.client.session.get("id"))
         # session 'ref' should populate form on / page
         response = self.client.get("/")
-        self.assertContains(response, "foo")
+        self.assertContains(response, "foobar-refcode")
 
     def test_ref_post_fails(self):
         response = self.client.post("/ref/")
