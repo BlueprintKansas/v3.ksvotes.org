@@ -29,6 +29,19 @@ def zipcode_field(field, required=False):
 
 
 @register.inclusion_tag("wtf/text.html")
+def hidden_field(field):
+    html_attrs = {
+        "class": "form-hidden",
+    }
+    return {
+        "html": field(**html_attrs),
+        "errors": None,
+        "help_text": None,
+        "label": None,
+    }
+
+
+@register.inclusion_tag("wtf/text.html")
 def text_field(field, help_text_key=None, required=False):
     html_attrs = {
         "class": "form-control",
