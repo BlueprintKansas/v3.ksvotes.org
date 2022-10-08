@@ -58,7 +58,7 @@ class AB6View(StepView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.get_form()
         context["current_step"] = 6
-        context["previous_step_url"] = reverse("ksvotes:ab.identification")
+        context["previous_step_url"] = reverse("ksvotes-i18n:ab.identification")
 
         # always generate a new unsigned form for preview
         preview_imgs = []

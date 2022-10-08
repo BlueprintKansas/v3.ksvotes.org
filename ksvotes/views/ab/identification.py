@@ -21,7 +21,7 @@ class AB5View(StepView):
     def get(self, request, *args, **kwargs):
         # skip if permanent AB application
         if request.registrant.ab_permanent:
-            return redirect(reverse("ksvotes:ab.preview"))
+            return redirect(reverse("ksvotes-i18n:ab.preview"))
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -47,6 +47,6 @@ class AB5View(StepView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.get_form()
         context["current_step"] = 3
-        context["previous_step_url"] = reverse("ksvotes:ab.address")
+        context["previous_step_url"] = reverse("ksvotes-i18n:ab.address")
         context["clerk"] = self.request.registrant.try_clerk()
         return context

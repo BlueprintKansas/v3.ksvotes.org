@@ -55,12 +55,12 @@ class SessionTimeout(object):
                 messages.warning(request, lazy_gettext("session_interrupted_error"))
                 if existing_session:
                     request.session.flush()
-                return redirect(reverse("ksvotes:home.index"))
+                return redirect(reverse("ksvotes-i18n:home.index"))
 
             # we must have *some* registration info if we are beyond the root (step_0) page.
             if len(registrant.registration_as_dict()) == 0:
                 logger.debug("empty registration -- redirect to /")
-                return redirect(reverse("ksvotes:home.index"))
+                return redirect(reverse("ksvotes-i18n:home.index"))
 
         # Security belt-and-suspenders. Disallow session continuation if the Registrant
         # has not been updated within the SESSION_TTL window.
@@ -71,7 +71,7 @@ class SessionTimeout(object):
             logger.error("Discontinuing old session for existing Registrant")
             messages.warning(request, lazy_gettext("session_interrupted_error"))
             request.session.flush()
-            return redirect(reverse("ksvotes:home.index"))
+            return redirect(reverse("ksvotes-i18n:home.index"))
 
         request.registrant = registrant
         return self.get_response(request)

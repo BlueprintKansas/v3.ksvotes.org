@@ -63,5 +63,5 @@ class AB3View(StepView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.get_form()
         context["current_step"] = 3
-        context["previous_step_url"] = reverse("ksvotes:ab.election_picker")
+        context["previous_step_url"] = reverse("ksvotes-i18n:ab.election_picker")
         return context

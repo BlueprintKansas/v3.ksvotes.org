@@ -92,7 +92,7 @@ class Step0TestCase(KSVotesTestCase):
             "skip-sos": "true",
         }
         response = self.client.post("/", data=form_payload)
-        self.assertRedirects(response, "/vr/citizenship/")
+        self.assertRedirects(response, "/en/vr/citizenship/")
 
     def test_unregistered_voter_input_returns_redirect_step_1(self):
         form_payload = {

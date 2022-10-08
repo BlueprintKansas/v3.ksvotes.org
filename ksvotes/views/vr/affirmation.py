@@ -28,7 +28,7 @@ class VR7View(StepView):
 
             # if we don't have a VR form to affirm, redirect to Step 0
             if not reg.try_value("vr_form", False):
-                return redirect(reverse("ksvotes:home.index"))
+                return redirect(reverse("ksvotes-i18n:home.index"))
 
             if step.run():
                 reg.update(form.data)
@@ -63,7 +63,7 @@ class VR7View(StepView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.get_form()
         context["current_step"] = 7
-        context["previous_step_url"] = reverse("ksvotes:vr.preview")
+        context["previous_step_url"] = reverse("ksvotes-i18n:vr.preview")
         context["preview_img"] = self.request.registrant.try_value("vr_form")
         context["clerk"] = self.request.registrant.try_clerk()
         context["county_picker"] = CountyPicker()

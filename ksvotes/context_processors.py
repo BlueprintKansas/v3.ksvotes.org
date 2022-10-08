@@ -6,22 +6,22 @@ from django.utils.translation import gettext_lazy as lazy_gettext
 def steps(request):
     flows = {
         "ab": {
-            1: reverse("ksvotes:ab.election_picker"),
-            2: reverse("ksvotes:ab.address"),
-            3: reverse("ksvotes:ab.identification"),
-            4: reverse("ksvotes:ab.preview"),
-            5: reverse("ksvotes:ab.affirmation"),
-            6: reverse("ksvotes:ab.submission"),
+            1: reverse("ksvotes-i18n:ab.election_picker"),
+            2: reverse("ksvotes-i18n:ab.address"),
+            3: reverse("ksvotes-i18n:ab.identification"),
+            4: reverse("ksvotes-i18n:ab.preview"),
+            5: reverse("ksvotes-i18n:ab.affirmation"),
+            6: reverse("ksvotes-i18n:ab.submission"),
         },
         "vr": {
-            1: reverse("ksvotes:vr.citizenship"),
-            2: reverse("ksvotes:vr.name"),
-            3: reverse("ksvotes:vr.address"),
-            4: reverse("ksvotes:vr.party"),
-            5: reverse("ksvotes:vr.identification"),
-            6: reverse("ksvotes:vr.preview"),
-            7: reverse("ksvotes:vr.affirmation"),
-            8: reverse("ksvotes:vr.submission"),
+            1: reverse("ksvotes-i18n:vr.citizenship"),
+            2: reverse("ksvotes-i18n:vr.name"),
+            3: reverse("ksvotes-i18n:vr.address"),
+            4: reverse("ksvotes-i18n:vr.party"),
+            5: reverse("ksvotes-i18n:vr.identification"),
+            6: reverse("ksvotes-i18n:vr.preview"),
+            7: reverse("ksvotes-i18n:vr.affirmation"),
+            8: reverse("ksvotes-i18n:vr.submission"),
         },
     }
     if "/ab/" in request.path:

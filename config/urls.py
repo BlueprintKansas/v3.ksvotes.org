@@ -33,5 +33,5 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    path("", include(("ksvotes.urls", "ksvotes"), namespace="ksvotes")),
+    path("", include(("ksvotes.urls", "ksvotes"), namespace="ksvotes-i18n")),
 )

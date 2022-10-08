@@ -14,7 +14,7 @@ class RefTestCase(KSVotesTestCase):
         sid = self.client.session.get("id")
         registrant = Registrant.lookup_by_session_id(sid)
 
-        self.assertRedirects(response, "/", status_code=302)
+        self.assertRedirects(response, "/en/", status_code=302)
         self.assertTrue(sid)
         self.assertEqual(registrant.try_value("name_first"), "Foo")
         self.assertEqual(registrant.ref, "someorg")
@@ -25,12 +25,12 @@ class RefTestCase(KSVotesTestCase):
 
     def test_ref_get_with_slash_ok(self):
         response = self.client.get("/ref/?ref=foobar-refcode")
-        self.assertRedirects(response, "/")
+        self.assertRedirects(response, "/en/")
         # 'ref' in session but not yet 'id'
         self.assertTrue(self.client.session.get("ref"))
         self.assertFalse(self.client.session.get("id"))
         # session 'ref' should populate form on / page
-        response = self.client.get("/")
+        response = self.client.get("/en/")
         self.assertContains(response, "foobar-refcode")
 
     def test_ref_post_fails(self):
