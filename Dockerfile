@@ -27,6 +27,13 @@ COPY . /code/
 ENV PORT=8000
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
+# bash for heroku ps:exec
+RUN rm /bin/sh \
+ && ln -s /bin/bash /bin/sh \
+ && mkdir -p /app/.profile.d/ \
+ && printf '#!/usr/bin/env bash\n\nset +o posix\n\n[ -z "$SSH_CLIENT" ] && source <(curl --fail --retry 7 -sSL "$HEROKU_EXEC_URL")\n' > /app/.profile.d/heroku-exec.sh \
+ && chmod +x /app/.profile.d/heroku-exec.sh
+
 # finish with app user and app
 RUN groupadd ksvotesapp && \
   useradd -g ksvotesapp ksvotesapp && \
