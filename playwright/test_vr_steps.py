@@ -364,6 +364,8 @@ def test_preview(page):
     assert page.url.endswith("/vr/preview/")
     page.locator("id=btn-clear-signature").click()
     click_sign(page)
+    if len(page.locator("text=Signature required").all_text_contents()) != 1:
+        print(page.content())
     assert len(page.locator("text=Signature required").all_text_contents()) == 1
     create_signature(page)
     click_sign(page)
