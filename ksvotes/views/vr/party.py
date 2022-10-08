@@ -42,7 +42,7 @@ class VR4View(StepView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.get_form()
         context["current_step"] = 4
-        context["previous_step_url"] = reverse("ksvotes:vr.address")
+        context["previous_step_url"] = reverse("ksvotes-i18n:vr.address")
         context["usps_fields"] = ["address", "unit", "city", "state", "zip5"]
         context["validated_addresses"] = self.request.registrant.try_value(
             "validated_addresses"

@@ -42,5 +42,5 @@ class VR5View(StepView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.get_form()
         context["current_step"] = 5
-        context["previous_step_url"] = reverse("ksvotes:vr.party")
+        context["previous_step_url"] = reverse("ksvotes-i18n:vr.party")
         return context

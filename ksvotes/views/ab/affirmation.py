@@ -30,9 +30,9 @@ class AB7View(StepView):
             # if we don't have a signed AB form to affirm, redirect
             if not reg.try_value("ab_forms", False):
                 if not reg.try_value("signature_string", False):
-                    return redirect(reverse("ksvotes:home.index"))
+                    return redirect(reverse("ksvotes-i18n:home.index"))
                 else:
-                    return redirect(reverse("ksvotes:ab.preview"))
+                    return redirect(reverse("ksvotes-i18n:ab.preview"))
 
             if step.run():
                 reg.update(form.data)
@@ -73,7 +73,7 @@ class AB7View(StepView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.get_form()
         context["current_step"] = 7
-        context["previous_step_url"] = reverse("ksvotes:ab.preview")
+        context["previous_step_url"] = reverse("ksvotes-i18n:ab.preview")
         context["preview_imgs"] = self.request.registrant.try_value("ab_forms")
         context["clerk"] = self.request.registrant.try_clerk()
         context["county_picker"] = CountyPicker()

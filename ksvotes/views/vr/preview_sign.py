@@ -56,7 +56,7 @@ class VR6View(StepView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.get_form()
         context["current_step"] = 6
-        context["previous_step_url"] = reverse("ksvotes:vr.identification")
+        context["previous_step_url"] = reverse("ksvotes-i18n:vr.identification")
         context["reg"] = self.request.registrant  # TODO need this?
         nvris_client = NVRISClient(self.request.registrant)
         context["preview_img"] = nvris_client.get_vr_form()

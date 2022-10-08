@@ -59,4 +59,4 @@ class StepAB5TestCase(KSVotesTestCase):
         registrant.ab_permanent = True
         registrant.save()
         response = self.client.get("/ab/identification/")
-        self.assertRedirects(response, "/ab/preview/", status_code=302)
+        self.assertRedirects(response, "/en/ab/preview/", status_code=302)

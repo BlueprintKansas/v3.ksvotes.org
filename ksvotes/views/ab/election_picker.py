@@ -57,6 +57,6 @@ class AB1View(StepView):
         context = super().get_context_data(**kwargs)
         context["form"] = self.get_form()
         context["current_step"] = 1
-        context["previous_step_url"] = reverse("ksvotes:home.index")
+        context["previous_step_url"] = reverse("ksvotes-i18n:home.index")
         context["is_even_year"] = is_even_year()
         return context

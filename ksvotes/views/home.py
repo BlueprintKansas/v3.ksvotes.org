@@ -140,7 +140,7 @@ def change_county(request):
     redirect_url = request.POST.get("return")
 
     if not redirect_url:
-        redirect_url = reverse("ksvotes:home.index")
+        redirect_url = reverse("ksvotes-i18n:home.index")
 
     if redirect_url.startswith("ksvotes:"):
         redirect_url = reverse(redirect_url)
@@ -166,7 +166,7 @@ def change_county(request):
 @never_cache
 def forget(request):
     request.session.flush()
-    return redirect(reverse("ksvotes:home.index"))
+    return redirect(reverse("ksvotes-i18n:home.index"))
 
 
 @never_cache
@@ -190,7 +190,7 @@ def referring_org(request):
 
     ref = request.GET["ref"]
 
-    home_page_url = reverse("ksvotes:home.index")
+    home_page_url = reverse("ksvotes-i18n:home.index")
 
     if request.method == "GET":
         request.session["ref"] = ref
@@ -216,7 +216,7 @@ def referring_org_redirect(request, refcode):
     query = QueryDict("", mutable=True)
     query.update({"ref": refcode})
     url = "{base}?{query}".format(
-        base=reverse("ksvotes:home.ref"), query=query.urlencode()
+        base=reverse("ksvotes-i18n:home.ref"), query=query.urlencode()
     )
     return redirect(url)
 
@@ -324,7 +324,7 @@ class HomepageView(StepView):
 
             # small optimization for common case.
             if skip_sos and not settings.ENABLE_AB:
-                return redirect(reverse("ksvotes:vr.citizenship"))
+                return redirect(reverse("ksvotes-i18n:vr.citizenship"))
 
             session_manager = SessionManager(registrant, step)
             return redirect(session_manager.get_redirect_url())
