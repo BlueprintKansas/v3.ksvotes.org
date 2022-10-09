@@ -140,10 +140,6 @@ fixtures: ## Load fixtures (inside container)
 zipcodes:
 	python manage.py load_zipcodes
 
-.PHONY: ci-zipcodes
-ci-zipcodes:
-	ENV_NAME=ci docker-compose exec -T web make zipcodes
-
 v2-patch:
 	perl -pi -e 's/\{phone\}\\n/{phone}/g' ksvotes/translations.json
 
