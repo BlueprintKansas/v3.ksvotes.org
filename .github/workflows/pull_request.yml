@@ -89,11 +89,14 @@ jobs:
           export CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAIN_VERSION"`
           curl "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -O
           unzip chromedriver_linux64.zip -d ~/bin
+      - name: Wait for db to start
+        run: wait-for-it -h test.ksvotes.org -p 5432
+      - name: Load ZIP Code fixtures
+        run: make ci-zipcodes
       - name: Run tests
         run: make ci-test
       - name: Browser tests
         run: |
-          wait-for-it -h test.ksvotes.org -p 5432
           wait-for-it -h test.ksvotes.org -p 8000
           curl -vv -s http://test.ksvotes.org:8000/ > /dev/null
           DEBUG=pw:api make playwright
