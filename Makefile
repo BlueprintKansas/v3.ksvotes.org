@@ -134,8 +134,11 @@ services-stop: ## stop dev services
 .PHONY: fixtures
 fixtures: ## Load fixtures (inside container)
 	python manage.py load_clerks
-	python manage.py load_zipcodes
 	python manage.py load_demo
+
+.PHONY: zipcodes
+zipcodes:
+	python manage.py load_zipcodes
 
 v2-patch:
 	perl -pi -e 's/\{phone\}\\n/{phone}/g' ksvotes/translations.json
