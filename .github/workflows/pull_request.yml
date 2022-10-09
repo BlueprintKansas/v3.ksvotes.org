@@ -91,6 +91,8 @@ jobs:
           unzip chromedriver_linux64.zip -d ~/bin
       - name: Wait for db to start
         run: wait-for-it -h test.ksvotes.org -p 5432
+      - name: Wait for django to start (so clerks are loaded before ZIP codes)
+        run: wait-for-it -h test.ksvotes.org -p 8001
       - name: Load ZIP Code fixtures
         run: make ci-zipcodes
       - name: Run tests
