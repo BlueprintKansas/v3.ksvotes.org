@@ -1,4 +1,11 @@
 COMPOSE_FILE := docker-compose.yml
+DOCKER_IMG=ksvotes:v3ksvotesorg-web
+DOCKER_NAME=ksvotes-v3-web
+ifeq (, $(shell which docker))
+DOCKER_CONTAINER_ID := docker-is-not-installed
+else
+DOCKER_CONTAINER_ID := $(shell docker ps --filter ancestor=$(DOCKER_IMG) --format "{{.ID}}" -a)
+endif
 
 .PHONY: help
 help: ## View this help
@@ -17,7 +24,10 @@ bootstrap:  ## installs/updates all dependencies
 .PHONY: console
 console:  ## opens a one-off console -- see attach for connecting to running container
 	@docker rm ksvotes-web-console || true
-	@docker-compose run -p 8000:8000 -v $(PWD):/code --rm --name ksvotes-web-console web bash
+	@docker run -p 8000:8000 -v $(PWD):/code \
+   --network v3ksvotesorg_default \
+   --rm --name ksvotes-web-console -it \
+   $(DOCKER_IMG) bash
 	@docker rm ksvotes-web-console
 
 .PHONY: server
@@ -70,16 +80,8 @@ ci-logs: ## view all the docker-compose logs
 ci-logs-tail: ## tail the docker-compose logs
 	@docker-compose --file $(COMPOSE_FILE) logs -f
 
-DOCKER_IMG=ksvotes:v3ksvotesorg-web
-DOCKER_NAME=ksvotes-v3-web
-ifeq (, $(shell which docker))
-DOCKER_CONTAINER_ID := docker-is-not-installed
-else
-DOCKER_CONTAINER_ID := $(shell docker ps --filter ancestor=$(DOCKER_IMG) --format "{{.ID}}" -a)
-endif
-
 .PHONY: attach
-attach: ## Attach to a running container and open a shell (like login for running container)
+attach: ## Attach to a running container and open a shell (like console for running container)
 	docker exec -it $(DOCKER_CONTAINER_ID) /bin/bash
 
 .PHONY: ci-test
