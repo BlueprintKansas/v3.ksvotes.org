@@ -2,6 +2,7 @@
 import os
 import requests
 import json
+import hashlib
 from formfiller import FormFiller
 import base64
 from wand.image import Image
@@ -50,43 +51,47 @@ class FormFillerService:
 
         self.__set_filler()
 
-    def __get_or_load_definitions(self):
-        if self.form_name not in self.DEFINITIONS or self.debug:
-            def_file = settings.BASE_DIR.joinpath(
-                "ksvotes", self.FORMS[self.form_name]["definitions"]
-            ).as_posix()
-            logger.info(
-                "{} loading {} form defs from {}".format(
-                    self.payload["uuid"], self.form_name, def_file
-                )
+    def __get_definitions(self):
+        def_file = settings.BASE_DIR.joinpath(
+            "ksvotes", self.FORMS[self.form_name]["definitions"]
+        ).as_posix()
+        logger.info(
+            "{} loading {} form defs from {}".format(
+                self.payload["uuid"], self.form_name, def_file
             )
+        )
+        with open(def_file) as f:
+            defs = json.load(f)
+        return defs
 
-            with open(def_file) as f:
-                self.DEFINITIONS[self.form_name] = json.load(f)
-
-        return self.DEFINITIONS[self.form_name]
-
-    def __get_or_load_image(self):
-        if self.form_name not in self.IMAGE_CACHE or self.debug:
-            url = self.FORMS[self.form_name]["base"]
-            logger.info(
-                "{} loading {} image from {}".format(
-                    self.payload["uuid"], self.form_name, url
-                )
+    def __get_image(self):
+        url = self.FORMS[self.form_name]["base"]
+        logger.info(
+            "{} loading {} image from {}".format(
+                self.payload["uuid"], self.form_name, url
             )
-            img = requests.get(url)
-            self.IMAGE_CACHE[self.form_name] = json.dumps(
-                {
-                    "bytes": base64.b64encode(img.content).decode(),
-                    "size": len(img.content),
-                    "format": img.headers["content-type"],
-                }
-            )
-        return json.loads(self.IMAGE_CACHE[self.form_name])
+        )
+        digest = hashlib.sha256(url.encode("utf-8")).hexdigest()
+        cache_name = f"/tmp/{digest}.json"
+        if os.path.exists(cache_name):
+            return json.load(open(cache_name))
+        else:
+            img_payload = self.__fetch_image(url)
+            with open(cache_name, "w") as f:
+                json.dump(img_payload, f)
+            return img_payload
+
+    def __fetch_image(self, url):
+        img = requests.get(url)
+        return {
+            "bytes": base64.b64encode(img.content).decode(),
+            "size": len(img.content),
+            "format": img.headers["content-type"],
+        }
 
     def __set_filler(self):
-        defs = self.__get_or_load_definitions()
-        img = self.__get_or_load_image()
+        defs = self.__get_definitions()
+        img = self.__get_image()
         img_bytes = base64.b64decode(img["bytes"].encode())
         base_image = Image(blob=img_bytes, format=img["format"])
         self.filler = FormFiller(

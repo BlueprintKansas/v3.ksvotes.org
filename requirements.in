@@ -21,6 +21,7 @@ newrelic
 psycopg2-binary
 pyusps
 redis
+Wand>=0.6.10
 whitenoise
 WTForms
 wtforms-recaptcha
