@@ -98,7 +98,7 @@ playwright: ## Run playwrite tests
 
 .PHONY: pip-compile
 pip-compile:  ## rebuilds our pip requirements
-	pip-compile ./requirements.in --output-file ./requirements.txt
+	pip-compile requirements.in --output-file ./requirements.txt
 
 .PHONY: fernet-key
 fernet-key: ## Create Fernet encrypt key and echo to stdout
