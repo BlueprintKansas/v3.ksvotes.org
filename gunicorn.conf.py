@@ -12,9 +12,6 @@ capture_output = True
 bind = "unix:/run/gunicorn.sock"
 loglevel = "INFO"
 workers = int(os.environ.get("WEB_CONCURRENCY", "2"))
-
-print("concurrency=={}".format(workers))
-
 worker_class = "gevent"
 keepalive = 32
 worker_connections = 10000
