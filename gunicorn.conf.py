@@ -12,12 +12,10 @@ capture_output = True
 bind = "unix:/run/gunicorn.sock"
 loglevel = "INFO"
 workers = int(os.environ.get("WEB_CONCURRENCY", "2"))
-
 worker_class = "gevent"
 keepalive = 32
 worker_connections = 10000
-# mitigate known memory leak (likely in image preview)
-max_requests = 1000
+max_requests = 10000
 
 pythonpath = BASE_DIR
 chdir = BASE_DIR
