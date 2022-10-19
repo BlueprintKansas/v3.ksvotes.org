@@ -2,11 +2,10 @@
 import os
 import requests
 import json
-import hashlib
-from formfiller import FormFiller
+from urllib.parse import urlparse
 import base64
-from wand.image import Image
 import logging
+import subprocess
 from django.conf import settings
 
 logger = logging.getLogger(__name__)
@@ -41,15 +40,12 @@ class FormFillerService:
         },
     }
 
-    DEFINITIONS = {}
-    IMAGE_CACHE = {}
-
     def __init__(self, payload, form_name):
         self.payload = payload
         self.form_name = form_name
         self.debug = os.getenv("FORM_DEBUG")
 
-        self.__set_filler()
+        self.__run_filler()
 
     def __get_definitions(self):
         def_file = settings.BASE_DIR.joinpath(
@@ -60,9 +56,14 @@ class FormFillerService:
                 self.payload["uuid"], self.form_name, def_file
             )
         )
-        with open(def_file) as f:
-            defs = json.load(f)
-        return defs
+        return def_file
+
+    def __get_payload_path(self):
+        digest = self.payload["uuid"]
+        payload_path = f"/tmp/{digest}.json"
+        with open(payload_path, "w") as f:
+            json.dump(self.payload, f)
+        return payload_path
 
     def __get_image(self):
         url = self.FORMS[self.form_name]["base"]
@@ -71,39 +72,46 @@ class FormFillerService:
                 self.payload["uuid"], self.form_name, url
             )
         )
-        digest = hashlib.sha256(url.encode("utf-8")).hexdigest()
-        cache_name = f"/tmp/{digest}.json"
-        if os.path.exists(cache_name):
-            return json.load(open(cache_name))
-        else:
-            img_payload = self.__fetch_image(url)
-            with open(cache_name, "w") as f:
-                json.dump(img_payload, f)
-            return img_payload
+        img_base_name = os.path.basename(urlparse(url).path)
+        cache_name = f"/tmp/{img_base_name}"
+        if not os.path.exists(cache_name):
+            self.__fetch_image(url, cache_name)
+        return cache_name
 
-    def __fetch_image(self, url):
+    def __fetch_image(self, url, cache_name):
         img = requests.get(url)
-        return {
-            "bytes": base64.b64encode(img.content).decode(),
-            "size": len(img.content),
-            "format": img.headers["content-type"],
-        }
+        with open(cache_name, "wb") as f:
+            f.write(img.content)
 
-    def __set_filler(self):
+    def __run_filler(self):
         defs = self.__get_definitions()
         img = self.__get_image()
-        img_bytes = base64.b64decode(img["bytes"].encode())
-        base_image = Image(blob=img_bytes, format=img["format"])
-        self.filler = FormFiller(
-            payload=self.payload,
-            image=base_image,
-            form=defs,
-            font="Liberation-Sans",
-            font_color="blue",
-        )
+        payload_path = self.__get_payload_path()
+        cmd = [
+            "python",
+            "-m",
+            "formfiller",
+            f"--payload={payload_path}",
+            f"--form={defs}",
+            f"--image={img}",
+        ]
+        proc = subprocess.run(cmd, capture_output=True)
+        if proc.returncode == 0:
+            self.filled_form = base64.b64encode(proc.stdout)
+            if not self.debug:
+                os.remove(payload_path)
+        else:
+            logger.error(
+                "{} failed to fill form: {}".format(self.payload["uuid"], proc.stderr)
+            )
+            self.filled_form = False
 
     def as_image(self):
+        if not self.filled_form:
+            raise ValueError("Failed to complete form")
         return "data:image/png;base64," + self.as_base64()
 
     def as_base64(self):
-        return self.filler.as_base64().decode()
+        if not self.filled_form:
+            raise ValueError("Failed to complete form")
+        return self.filled_form.decode()
