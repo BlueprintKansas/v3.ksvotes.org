@@ -11,4 +11,5 @@ export $(cat .env | grep -v ^# | xargs)
 env
 
 make zipcodes
+make early-voting-locations
 make coverage
