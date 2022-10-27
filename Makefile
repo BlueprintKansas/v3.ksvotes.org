@@ -137,7 +137,7 @@ services-stop: ## stop dev services
 .PHONY: fixtures
 fixtures: ## Load fixtures (inside container)
 	python manage.py load_clerks
-	make early-voting-locations
+	python manage.py load_early_voting_locations
 	python manage.py load_demo
 
 .PHONY: zipcodes
