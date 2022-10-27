@@ -25,6 +25,7 @@ bootstrap:  ## installs/updates all dependencies
 console:  ## opens a one-off console -- see attach for connecting to running container
 	@docker rm ksvotes-web-console || true
 	@docker run -p 8000:8000 -v $(PWD):/code \
+   -e DJANGO_READ_DOT_ENV_FILE=true \
    --network v3ksvotesorg_default \
    --rm --name ksvotes-web-console -it \
    $(DOCKER_IMG) bash
@@ -142,6 +143,10 @@ fixtures: ## Load fixtures (inside container)
 zipcodes:
 	python manage.py load_zipcodes
 
+.PHONY: early-voting-locations
+early-voting-locations:
+	python manage.py load_early_voting_locations
+
 v2-patch:
 	perl -pi -e 's/\{phone\}\\n/{phone}/g' ksvotes/translations.json
 
@@ -150,6 +155,10 @@ DATABASE_HOST := $(shell echo $${DATABASE_URL:-db} | perl -n -e 's,.+@,,; s,:543
 migrate: ## Run db migrations (inside container)
 	wait-for-it -h $(DATABASE_HOST) -p 5432 -t 20
 	python manage.py migrate --noinput
+
+.PHONY: migrations
+migrations:
+	python manage.py makemigrations ksvotes
 
 .PHONY: static
 static: ## Build static assets (inside container)
