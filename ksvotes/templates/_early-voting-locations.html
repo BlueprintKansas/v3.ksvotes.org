@@ -12,6 +12,7 @@
     </div>
     <div id="evl-{{forloop.counter}}-collapse" class="collapse" aria-labelledby="evl-{{forloop.counter}}" data-parent="#early-voting-locations">
       <div class="card-body text-center">
+        <h5>{{ location.formatted_address }}</h5>
         <h5><a href="https://google.com/maps/dir/current+location/{{location.formatted_address|urlencode}}" target="_blank">{{_('map')}}</a></h5>
         <h5>{{_('hours')}}</h5>
         {% for hours in location.election_hours %}

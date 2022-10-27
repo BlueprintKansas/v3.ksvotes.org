@@ -85,12 +85,15 @@ class EarlyVotingLocation(TimeStampedModel):
 
     @property
     def election_hours(self):
-        today = datetime.datetime.today()
         return (
-            self.earlyvotinglocationhours_set.filter(opens_at__date__gte=today)
+            self.earlyvotinglocationhours_set.filter(opens_at__date__gte=self.today)
             .order_by("opens_at")
             .all()
         )
+
+    @property
+    def today(self):
+        return datetime.datetime.today()
 
 
 class EarlyVotingLocationHours(TimeStampedModel):
