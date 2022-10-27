@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 #
 # This script is used to start our Django WSGI process (gunicorn in this case)
-# for use with docker-compose.  In deployed or production scenarios you would
-# not necessarily use this exact setup.
+# for use with docker-compose.
 #
 set -e
 set -x
