@@ -2,8 +2,7 @@
 from .base import TimeStampedModel
 from django.db import models, connection, transaction
 import csv
-from ksvotes.utils import ks_today, KS_TZ
-from dateutil.parser import parse
+from ksvotes.utils import ks_today
 
 
 class FutureElectionManager(models.Manager):
@@ -55,7 +54,6 @@ class EarlyVotingLocation(TimeStampedModel):
         )
 
         locations = {}
-        tzinfos = {"CST": KS_TZ}
 
         with open(csv_file, newline="\n") as csvfile:
             next(csvfile)  # skip headers
@@ -83,8 +81,8 @@ class EarlyVotingLocation(TimeStampedModel):
                         evl.save()
                         locations[location_id] = evl
                     hours = EarlyVotingLocationHours(
-                        opens_at=parse(f"{row[12]} CST", tzinfos=tzinfos),
-                        closes_at=parse(f"{row[13]} CST", tzinfos=tzinfos),
+                        opens_at=row[12],
+                        closes_at=row[13],
                         location=evl,
                     )
                     hours.save()
