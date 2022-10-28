@@ -331,3 +331,12 @@ table.deflist,
     color: $gray-900;
   }
 }
+
+#early-voting-locations {
+  .btn-link {
+    font-size: 1rem;
+  }
+  .btn {
+    text-transform: none;
+  }
+}

@@ -18,10 +18,8 @@ import logging
 import datetime
 from uuid import uuid4
 from ksvotes.services.registrant_stats import RegistrantStats
-from ksvotes.services.early_voting_locations import EarlyVotingLocations
-from ksvotes.services.dropboxes import Dropboxes
 from ksvotes.services.ksvotes_redis import KSVotesRedis
-from ksvotes.models import Clerk, Registrant, ZIPCode
+from ksvotes.models import Clerk, Registrant, ZIPCode, EarlyVotingLocation
 
 logger = logging.getLogger(__name__)
 
@@ -55,15 +53,13 @@ def stats(request):
 def clerk_details(request, county):
     clerk = Clerk.find_by_county(county)
     if clerk:
-        evl = EarlyVotingLocations(county)
-        d = Dropboxes(county)
+        evls = EarlyVotingLocation.for_county(county)
         return render(
             request,
             "county.html",
             {
                 "clerk": clerk,
-                "early_voting_locations": evl.locations,
-                "dropboxes": d.dropboxes,
+                "early_voting_locations": evls,
             },
         )
     else:
@@ -109,12 +105,10 @@ def change_or_apply(request):
     if not county and sos_reg:
         county = sos_reg[0]["tree"]["County"]
     clerk = None
-    evl = None
-    dropboxes = None
+    evls = None
     if county:
         clerk = Clerk.find_by_county(county)
-        evl = EarlyVotingLocations(county).locations
-        dropboxes = Dropboxes(county).dropboxes
+        evls = EarlyVotingLocation.for_county(county)
 
     return render(
         request,
@@ -124,8 +118,7 @@ def change_or_apply(request):
             "sos_reg": sos_reg,
             "sos_failure": sos_failure,
             "clerk": clerk,
-            "early_voting_locations": evl,
-            "dropboxes": dropboxes,
+            "early_voting_locations": evls,
             "precinct_address": reg.precinct_address(),
         },
     )
