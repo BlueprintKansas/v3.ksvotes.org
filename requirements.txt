@@ -51,7 +51,7 @@ coverage[toml]==6.2
     # via pytest-cov
 cryptography==37.0.2
     # via djfernet
-dateparser==1.1.1
+dateparser==1.1.2
     # via -r requirements.in
 deprecated==1.2.13
     # via redis
