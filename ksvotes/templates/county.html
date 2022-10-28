@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}{{ clerk.county }} County Clerk details{% endblock %}
+{% block title %}{{ clerk.county }} County Clerk{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -7,6 +7,7 @@
     <div class="col-md-8">
       <div class="card">
         <div class="card-body">
+          <h1>{{ clerk.county }} County Clerk</h1>
           <div class="clerk-details mt-4">
             {% include 'clerk-details.html' %}
           </div>
