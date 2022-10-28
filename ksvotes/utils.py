@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import usaddress
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from django.utils import timezone
 import os
 import re
 import dateparser
-import pytz
 from dateutil.parser import parse
 from django.utils.translation import gettext_lazy as lazy_gettext
 from wtforms.validators import DataRequired
@@ -123,6 +123,12 @@ COUNTIES = [
 ]
 KS_DL_PATTERN = r"^(\w\d\w\d\w|K\d\d-\d\d-\d\d\d\d|\d\d\d-\d\d-\d\d\d\d)$"
 
+KS_TZ = ZoneInfo("America/Chicago")
+
+
+def ks_today():
+    return timezone.now().astimezone(tz=KS_TZ).date()
+
 
 def zip_code_matches(sosrec, zipcode):
     address = sosrec["Address"].replace("<br/>", " ")
@@ -162,10 +168,9 @@ def primary_election_active(deadline=None, current_time=None):
         return False
 
     # Parse our deadline
-    local = pytz.timezone("America/Chicago")
-    naive = parse(deadline)
-    local_dt = local.localize(naive, is_dst=None)
-    deadline_utc = local_dt.astimezone(pytz.utc)
+    deadline_utc = parse(f"{deadline} CST", tzinfos={"CST": KS_TZ}).astimezone(
+        timezone.utc
+    )
 
     # Determine if we're past deadline
     if current_time is None:

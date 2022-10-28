@@ -4,8 +4,6 @@
 #
 #    pip-compile --output-file=./requirements.txt requirements.in
 #
-airtable==0.4.8
-    # via -r requirements.in
 amqp==5.1.1
     # via kombu
 appdirs==1.4.4
@@ -215,14 +213,11 @@ regex==2021.11.10
 request-id-django-log==0.2.0
     # via -r requirements.in
 requests==2.27.1
-    # via
-    #   airtable
-    #   ksmyvoteinfo
+    # via ksmyvoteinfo
 s3transfer==0.5.0
     # via boto3
 six==1.16.0
     # via
-    #   airtable
     #   django-bakery
     #   django-rest-auth
     #   fs

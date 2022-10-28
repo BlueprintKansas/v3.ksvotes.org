@@ -1,8 +1,19 @@
 # -*- coding: utf-8 -*-
 from .base import TimeStampedModel
 from django.db import models, connection, transaction
-import datetime
 import csv
+from ksvotes.utils import ks_today, KS_TZ
+from dateutil.parser import parse
+
+
+class FutureElectionManager(models.Manager):
+    def get_queryset(self):
+        return (
+            super()
+            .get_queryset()
+            .filter(election_date__gte=ks_today())
+            .order_by("polling_place_name")
+        )
 
 
 class EarlyVotingLocation(TimeStampedModel):
@@ -25,17 +36,16 @@ class EarlyVotingLocation(TimeStampedModel):
     ballot_drop_off = models.BooleanField(default=None, null=True)
     county = models.CharField(max_length=255, null=True)
 
+    objects = models.Manager()
+    future = FutureElectionManager()
+
     @classmethod
     def for_zip5(cls, zip5):
-        return cls.objects.filter(zipcode=zip5).order_by("polling_place_name").all()
+        return cls.future.filter(zipcode=zip5).all()
 
     @classmethod
     def for_county(cls, county):
-        return (
-            cls.objects.filter(county__iexact=county)
-            .order_by("polling_place_name")
-            .all()
-        )
+        return cls.future.filter(county__iexact=county).all()
 
     @classmethod
     def load_fixtures(cls, csv_file):
@@ -45,6 +55,7 @@ class EarlyVotingLocation(TimeStampedModel):
         )
 
         locations = {}
+        tzinfos = {"CST": KS_TZ}
 
         with open(csv_file, newline="\n") as csvfile:
             next(csvfile)  # skip headers
@@ -72,7 +83,9 @@ class EarlyVotingLocation(TimeStampedModel):
                         evl.save()
                         locations[location_id] = evl
                     hours = EarlyVotingLocationHours(
-                        opens_at=row[12], closes_at=row[13], location=evl
+                        opens_at=parse(f"{row[12]} CST", tzinfos=tzinfos),
+                        closes_at=parse(f"{row[13]} CST", tzinfos=tzinfos),
+                        location=evl,
                     )
                     hours.save()
 
@@ -86,14 +99,10 @@ class EarlyVotingLocation(TimeStampedModel):
     @property
     def election_hours(self):
         return (
-            self.earlyvotinglocationhours_set.filter(opens_at__date__gte=self.today)
+            self.earlyvotinglocationhours_set.filter(opens_at__date__gte=ks_today())
             .order_by("opens_at")
             .all()
         )
-
-    @property
-    def today(self):
-        return datetime.datetime.today()
 
 
 class EarlyVotingLocationHours(TimeStampedModel):

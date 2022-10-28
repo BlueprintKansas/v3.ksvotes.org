@@ -7,6 +7,8 @@ from django.utils.translation import get_language, gettext_lazy as lazy_gettext
 from uuid import uuid4
 from ksvotes.models import Registrant
 import logging
+from django.utils import timezone
+from ksvotes.utils import KS_TZ
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +25,9 @@ class SessionTimeout(object):
         self.get_response = get_response
 
     def __call__(self, request):
+        # always assume Central timezone for rendering dates/times
+        timezone.activate(KS_TZ)
+
         current_lang = get_language()
         request_path = request.path.replace(f"/{current_lang}/", "/")
         logger.debug(
