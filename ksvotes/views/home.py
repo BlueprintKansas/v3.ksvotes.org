@@ -313,6 +313,8 @@ class HomepageView(StepView):
                 {"sos_reg": sos_reg, "skip_sos": skip_sos, "sos_failure": sos_failure}
             )
             registrant.user_agent = request.headers.get("user-agent")
+            if sos_reg:
+                registrant.county = sos_reg[0]["tree"]["County"]
             registrant.save()
 
             # small optimization for common case.
