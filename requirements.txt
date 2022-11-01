@@ -51,7 +51,7 @@ coverage[toml]==6.2
     # via pytest-cov
 cryptography==37.0.2
     # via djfernet
-dateparser==1.1.1
+dateparser==1.1.2
     # via -r requirements.in
 deprecated==1.2.13
     # via redis
@@ -79,7 +79,7 @@ django-health-check==3.17.0
     # via -r requirements.in
 django-rest-auth==0.9.5
     # via -r requirements.in
-django-test-plus==2.2.0
+django-test-plus==2.2.1
     # via -r requirements.in
 djangorestframework==3.14.0
     # via
@@ -240,8 +240,6 @@ tomli==1.2.2
     #   build
     #   coverage
     #   pep517
-typing-extensions==4.4.0
-    # via black
 tzdata==2022.1
     # via pytz-deprecation-shim
 tzlocal==4.2
