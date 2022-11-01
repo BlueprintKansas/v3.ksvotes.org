@@ -161,7 +161,7 @@ probableparsing==0.0.1
     # via usaddress
 psycogreen==1.0.2
     # via django-db-geventpool
-psycopg2-binary==2.9.4
+psycopg2-binary==2.9.5
     # via -r requirements.in
 py==1.11.0
     # via
