@@ -45,7 +45,7 @@ class StepAB1TestCase(KSVotesTestCase):
         if is_even_year():
             assert response.status_code == 200
         else:
-            self.assertRedirect(response, "/ab/address/", status_code=302)
+            self.assertRedirects(response, "/ab/address/", status_code=302)
 
     def test_ab_1_general_and_primary_with_party(self):
         registrant = self.create_registrant()
