@@ -2,7 +2,6 @@
 from ksvotes.tests.test_utils import KSVotesTestCase
 from ksvotes.models import Registrant
 import json
-from ksvotes.utils import is_even_year
 from django.utils import timezone
 
 
@@ -42,10 +41,7 @@ class StepAB1TestCase(KSVotesTestCase):
         self.create_registrant()
         form_payload = {"elections": ["General", "Primary"]}
         response = self.client.post("/ab/election_picker/", data=form_payload)
-        if is_even_year():
-            assert response.status_code == 200
-        else:
-            self.assertRedirect(response, "/ab/address/", status_code=302)
+        assert response.status_code == 200
 
     def test_ab_1_general_and_primary_with_party(self):
         registrant = self.create_registrant()
