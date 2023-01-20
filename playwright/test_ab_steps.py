@@ -11,7 +11,15 @@ from helpers import (
     #    click_change_of_name,
     #    click_has_mailing_address,
 )
-from ksvotes.utils import is_even_year
+
+# duplicate ksvotes.utils.is_even_year to avoid needing to install all requirements.txt locally in CI
+import datetime
+
+
+def is_even_year():
+    if datetime.datetime.today().year % 2 == 0:
+        return True
+    return False
 
 
 def test_vr_to_ab(page):
