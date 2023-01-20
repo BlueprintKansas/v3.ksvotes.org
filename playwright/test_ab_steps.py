@@ -12,6 +12,15 @@ from helpers import (
     #    click_has_mailing_address,
 )
 
+# duplicate ksvotes.utils.is_even_year to avoid needing to install all requirements.txt locally in CI
+import datetime
+
+
+def is_even_year():
+    if datetime.datetime.today().year % 2 == 0:
+        return True
+    return False
+
 
 def test_vr_to_ab(page):
     complete_step_0(page)
@@ -37,14 +46,16 @@ def test_vr_to_ab(page):
         "id=elections-0"
     ).check()  # with AB_PRIMARY_DEADLINE set, Primary election is an option to .check instead of .click
     click_submit(page)
-    assert page.url.endswith("/ab/election-picker/")
-    assert (
-        len(page.locator("text=Required >> visible=true").all_text_contents()) == 2
-    )  # help text + Party validation error
-    page.select_option(
-        "select#party", label="Republican"
-    )  # TODO in future this might optionally include Unaffiliated
-    click_submit(page)
+
+    if is_even_year():
+        assert page.url.endswith("/ab/election-picker/")
+        assert (
+            len(page.locator("text=Required >> visible=true").all_text_contents()) == 2
+        )  # help text + Party validation error
+        page.select_option(
+            "select#party", label="Republican"
+        )  # TODO in future this might optionally include Unaffiliated
+        click_submit(page)
 
     assert page.url.endswith("/ab/identification/")
     # no value will trigger modal with instructions

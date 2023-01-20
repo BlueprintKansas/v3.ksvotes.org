@@ -95,7 +95,7 @@ css: ## Build css artifacts from scss
 
 .PHONY: playwright
 playwright: ## Run playwrite tests
-	pytest -s -vv --noconftest -c /dev/null --base-url=http://test.ksvotes.org:8000 playwright/
+	python -m pytest -s -vv --noconftest -c /dev/null --base-url=http://test.ksvotes.org:8000 playwright/
 
 .PHONY: pip-compile
 pip-compile:  ## rebuilds our pip requirements
