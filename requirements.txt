@@ -18,7 +18,7 @@ attrs==21.2.0
     #   pytest
 beautifulsoup4==4.11.1
     # via ksmyvoteinfo
-black==22.12.0
+black==23.1.0
     # via -r requirements.in
 boto3==1.20.20
     # via django-bakery
@@ -139,8 +139,9 @@ mypy-extensions==0.4.3
     # via black
 newrelic==8.5.0
     # via -r requirements.in
-packaging==21.3
+packaging==23.0
     # via
+    #   black
     #   build
     #   marshmallow
     #   pytest
@@ -166,8 +167,6 @@ py==1.11.0
     #   pytest
 pycparser==2.21
     # via cffi
-pyparsing==3.0.6
-    # via packaging
 pytest==6.2.5
     # via
     #   -r requirements.in
