@@ -16,12 +16,12 @@ def test_evl():
         assert len(evls) == 2
         evls = EarlyVotingLocation.for_county("Douglas")
         assert evls[0].county == "Douglas"
-        assert evls[0].polling_place_name == "Baldwin City Fire Station"
-        assert evls[0].election_hours.count() == 1
         assert (
-            evls[2].polling_place_name == "Douglas County Courthouse (Dropbox outside)"
+            evls[0].polling_place_name == "Douglas County Courthouse (Dropbox outside)"
         )
-        assert evls[2].election_hours.count() == 7
+        assert evls[0].election_hours.count() == 1
+        assert evls[2].polling_place_name == "Lied Center Pavilion"
+        assert evls[2].election_hours.count() == 2
 
     with patch("ksvotes.models.early_voting_location.ks_today") as mock_today:
         mock_today.return_value = DAY_AFTER_ELECTION
