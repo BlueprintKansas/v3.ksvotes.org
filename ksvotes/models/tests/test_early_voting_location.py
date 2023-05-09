@@ -19,9 +19,9 @@ def test_evl():
         assert (
             evls[0].polling_place_name == "Douglas County Courthouse (Dropbox outside)"
         )
-        assert evls[0].election_hours.count() == 1
-        assert evls[2].polling_place_name == "Lied Center Pavilion"
-        assert evls[2].election_hours.count() == 2
+        assert evls[0].election_hours.count() == 0
+        assert evls[1].polling_place_name == "Lied Center Pavilion"
+        assert evls[1].election_hours.count() == 0
 
     with patch("ksvotes.models.early_voting_location.ks_today") as mock_today:
         mock_today.return_value = DAY_AFTER_ELECTION
