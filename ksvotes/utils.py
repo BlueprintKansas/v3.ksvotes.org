@@ -173,7 +173,7 @@ def primary_election_active(deadline=None, current_time=None):
 
     # Determine if we're past deadline
     if current_time is None:
-        current_time = datetime.utcnow()
+        current_time = datetime.utcnow().astimezone(timezone.utc)
 
     if current_time > deadline_utc:
         return False
