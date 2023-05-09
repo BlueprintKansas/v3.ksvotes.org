@@ -126,7 +126,7 @@ KS_TZ = ZoneInfo("America/Chicago")
 
 
 def ks_today():
-    return timezone.now().astimezone(tz=KS_TZ).date()
+    return datetime.utcnow().astimezone(tz=KS_TZ).date()
 
 
 def zip_code_matches(sosrec, zipcode):
