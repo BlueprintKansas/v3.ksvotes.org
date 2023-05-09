@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import usaddress
-from datetime import datetime
+from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
-from django.utils import timezone
 import os
 import re
 import dateparser
