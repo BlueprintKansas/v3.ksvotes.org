@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 import usaddress
-from datetime import datetime
+from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
-from django.utils import timezone
 import os
 import re
 import dateparser
@@ -127,7 +126,7 @@ KS_TZ = ZoneInfo("America/Chicago")
 
 
 def ks_today():
-    return timezone.now().astimezone(tz=KS_TZ).date()
+    return datetime.utcnow().astimezone(tz=KS_TZ).date()
 
 
 def zip_code_matches(sosrec, zipcode):
@@ -174,7 +173,7 @@ def primary_election_active(deadline=None, current_time=None):
 
     # Determine if we're past deadline
     if current_time is None:
-        current_time = timezone.now()
+        current_time = datetime.utcnow().astimezone(timezone.utc)
 
     if current_time > deadline_utc:
         return False
