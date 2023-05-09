@@ -1,2 +1,3 @@
 election_name,election_day,polling_place_id,polling_place_name,address_line_1,address_line_2,city,state,zip,formatted_address,ballot_drop_off,dropoff_type,open_at,close_at,county_name
-Kansas General Election,2022-11-08 0:00:00,885819,Allen County Courthouse - Assembly Room (Lower Level),1 North Washington Ave,,Iola,KS,66749,"1 N Washington Ave, Iola, KS 66749, USA",FALSE,,2022-10-19 13:00:00,2022-10-19 22:00:00,Allen County
+Kansas General Election,2022-11-08 0:00:00,885936,Lied Center Pavilion,1299 Oread Ave,,Lawrence,KS,66044,"1299 Oread Ave, Lawrence, KS 66044, USA",FALSE,,2022-11-04 15:00:00,2022-11-05 0:00:00,Douglas County
+Kansas General Election,2022-11-08 0:00:00,885943,Douglas County Courthouse (Dropbox outside),1100 Massachusetts Street,,Lawrence,KS,66044,"1100 Massachusetts St, Lawrence, KS 66044, USA",TRUE,dropbox outside,2022-10-20 13:00:00,2022-10-21 4:59:00,Douglas County
