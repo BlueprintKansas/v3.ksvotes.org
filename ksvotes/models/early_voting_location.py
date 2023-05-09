@@ -3,6 +3,7 @@ from .base import TimeStampedModel
 from django.db import models, connection, transaction
 import csv
 from ksvotes.utils import ks_today
+import datetime
 
 
 class FutureElectionManager(models.Manager):
@@ -81,8 +82,12 @@ class EarlyVotingLocation(TimeStampedModel):
                         evl.save()
                         locations[location_id] = evl
                     hours = EarlyVotingLocationHours(
-                        opens_at=row[12],
-                        closes_at=row[13],
+                        opens_at=datetime.datetime.strptime(
+                            row[12] + "+0000", "%Y-%m-%d %H:%M:%S%z"
+                        ),
+                        closes_at=datetime.datetime.strptime(
+                            row[13] + "+0000", "%Y-%m-%d %H:%M:%S%z"
+                        ),
                         location=evl,
                     )
                     hours.save()
