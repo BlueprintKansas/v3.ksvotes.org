@@ -1,4 +1,4 @@
-Django>4.0
+Django==4.2.0
 bumpversion
 dateparser
 django-db-geventpool
