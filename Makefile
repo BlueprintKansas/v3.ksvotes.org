@@ -36,7 +36,7 @@ server:  ## starts app
 	@docker-compose up
 
 .PHONY: start
-start: server ## Alias for make server
+start: services-start ## Alias for make services-start
 
 .PHONY: setup
 setup: bootstrap ## sets up a project to be used for the first time
@@ -143,6 +143,10 @@ services-stop: ## stop dev services
 
 .PHONY: stop
 stop: services-stop ## Alias for make services-stop
+
+.PHONY: services-start
+services-start:
+	docker-compose up db redis
 
 .PHONY: fixtures
 fixtures: ## Load fixtures (inside container)
