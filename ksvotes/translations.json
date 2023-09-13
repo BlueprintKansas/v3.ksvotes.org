@@ -3,7 +3,7 @@
     "en":"IMPORTANT: Our Check Your Registration feature is currently experiencing technical difficulties. You can still register to vote or request an advance ballot using the form below. If you want to confirm your voter registration, please visit the Secretary of State's website at https://myvoteinfo.voteks.org/.",
     "es":""
  },
-   "announce":{
+   "announce_deadline":{
     "ref":"announce",
     "en":"PLEASE NOTE: Voter registration for the August 1, 2023 municipal primary election closed on July 11, 2023. Voter registrations submitted after that date will not be in effect until after the primary election. Advance ballot applications closed on July 25, 2023.",
     "es":"TENGA EN CUENTA: El registro de votantes para las elecciones del 1 de Agosto de 2023 se cerró el 11 de Julio de 2023. Los registros de votantes presentados después del 11 no estarán en vigencia hasta después de las elecciones del Agosto de 2023. Solicitudes de boletas anticipadas cerradas el 25 de Julio de 2023."
