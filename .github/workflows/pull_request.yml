@@ -84,11 +84,7 @@ jobs:
           DOCKER_BUILDKIT: 1
           ENV_NAME: ci
       - name: Install Chrome driver
-        run: |
-          export CHROME_MAIN_VERSION=`google-chrome-stable --version | sed -E 's/(^Google Chrome |\.[0-9]+ )//g'`
-          export CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAIN_VERSION"`
-          curl "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -O
-          unzip chromedriver_linux64.zip -d ~/bin
+        uses: nanasess/setup-chromedriver@v2
       - name: Run tests
         run: make ci-test
       - name: Browser tests
