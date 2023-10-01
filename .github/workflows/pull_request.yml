@@ -89,6 +89,7 @@ jobs:
           export CHROME_MAIN_VERSION=`google-chrome-stable --version | sed -E 's/(^Google Chrome |\.[0-9]+ )//g'`
           echo "CHROME_MAIN_VERSION=${CHROME_MAIN_VERSION}"
           export CHROMEDRIVER_VERSION=`curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAIN_VERSION"`
+          echo "CHROMEDRIVER_VERSION=${CHROMEDRIVER_VERSION}"
           curl "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" -O
           unzip chromedriver_linux64.zip -d ~/bin
       - name: Run tests
