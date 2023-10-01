@@ -175,7 +175,7 @@ pytest-cov==3.0.0
     # via -r requirements.in
 pytest-django==4.5.2
     # via -r requirements.in
-pytest-xdist==3.2.1
+pytest-xdist==3.3.1
     # via -r requirements.in
 python-crfsuite==0.9.8
     # via usaddress
