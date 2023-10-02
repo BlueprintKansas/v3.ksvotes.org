@@ -202,7 +202,7 @@ regex==2021.11.10
     # via dateparser
 request-id-django-log==0.2.0
     # via -r requirements.in
-requests==2.27.1
+requests==2.31.0
     # via ksmyvoteinfo
 s3transfer==0.5.0
     # via boto3
