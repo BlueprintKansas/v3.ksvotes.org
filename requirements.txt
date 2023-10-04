@@ -101,7 +101,7 @@ fs==2.4.14
     # via django-bakery
 future==0.18.3
     # via usaddress
-gevent==22.10.2
+gevent==23.9.0
     # via -r requirements.in
 greenlet==2.0.2
     # via gevent
