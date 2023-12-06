@@ -1,15 +1,11 @@
-FROM revolutionsystems/python:3.10.8-wee-optimized-lto as ksvotes
+FROM revolutionsystems/python:3.10.13-wee-lto-optimized as ksvotes
 
 # build ImageMagick with gslib for formfiller
 USER root
 
-# match postgresql-client-xx with docker-compose server version
-# https://stackoverflow.com/a/66325795
 RUN apt-get update && apt-get install -y gnupg dirmngr curl
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-RUN curl -s https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update && apt-get install --yes --no-install-recommends nginx xz-utils build-essential \
-      gettext postgresql-client-14 libpq-dev libffi-dev libgs-dev ghostscript fonts-liberation imagemagick wait-for-it \
+      gettext postgresql-client libpq-dev libffi-dev libgs-dev ghostscript fonts-liberation imagemagick wait-for-it \
       openssh-server iproute2
 
 WORKDIR /code
