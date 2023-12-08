@@ -79,7 +79,7 @@ django-health-check==3.17.0
     # via -r requirements.in
 django-rest-auth==0.9.5
     # via -r requirements.in
-django-test-plus==2.2.1
+django-test-plus==2.2.3
     # via -r requirements.in
 djangorestframework==3.14.0
     # via
