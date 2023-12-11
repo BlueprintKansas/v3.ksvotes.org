@@ -18,7 +18,7 @@ attrs==21.2.0
     #   pytest
 beautifulsoup4==4.11.1
     # via ksmyvoteinfo
-black==23.3.0
+black==23.11.0
     # via -r requirements.in
 boto3==1.20.20
     # via django-bakery
