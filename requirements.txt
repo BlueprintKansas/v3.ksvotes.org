@@ -95,7 +95,7 @@ environs[django]==9.5.0
     # via -r requirements.in
 execnet==1.9.0
     # via pytest-xdist
-factory-boy==3.2.1
+factory-boy==3.3.0
     # via -r requirements.in
 faker==9.9.0
     # via factory-boy
