@@ -45,7 +45,7 @@ click==8.0.3
     #   pip-tools
 colorama==0.4.4
     # via interrogate
-colorlog==6.7.0
+colorlog==6.8.0
     # via -r requirements.in
 coverage[toml]==6.2
     # via
