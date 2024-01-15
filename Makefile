@@ -35,6 +35,9 @@ server:  ## starts app
 	@docker-compose --file $(COMPOSE_FILE) run --rm web python manage.py migrate --noinput
 	@docker-compose up
 
+.PHONY: start
+start: server ## Alias for make server
+
 .PHONY: setup
 setup: bootstrap ## sets up a project to be used for the first time
 	docker-compose --file $(COMPOSE_FILE) run --rm web make migrate
@@ -54,10 +57,10 @@ test: test_pytest
 
 .PHONY: update
 update:  ## updates a project to run at its current version
-	@docker-compose --file $(COMPOSE_FILE) rm --force web
-	@docker-compose --file $(COMPOSE_FILE) pull
-	@docker-compose --file $(COMPOSE_FILE) build --force-rm
-	@docker-compose --file $(COMPOSE_FILE) run --rm web make migrate
+	docker-compose --file $(COMPOSE_FILE) rm --force web
+	docker-compose --file $(COMPOSE_FILE) pull
+	docker-compose --file $(COMPOSE_FILE) build --force-rm
+	docker-compose --file $(COMPOSE_FILE) run --rm web make migrate
 
 .PHONY: lint
 lint: ## run the pre-commit linters manually
@@ -137,6 +140,9 @@ coverage: ## Run Django tests with coverage (inside container)
 .PHONY: services-stop
 services-stop: ## stop dev services
 	docker-compose down
+
+.PHONY: stop
+stop: services-stop ## Alias for make services-stop
 
 .PHONY: fixtures
 fixtures: ## Load fixtures (inside container)
