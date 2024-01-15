@@ -107,11 +107,13 @@ fernet-key: ## Create Fernet encrypt key and echo to stdout
 
 .PHONY: deploy-prod
 deploy-prod: ## Deploy to production
+	heroku container:login
 	heroku container:push web --app ksvotes-v3
 	heroku container:release web --app ksvotes-v3
 
 .PHONY: deploy-stage
 deploy-stage:  ## Deploy to stage
+	heroku container:login
 	heroku container:push web --app ksvotes-staging
 	heroku container:release web --app ksvotes-staging
 
