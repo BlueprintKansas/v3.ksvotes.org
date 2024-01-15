@@ -64,7 +64,9 @@ $ make test
 
 ## Deploying
 
-TDB
+Deploy via the Github Action menu, or via the Heroku web UI, or via the command line with `make deploy-stage` and/or `make deploy-prod`.
+
+Note that deploying via `make` likely requires you run `heroku login` first.
 
 ## Production Environment Considerations
 
