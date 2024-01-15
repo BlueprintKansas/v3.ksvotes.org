@@ -4,7 +4,7 @@ DOCKER_NAME=ksvotes-v3-web
 ifeq (, $(shell which docker))
 DOCKER_CONTAINER_ID := docker-is-not-installed
 else
-DOCKER_CONTAINER_ID := $(shell docker ps --filter ancestor=$(DOCKER_IMG) --format "{{.ID}}" -a)
+DOCKER_CONTAINER_ID := $(shell docker ps --filter ancestor=$(DOCKER_IMG) --format "{{.ID}}")
 endif
 
 .PHONY: help
@@ -23,7 +23,6 @@ bootstrap:  ## installs/updates all dependencies
 
 .PHONY: console
 console:  ## opens a one-off console -- see attach for connecting to running container
-	@docker rm ksvotes-web-console || true
 	@docker run -p 8000:8000 -v $(PWD):/code \
    -e DJANGO_READ_DOT_ENV_FILE=true \
    --network v3ksvotesorg_default \
@@ -84,6 +83,9 @@ ci-logs-tail: ## tail the docker-compose logs
 .PHONY: attach
 attach: ## Attach to a running container and open a shell (like console for running container)
 	docker exec -it $(DOCKER_CONTAINER_ID) /bin/bash
+
+.PHONY: login
+login: attach ## Alias for make attach
 
 .PHONY: ci-test
 ci-test: ## run CI tests

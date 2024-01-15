@@ -10,7 +10,7 @@ djfernet
 email_validator
 environs[django]
 formfiller
-gevent
+gevent==23.9.1
 gunicorn
 hiredis
 kombu>=5.2.4
@@ -35,8 +35,7 @@ black
 django-bakery
 django-test-plus
 factory-boy
-interrogate
-pytest
+pytest==7.4.4
 pytest-cov
 pytest-django
 pytest-xdist
