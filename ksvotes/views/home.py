@@ -289,14 +289,10 @@ class HomepageView(StepView):
                 sos_reg = []
                 for rec in step.reg_found:
                     rec2save = {"tree": rec["tree"]}
-                    if "sample_ballots" in rec:
-                        rec2save["sample_ballot"] = rec["sample_ballots"]
-                    if "districts" in rec:
-                        rec2save["districts"] = rec["districts"]
-                    if "elections" in rec:
-                        rec2save["elections"] = rec["elections"]
-                    if "polling" in rec:
-                        rec2save["polling"] = rec["polling"]
+                    rec2save["sample_ballot"] = rec.get("sample_ballots")
+                    rec2save["districts"] = rec.get("districts")
+                    rec2save["elections"] = rec.get("elections")
+                    rec2save["polling"] = rec.get("polling")
 
                     # prepopulate address and party, if possible
                     try:
