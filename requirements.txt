@@ -41,7 +41,9 @@ click==8.0.3
 colorlog==6.8.0
     # via -r requirements.in
 coverage[toml]==6.2
-    # via pytest-cov
+    # via
+    #   coverage
+    #   pytest-cov
 cryptography==41.0.6
     # via djfernet
 dateparser==1.1.8
@@ -104,7 +106,7 @@ greenlet==2.0.2
     # via gevent
 gunicorn==21.2.0
     # via -r requirements.in
-hiredis==2.2.3
+hiredis==2.3.2
     # via -r requirements.in
 idna==3.3
     # via
