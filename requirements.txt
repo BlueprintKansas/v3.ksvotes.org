@@ -145,7 +145,7 @@ pathspec==0.9.0
     # via black
 pep517==0.12.0
     # via build
-pip-tools==6.13.0
+pip-tools==7.3.0
     # via -r requirements.in
 platformdirs==2.4.0
     # via black
@@ -218,6 +218,7 @@ tomli==1.2.2
     #   build
     #   coverage
     #   pep517
+    #   pip-tools
     #   pytest
 typing-extensions==4.8.0
     # via
