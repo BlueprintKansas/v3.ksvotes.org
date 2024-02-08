@@ -60,6 +60,7 @@ class FormAB1(Form):
         choices=[
             ("", lazy_gettext("1AB_select_party")),
             ("Democratic", "Democratic"),
+            ("No Labels Kansas", "No Labels Kansas"),
             ("Republican", "Republican"),
             ("Unaffiliated", "Unaffiliated"),
         ],
