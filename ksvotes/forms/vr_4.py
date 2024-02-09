@@ -11,7 +11,6 @@ class FormVR4(Form):
         choices=[
             ("", ""),
             ("Democratic", "Democratic"),
-            ("No Labels Kansas", "No Labels Kansas"),
             ("Republican", "Republican"),
             ("Unaffiliated", "Unaffiliated"),
             ("Libertarian", "Libertarian"),
