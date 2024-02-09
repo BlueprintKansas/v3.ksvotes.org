@@ -68,7 +68,7 @@ django-db-geventpool==4.0.2
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
-django-health-check==3.17.0
+django-health-check==3.18.1
     # via -r requirements.in
 django-rest-auth==0.9.5
     # via -r requirements.in
