@@ -46,7 +46,7 @@ coverage[toml]==6.2
     #   pytest-cov
 cryptography==42.0.0
     # via djfernet
-dateparser==1.1.8
+dateparser==1.2.0
     # via -r requirements.in
 dj-database-url==0.5.0
     # via environs
