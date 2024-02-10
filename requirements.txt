@@ -38,13 +38,15 @@ click==8.0.3
     # via
     #   black
     #   pip-tools
-colorlog==6.8.0
+colorlog==6.8.2
     # via -r requirements.in
 coverage[toml]==6.2
-    # via pytest-cov
-cryptography==41.0.6
+    # via
+    #   coverage
+    #   pytest-cov
+cryptography==42.0.0
     # via djfernet
-dateparser==1.1.8
+dateparser==1.2.0
     # via -r requirements.in
 dj-database-url==0.5.0
     # via environs
@@ -62,11 +64,11 @@ django-bakery==0.13.2
     # via -r requirements.in
 django-cache-url==3.2.3
     # via environs
-django-db-geventpool==4.0.1
+django-db-geventpool==4.0.2
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
-django-health-check==3.17.0
+django-health-check==3.18.1
     # via -r requirements.in
 django-rest-auth==0.9.5
     # via -r requirements.in
@@ -82,7 +84,7 @@ dnspython==2.2.1
     # via email-validator
 email-validator==2.1.0.post1
     # via -r requirements.in
-environs[django]==9.5.0
+environs[django]==10.3.0
     # via -r requirements.in
 exceptiongroup==1.2.0
     # via pytest
@@ -104,7 +106,7 @@ greenlet==2.0.2
     # via gevent
 gunicorn==21.2.0
     # via -r requirements.in
-hiredis==2.2.3
+hiredis==2.3.2
     # via -r requirements.in
 idna==3.3
     # via
@@ -130,7 +132,7 @@ marshmallow==3.20.2
     #   environs
 mypy-extensions==0.4.3
     # via black
-newrelic==9.3.0
+newrelic==9.6.0
     # via -r requirements.in
 packaging==23.0
     # via
@@ -143,7 +145,7 @@ pathspec==0.9.0
     # via black
 pep517==0.12.0
     # via build
-pip-tools==6.13.0
+pip-tools==7.3.0
     # via -r requirements.in
 platformdirs==2.4.0
     # via black
@@ -165,7 +167,7 @@ pytest==7.4.4
     #   pytest-xdist
 pytest-cov==3.0.0
     # via -r requirements.in
-pytest-django==4.5.2
+pytest-django==4.7.0
     # via -r requirements.in
 pytest-xdist==3.5.0
     # via -r requirements.in
@@ -216,6 +218,7 @@ tomli==1.2.2
     #   build
     #   coverage
     #   pep517
+    #   pip-tools
     #   pytest
 typing-extensions==4.8.0
     # via

@@ -3,15 +3,15 @@
     "en":"IMPORTANT: Our Check Your Registration feature is currently experiencing technical difficulties. You can still register to vote or request an advance ballot using the form below. If you want to confirm your voter registration, please visit the Secretary of State's website at https://myvoteinfo.voteks.org/.",
     "es":""
  },
-   "announce":{
+   "announce_deadline":{
     "ref":"announce",
-    "en":"PLEASE NOTE: Voter registration for the November 7th, 2023 municipal general election closed on October 17th, 2023. Voter registrations submitted after that date will not be in effect until after the general election. Advance Ballot applications closed on October 30th, 2023.",
-    "es":"TENGA EN CUENTA: El registro de votantes para las elecciones del 7 de Noviembre de 2023 se cerró el 17 de Octubre de 2023. Los registros de votantes presentados después del 17 no estarán en vigencia hasta después de las elecciones del Noviembre de 2023. Solicitar boleta anticipada cerraron el 30 de octubre de 2023."
+    "en":"PLEASE NOTE: Voter registration for the March 19, 2024 presidential preference primary closed on February 20th, 2024. Voter registrations submitted after that date will not be in effect until after the general election. Advance Ballot applications closed on February 20th, 2024.",
+    "es":"TENGA EN CUENTA: El registro de votantes para las elecciones del 19 de Marzo de 2024 se cerró el 20 de Febrero de 2024. Los registros de votantes presentados después del 20 no estarán en vigencia hasta después de las elecciones del Marzo de 2024. Solicitar boleta anticipada cerraron el 20 de febrero de 2024."
   },
-     "announce_abs":{
+     "announce":{
     "ref":"announce",
-    "en":"Advance ballot applications are now available for the 2023 Primary and General elections.",
-    "es":"Las solicitudes de boletas por correo ya están disponibles para las elecciones primarias y generales de 2023."
+    "en":"Advance ballot applications are now available for the 2024 Presidential Preference Primary and General elections.",
+    "es":"Las solicitudes de boletas por correo ya están disponibles para las elecciones primarias y generales de 2024."
   },
   "0_title":{
     "wiki_step":"0",
@@ -25,7 +25,7 @@
     "en":"Your Kansas Non-Profit Online Voter Registration Service",
     "es":"Su registro de votante en línea y servicio de información"
   },
-  "0_intro":{
+  "0_intro-deadline":{
     "wiki_step":"0",
     "ref":"0_intro",
     "en":"We can help you check your registration and find information on voting. To start the process, we need some information so that we can see if you are currently registered to vote in Kansas.",
@@ -37,7 +37,7 @@
     "en":"We can help you register to vote or check your registration. To start the process, we need some information so that we can see if you are currently registered to vote in Kansas.",
     "es":"Podemos ayudarlo a registrarse para votar o verificar su registro. Para comenzar el proceso, necesitamos cierta información para que podamos ver si usted está actualmente registrado para votar en Kansas."
   },
-  "0_intro_AB":{
+  "0_intro":{
     "wiki_step":"0",
     "ref":"0_intro",
     "en":"We can help you register to vote, check your registration, apply to vote by mail, or track your advance ballot status. To start the process, we need some information so that we can see if you are currently registered to vote in Kansas.",
@@ -287,12 +287,12 @@
     "es":"Puede inscribirse para las boletas por adelantado para las elecciones en el año calendario actual."
   },
   "1AB_select_election_primary":{
-    "en":"Primary (August 1, 2023)",
-    "es":"Elección Primaria (Agosto 1, 2023)"
+    "en":"Presidential Preference Primary (March 19, 2024)",
+    "es":"Elección Primaria (Marzo 19, 2024)"
   },
   "1AB_select_election_general":{
-    "en":"General (November 7, 2023)",
-    "es":"Elección General (Noviembre 7, 2023)"
+    "en":"General (November 5, 2024)",
+    "es":"Elección General (Noviembre 5, 2024)"
   },
   "1AB_select_perm":{
     "en":"Permanent vote by mail",
