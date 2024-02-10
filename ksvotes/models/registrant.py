@@ -121,19 +121,16 @@ class Registrant(TimeStampedModel):
         paginator = Paginator(queryset, 200)
         for page_number in paginator.page_range:
             page = paginator.page(page_number)
-            updates = []
             for r in page.object_list:
                 cls.redact(r)
-                updates.append(r)
-            cls.objects.bulk_update(
-                updates,
-                [
-                    "registration",
-                    "redacted_at",
-                    "identification_found",
-                    "ab_identification_found",
-                ],
-            )
+                r.save(
+                    update_fields=[
+                        "registration",
+                        "redacted_at",
+                        "identification_found",
+                        "ab_identification_found",
+                    ]
+                )
 
     def to_dict(self):
         return {
