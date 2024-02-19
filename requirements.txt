@@ -22,7 +22,7 @@ botocore==1.23.20
     # via
     #   boto3
     #   s3transfer
-build==0.8.0
+build==1.0.3
     # via pip-tools
 bump2version==1.0.1
     # via bumpversion
@@ -112,6 +112,8 @@ idna==3.3
     # via
     #   email-validator
     #   requests
+importlib-metadata==7.0.1
+    # via build
 iniconfig==1.1.1
     # via pytest
 jmespath==0.10.0
@@ -143,9 +145,7 @@ packaging==23.0
     #   pytest
 pathspec==0.9.0
     # via black
-pep517==0.12.0
-    # via build
-pip-tools==7.3.0
+pip-tools==7.4.0
     # via -r requirements.in
 platformdirs==2.4.0
     # via black
@@ -159,6 +159,10 @@ psycopg2-binary==2.9.9
     # via -r requirements.in
 pycparser==2.21
     # via cffi
+pyproject-hooks==1.0.0
+    # via
+    #   build
+    #   pip-tools
 pytest==7.4.4
     # via
     #   -r requirements.in
@@ -217,8 +221,8 @@ tomli==1.2.2
     #   black
     #   build
     #   coverage
-    #   pep517
     #   pip-tools
+    #   pyproject-hooks
     #   pytest
 typing-extensions==4.8.0
     # via
@@ -252,6 +256,8 @@ wtforms==3.1.2
     #   wtforms-recaptcha
 wtforms-recaptcha==0.3.2
     # via -r requirements.in
+zipp==3.17.0
+    # via importlib-metadata
 zope-event==4.5.0
     # via gevent
 zope-interface==5.4.0
