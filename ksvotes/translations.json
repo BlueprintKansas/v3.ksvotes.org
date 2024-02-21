@@ -3,12 +3,12 @@
     "en":"IMPORTANT: Our Check Your Registration feature is currently experiencing technical difficulties. You can still register to vote or request an advance ballot using the form below. If you want to confirm your voter registration, please visit the Secretary of State's website at https://myvoteinfo.voteks.org/.",
     "es":""
  },
-   "announce_deadline":{
+   "announce":{
     "ref":"announce",
-    "en":"PLEASE NOTE: Voter registration for the March 19, 2024 presidential preference primary closed on February 20th, 2024. Voter registrations submitted after that date will not be in effect until after the general election. Advance Ballot applications closed on February 20th, 2024.",
+    "en":"PLEASE NOTE: Voter registration for the March 19, 2024 presidential preference primary closed on February 20th, 2024. Voter registrations submitted after that date will not be in effect until after the general election. Advance Ballot applications are now available for the 2024 Primary and General elections.",
     "es":"TENGA EN CUENTA: El registro de votantes para las elecciones del 19 de Marzo de 2024 se cerró el 20 de Febrero de 2024. Los registros de votantes presentados después del 20 no estarán en vigencia hasta después de las elecciones del Marzo de 2024. Solicitar boleta anticipada cerraron el 20 de febrero de 2024."
   },
-     "announce":{
+     "announce_ab":{
     "ref":"announce",
     "en":"Advance ballot applications are now available for the 2024 Presidential Preference Primary and General elections.",
     "es":"Las solicitudes de boletas por correo ya están disponibles para las elecciones primarias y generales de 2024."
@@ -43,11 +43,11 @@
     "en":"We can help you register to vote, check your registration, apply to vote by mail, or track your advance ballot status. To start the process, we need some information so that we can see if you are currently registered to vote in Kansas.",
     "es":"Podemos ayudarlo a registrarse para votar, verificar su registro, solicite para votar por correo, o verifique el estado de su boleta por correo. Para comenzar el proceso, necesitamos cierta información para que podamos ver si usted está actualmente registrado para votar en Kansas."
   },
-  "0_form_explain":{
+  "0_form_explain_deadline":{
     "en":"Enter your information to look up your polling place, see early voting options, and view a sample ballot.",
     "es":"Ingrese su información para buscar su lugar de votación, vea las opciones de votación anticipada y vea una boleta de muestra."
   },
-   "0_form_explain_deadline":{
+   "form_explain":{
     "en":"To request an advance ballot or to register to vote in Kansas, we need to verify your current voter registration status.",
     "es":"Para solicitar una boleta por adelantado o para registrarse para votar, necesitamos verificar su estado actual de registro de votante."
   },
@@ -287,8 +287,8 @@
     "es":"Puede inscribirse para las boletas por adelantado para las elecciones en el año calendario actual."
   },
   "1AB_select_election_primary":{
-    "en":"Presidential Preference Primary (March 19, 2024)",
-    "es":"Elección Primaria (Marzo 19, 2024)"
+    "en":"Primary Election (August 6, 2024)",
+    "es":"Elección Primaria (Agosto 6, 2024)"
   },
   "1AB_select_election_general":{
     "en":"General (November 5, 2024)",
