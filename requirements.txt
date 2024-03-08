@@ -44,7 +44,7 @@ coverage[toml]==6.2
     # via
     #   coverage
     #   pytest-cov
-cryptography==42.0.2
+cryptography==42.0.4
     # via djfernet
 dateparser==1.2.0
     # via -r requirements.in
