@@ -41,9 +41,7 @@ click==8.0.3
 colorlog==6.8.2
     # via -r requirements.in
 coverage[toml]==6.2
-    # via
-    #   coverage
-    #   pytest-cov
+    # via pytest-cov
 cryptography==42.0.4
     # via djfernet
 dateparser==1.2.0
@@ -145,7 +143,7 @@ packaging==23.0
     #   pytest
 pathspec==0.9.0
     # via black
-pip-tools==7.4.0
+pip-tools==7.4.1
     # via -r requirements.in
 platformdirs==2.4.0
     # via black
