@@ -40,9 +40,9 @@ class USPS_API:
             )
         elif isinstance(validated_addresses, list):
             for count, address in enumerate(validated_addresses):
-                marshalled_addresses[
-                    self.address_order[count]
-                ] = self.marshall_single_address(address)
+                marshalled_addresses[self.address_order[count]] = (
+                    self.marshall_single_address(address)
+                )
         else:
             raise "Invalid addresses, cannot marshall"
 
