@@ -137,6 +137,8 @@ def read_parties(file_name):
     parties = []
     with open(f, "r") as fh:
         for p in fh.read().split("\n"):
+            if not p:
+                continue
             parties.append((p, p))
     return parties
 
