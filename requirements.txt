@@ -118,7 +118,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-kombu==5.3.5
+kombu==5.3.7
     # via -r requirements.in
 ksmyvoteinfo==1.5
     # via -r requirements.in
