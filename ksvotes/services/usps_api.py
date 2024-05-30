@@ -17,7 +17,7 @@ class USPS_API:
         """
         Convert a single address from pyusps into a dictionary with the correct k,vs or an en error
         """
-        marshalled_address = {}
+        marshalled_address = {"error": None}
         if isinstance(address, OrderedDict):
             for k, v in address.items():
                 if k == "address_extended":
@@ -40,9 +40,9 @@ class USPS_API:
             )
         elif isinstance(validated_addresses, list):
             for count, address in enumerate(validated_addresses):
-                marshalled_addresses[
-                    self.address_order[count]
-                ] = self.marshall_single_address(address)
+                marshalled_addresses[self.address_order[count]] = (
+                    self.marshall_single_address(address)
+                )
         else:
             raise "Invalid addresses, cannot marshall"
 
@@ -63,7 +63,8 @@ class USPS_API:
                     ("state", self.address_payload.get("state", "")),
                     ("zip_code", self.address_payload.get("zip", "")),
                     ("address_extended", self.address_payload.get("unit", "")),
-                ]
+                ],
+                error=None,
             )
         )
 
@@ -78,7 +79,8 @@ class USPS_API:
                         ("state", self.address_payload.get("prev_state", "")),
                         ("zip_code", self.address_payload.get("prev_zip", "")),
                         ("address_extended", self.address_payload.get("prev_unit", "")),
-                    ]
+                    ],
+                    error=None,
                 )
             )
 
@@ -92,7 +94,8 @@ class USPS_API:
                         ("state", self.address_payload.get("mail_state", "")),
                         ("zip_code", self.address_payload.get("mail_zip", "")),
                         ("address_extended", self.address_payload.get("mail_unit", "")),
-                    ]
+                    ],
+                    error=None,
                 )
             )
 

@@ -7,6 +7,7 @@ import re
 import dateparser
 from dateutil.parser import parse
 from django.utils.translation import gettext_lazy as lazy_gettext
+from django.conf import settings
 from wtforms.validators import DataRequired
 import logging
 
@@ -127,6 +128,19 @@ KS_TZ = ZoneInfo("America/Chicago")
 
 def ks_today():
     return datetime.utcnow().astimezone(tz=KS_TZ).date()
+
+
+def read_parties(file_name):
+    # read the .txt file, expect one party per-line
+    # returns list of tuples, name doubled.
+    f = settings.BASE_DIR.joinpath("ksvotes", file_name).as_posix()
+    parties = []
+    with open(f, "r") as fh:
+        for p in fh.read().split("\n"):
+            if not p:
+                continue
+            parties.append((p, p))
+    return parties
 
 
 def zip_code_matches(sosrec, zipcode):

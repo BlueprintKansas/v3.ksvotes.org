@@ -119,9 +119,9 @@ class NVRISClient:
             "mailing_zip": r.try_value("mail_zip"),
             "election_date": self.parse_election_date(election),
             "signature": sig,
-            "signature_date": r.signed_at_central_tz().strftime("%m/%d/%Y")
-            if sig
-            else False,
+            "signature_date": (
+                r.signed_at_central_tz().strftime("%m/%d/%Y") if sig else False
+            ),
             "phone_number": r.try_value("phone"),
             "democratic": True if party == "democratic" else False,
             "republican": True if party == "republican" else False,
@@ -149,9 +149,9 @@ class NVRISClient:
             "mailing_zip": r.try_value("mail_zip"),
             "reason_for_perm": r.try_value("perm_reason"),
             "signature": sig,
-            "signature_date": r.signed_at_central_tz().strftime("%m/%d/%Y")
-            if sig
-            else False,
+            "signature_date": (
+                r.signed_at_central_tz().strftime("%m/%d/%Y") if sig else False
+            ),
             "phone_number": r.try_value("phone"),
             "democratic": True if party == "democratic" else False,
             "republican": True if party == "republican" else False,

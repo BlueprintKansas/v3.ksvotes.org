@@ -29,6 +29,7 @@ def steps(request):
     else:
         flow_flavor = "vr"
     return {
+        "error": None,
         "next_btn": None,
         "next_btn_selector": None,
         "disabled_btn": None,
