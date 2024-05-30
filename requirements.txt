@@ -72,7 +72,7 @@ django-rest-auth==0.9.5
     # via -r requirements.in
 django-test-plus==2.2.3
     # via -r requirements.in
-djangorestframework==3.14.0
+djangorestframework==3.15.1
     # via
     #   -r requirements.in
     #   django-rest-auth
@@ -102,11 +102,11 @@ gevent==24.2.1
     # via -r requirements.in
 greenlet==2.0.2
     # via gevent
-gunicorn==21.2.0
+gunicorn==22.0.0
     # via -r requirements.in
 hiredis==2.3.2
     # via -r requirements.in
-idna==3.3
+idna==3.7
     # via
     #   email-validator
     #   requests
@@ -186,7 +186,6 @@ python-dotenv==0.19.2
 pytz==2021.3
     # via
     #   dateparser
-    #   djangorestframework
     #   fs
 pytz-deprecation-shim==0.1.0.post0
     # via tzlocal
@@ -198,7 +197,7 @@ regex==2021.11.10
     # via dateparser
 request-id-django-log==0.2.0
     # via -r requirements.in
-requests==2.31.0
+requests==2.32.2
     # via ksmyvoteinfo
 s3transfer==0.5.0
     # via boto3
