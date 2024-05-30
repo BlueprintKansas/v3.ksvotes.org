@@ -2,7 +2,7 @@
 from wtforms import Form, SelectField, SelectMultipleField, widgets, StringField
 from wtforms.validators import DataRequired
 from django.utils.translation import gettext_lazy as lazy_gettext
-from ksvotes.utils import is_even_year
+from ksvotes.utils import is_even_year, read_parties
 import logging
 
 logger = logging.getLogger(__name__)
@@ -59,11 +59,8 @@ class FormAB1(Form):
         lazy_gettext("1AB_party_help"),
         choices=[
             ("", lazy_gettext("1AB_select_party")),
-            ("Democratic", "Democratic"),
-            ("No Labels Kansas", "No Labels Kansas"),
-            ("Republican", "Republican"),
-            ("Unaffiliated", "Unaffiliated"),
-        ],
+        ]
+        + read_parties("ab-parties.txt"),
         default="",
     )
 
