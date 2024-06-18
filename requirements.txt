@@ -86,7 +86,7 @@ environs[django]==11.0.0
     # via -r requirements.in
 exceptiongroup==1.2.0
     # via pytest
-execnet==1.9.0
+execnet==2.1.1
     # via pytest-xdist
 factory-boy==3.3.0
     # via -r requirements.in
@@ -171,7 +171,7 @@ pytest-cov==3.0.0
     # via -r requirements.in
 pytest-django==4.8.0
     # via -r requirements.in
-pytest-xdist==3.5.0
+pytest-xdist==3.6.1
     # via -r requirements.in
 python-crfsuite==0.9.8
     # via usaddress
