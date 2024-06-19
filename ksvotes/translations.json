@@ -5,8 +5,8 @@
  },
   "announce":{
     "ref":"announce",
-    "en":"PLEASE NOTE: Voter registration for the March 19, 2024 presidential preference primary closed on February 20th, 2024. Voter registrations submitted after that date will not be in effect until after that election. Advance Ballot applications are now available for the 2024 Primary and General elections.",
-    "es":"TENGA EN CUENTA: El registro de votantes para las elecciones del 19 de Marzo de 2024 se cerró el 20 de Febrero de 2024. Los registros de votantes presentados después del 20 no estarán en vigencia hasta después de las elecciones del Marzo de 2024. Solicitar boleta anticipada cerraron el 20 de febrero de 2024."
+    "en":"PLEASE NOTE: The deadline to change political party to vote in the August 2024 primary election was June 3. You may still register to vote, but voters who currently belong to a political party may not change their party until after the August 2024 primary election. Unaffiliated voters may register with a party at any time by submitting a voter registration form.",
+    "es":"TENGA EN CUENTA: La fecha límite para cambiar de partido político para votar en las elecciones primarias de Agosto de 2024 era el 3 de junio. Aún puede registrarse para votar, pero los votantes que actualmente pertenecen a un partido político no pueden cambiar de partido hasta después de las elecciones primarias de agosto de 2024. Los votantes no afiliados pueden registrarse con un partido en cualquier momento presentando un formulario de registro de votantes."
   },
   "announce_ab":{
     "ref":"announce",
