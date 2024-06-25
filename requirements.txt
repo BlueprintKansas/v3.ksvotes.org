@@ -245,7 +245,7 @@ wand==0.6.13
     #   formfiller
 wheel==0.38.1
     # via pip-tools
-whitenoise==6.6.0
+whitenoise==6.7.0
     # via -r requirements.in
 wtforms==3.1.2
     # via
