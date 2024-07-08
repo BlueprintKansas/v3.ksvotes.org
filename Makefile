@@ -44,7 +44,7 @@ setup: bootstrap ## sets up a project to be used for the first time
 
 .PHONY: dev-setup
 dev-setup: ## install local development dependencies
-	pip install -U pre-commit black
+	pip install -U pre-commit black pip-tools
 	pip install -r requirements-ci.txt
 	npm install
 
