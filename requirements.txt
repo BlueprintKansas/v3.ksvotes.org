@@ -62,7 +62,7 @@ django-bakery==0.13.4
     # via -r requirements.in
 django-cache-url==3.2.3
     # via environs
-django-db-geventpool==4.0.2
+django-db-geventpool==4.0.6
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
@@ -150,9 +150,7 @@ pluggy==1.0.0
 probableparsing==0.0.1
     # via usaddress
 psycogreen==1.0.2
-    # via
-    #   -r requirements.in
-    #   django-db-geventpool
+    # via -r requirements.in
 psycopg2-binary==2.9.9
     # via -r requirements.in
 pycparser==2.21
