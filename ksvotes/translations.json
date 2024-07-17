@@ -5,8 +5,8 @@
  },
   "announce":{
     "ref":"announce",
-    "en":"PLEASE NOTE: The deadline to change political party to vote in the August 2024 primary election was June 3. You may still register to vote, but voters who currently belong to a political party may not change their party until after the August 2024 primary election. Unaffiliated voters may register with a party at any time by submitting a voter registration form.",
-    "es":"TENGA EN CUENTA: La fecha límite para cambiar de partido político para votar en las elecciones primarias de Agosto de 2024 era el 3 de junio. Aún puede registrarse para votar, pero los votantes que actualmente pertenecen a un partido político no pueden cambiar de partido hasta después de las elecciones primarias de agosto de 2024. Los votantes no afiliados pueden registrarse con un partido en cualquier momento presentando un formulario de registro de votantes."
+    "en":"PLEASE NOTE: The deadline to register to vote in the August 2024 primary election was July 16. Any voter registration forms will be processed after the August primary.",
+    "es":"TENGA EN CUENTA: La fecha límite para registrarse para votar en las elecciones primarias de agosto de 2024 fue el 16 de julio. Todos los formularios de registro de votantes se procesarán después de las primarias de agosto."
   },
   "announce_ab":{
     "ref":"announce",
