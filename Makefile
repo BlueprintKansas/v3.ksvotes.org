@@ -19,7 +19,7 @@ help: ## View this help
 
 .PHONY: bootstrap
 bootstrap:  ## installs/updates all dependencies
-	@docker-compose --file $(COMPOSE_FILE) build --force-rm
+	@docker compose --file $(COMPOSE_FILE) build --force-rm
 
 .PHONY: console
 console:  ## opens a one-off console -- see attach for connecting to running container
@@ -32,15 +32,15 @@ console:  ## opens a one-off console -- see attach for connecting to running con
 
 .PHONY: server
 server:  ## starts app
-	@docker-compose --file $(COMPOSE_FILE) run --rm web python manage.py migrate --noinput
-	@docker-compose up
+	@docker compose --file $(COMPOSE_FILE) run --rm web python manage.py migrate --noinput
+	@docker compose up
 
 .PHONY: start
 start: services-start ## Alias for make services-start
 
 .PHONY: setup
 setup: bootstrap ## sets up a project to be used for the first time
-	docker-compose --file $(COMPOSE_FILE) run --rm web make migrate
+	docker compose --file $(COMPOSE_FILE) run --rm web make migrate
 
 .PHONY: dev-setup
 dev-setup: ## install local development dependencies
@@ -50,17 +50,17 @@ dev-setup: ## install local development dependencies
 
 .PHONY: test_pytest
 test_pytest: ## Run coverage tests
-	@docker-compose run --rm web make coverage
+	@docker compose run --rm web make coverage
 
 .PHONY: test
 test: test_pytest
 
 .PHONY: update
 update:  ## updates a project to run at its current version
-	docker-compose --file $(COMPOSE_FILE) rm --force web
-	docker-compose --file $(COMPOSE_FILE) pull
-	docker-compose --file $(COMPOSE_FILE) build --force-rm
-	docker-compose --file $(COMPOSE_FILE) run --rm web make migrate
+	docker compose --file $(COMPOSE_FILE) rm --force web
+	docker compose --file $(COMPOSE_FILE) pull
+	docker compose --file $(COMPOSE_FILE) build --force-rm
+	docker compose --file $(COMPOSE_FILE) run --rm web make migrate
 
 .PHONY: lint
 lint: ## run the pre-commit linters manually
@@ -69,19 +69,19 @@ lint: ## run the pre-commit linters manually
 
 .PHONY: ci-start
 ci-start: ## start CI services
-	docker-compose up -d
+	docker compose up -d
 
 .PHONY: ci-stop
 ci-stop: ## Stop CI services
-	@docker-compose --file $(COMPOSE_FILE) down
+	@docker compose --file $(COMPOSE_FILE) down
 
 .PHONY: ci-logs
-ci-logs: ## view all the docker-compose logs
-	@docker-compose --file $(COMPOSE_FILE) logs --tail="all"
+ci-logs: ## view all the docker compose logs
+	@docker compose --file $(COMPOSE_FILE) logs --tail="all"
 
 .PHONY: ci-logs-tail
-ci-logs-tail: ## tail the docker-compose logs
-	@docker-compose --file $(COMPOSE_FILE) logs -f
+ci-logs-tail: ## tail the docker compose logs
+	@docker compose --file $(COMPOSE_FILE) logs -f
 
 .PHONY: attach
 attach: ## Attach to a running container and open a shell (like console for running container)
@@ -92,7 +92,7 @@ login: attach ## Alias for make attach
 
 .PHONY: ci-test
 ci-test: ## run CI tests
-	ENV_NAME=ci docker-compose exec -T web /code/run-ci-tests.sh
+	ENV_NAME=ci docker compose exec -T web /code/run-ci-tests.sh
 
 .PHONY: css
 css: ## Build css artifacts from scss
@@ -139,14 +139,14 @@ coverage: ## Run Django tests with coverage (inside container)
 
 .PHONY: services-stop
 services-stop: ## stop dev services
-	docker-compose down
+	docker compose down
 
 .PHONY: stop
 stop: services-stop ## Alias for make services-stop
 
 .PHONY: services-start
 services-start:
-	docker-compose up db redis
+	docker compose up db redis
 
 .PHONY: fixtures
 fixtures: ## Load fixtures (inside container)
