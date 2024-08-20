@@ -102,7 +102,7 @@ gevent==24.2.1
     # via -r requirements.in
 greenlet==2.0.2
     # via gevent
-gunicorn==22.0.0
+gunicorn==23.0.0
     # via -r requirements.in
 hiredis==3.0.0
     # via -r requirements.in
