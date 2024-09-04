@@ -42,7 +42,7 @@ colorlog==6.8.2
     # via -r requirements.in
 coverage[toml]==6.2
     # via pytest-cov
-cryptography==42.0.4
+cryptography==43.0.1
     # via djfernet
 dateparser==1.2.0
     # via -r requirements.in
