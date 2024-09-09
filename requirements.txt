@@ -62,7 +62,7 @@ django-bakery==0.13.4
     # via -r requirements.in
 django-cache-url==3.2.3
     # via environs
-django-db-geventpool==4.0.6
+django-db-geventpool==4.0.7
     # via -r requirements.in
 django-extensions==3.2.3
     # via -r requirements.in
