@@ -189,7 +189,7 @@ pytz-deprecation-shim==0.1.0.post0
     # via tzlocal
 pyusps==0.0.7
     # via -r requirements.in
-redis==5.0.8
+redis==5.1.1
     # via -r requirements.in
 regex==2021.11.10
     # via dateparser
