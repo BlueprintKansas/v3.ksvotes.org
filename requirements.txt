@@ -116,7 +116,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-kombu==5.4.0
+kombu==5.4.2
     # via -r requirements.in
 ksmyvoteinfo==1.5
     # via -r requirements.in
@@ -222,7 +222,9 @@ tomli==1.2.2
 typing-extensions==4.8.0
     # via black
 tzdata==2022.1
-    # via pytz-deprecation-shim
+    # via
+    #   kombu
+    #   pytz-deprecation-shim
 tzlocal==4.2
     # via dateparser
 urllib3==1.26.19
