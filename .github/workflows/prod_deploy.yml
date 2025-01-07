@@ -9,6 +9,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
       - name: Get Git sha
         run: echo GIT_SHA=`git rev-parse HEAD | cut -c1-8` >> $GITHUB_ENV
       - name: Build, Push and Release a Docker container to Heroku
