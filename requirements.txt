@@ -8,7 +8,7 @@ amqp==5.1.1
     # via kombu
 appdirs==1.4.4
     # via fs
-asgiref==3.6.0
+asgiref==3.8.1
     # via django
 async-timeout==4.0.3
     # via redis
@@ -50,7 +50,7 @@ dj-database-url==0.5.0
     # via environs
 dj-email-url==1.0.2
     # via environs
-django==4.2.17
+django==5.1.6
     # via
     #   -r requirements.in
     #   django-db-geventpool
@@ -220,7 +220,9 @@ tomli==1.2.2
     #   pyproject-hooks
     #   pytest
 typing-extensions==4.8.0
-    # via black
+    # via
+    #   asgiref
+    #   black
 tzdata==2022.1
     # via
     #   kombu
