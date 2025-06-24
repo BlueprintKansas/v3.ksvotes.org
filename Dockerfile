@@ -1,4 +1,4 @@
-FROM revolutionsystems/python:3.10.18-wee-lto-optimized as ksvotes
+FROM revolutionsystems/python:3.10.13-wee-lto-optimized as ksvotes
 
 # build ImageMagick with gslib for formfiller
 USER root
