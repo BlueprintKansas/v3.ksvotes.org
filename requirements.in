@@ -10,7 +10,7 @@ djfernet
 email_validator
 environs[django]
 formfiller
-gevent==24.2.1
+gevent==25.5.1
 gunicorn
 hiredis
 kombu>=5.2.4
