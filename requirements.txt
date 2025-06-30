@@ -38,7 +38,7 @@ click==8.0.3
     # via
     #   black
     #   pip-tools
-colorlog==6.8.2
+colorlog==6.9.0
     # via -r requirements.in
 coverage[toml]==6.2
     # via pytest-cov
