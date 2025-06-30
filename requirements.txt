@@ -58,7 +58,7 @@ django==4.2.22
     #   django-health-check
     #   django-rest-auth
     #   djangorestframework
-django-bakery==0.13.4
+django-bakery==0.13.5
     # via -r requirements.in
 django-cache-url==3.2.3
     # via environs
