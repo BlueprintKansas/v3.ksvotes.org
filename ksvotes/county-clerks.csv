@@ -1,7 +1,7 @@
 GEOCODE_FORMAT,COUNTY,OFFICER,EMAIL,HOURS,PHONE,FAX,ADDRESS1,ADDRESS2,CITY,STATE,ZIP
 Allen County,ALLEN,Shannon Patterson,coclerk@allencounty.org,8:00-5:00,6203651407,6203651441,1 N. Washington,,Iola,KS,66749
 Anderson County,ANDERSON,Julie Wettstein,jwettstein@andersoncountyks.org,8:00-5:00,7854486841,7854483205,100 E 4th Ave,,Garnett,KS,66032
-Atchison County,ATCHISON,Susan Carrigan,scarrigan@atcoks.org,8:30-5:00,9138046030,9133670227,423 N 5th St.,,Atchison,KS,66002
+Atchison County,ATCHISON,Susan Carrigan,clerks@atcoks.org,8:30-5:00,9138046030,9133670227,423 N 5th St.,,Atchison,KS,66002
 Barber County,BARBER,Amy Sill,asill@barber.ks.gov,8:30-5:00,6208863961,6208865425,120 E Washington,,Medicine Lodge,KS,67104
 Barton County,BARTON,Bev Schmeidler,voterreg@bartoncounty.org,8:00-5:00,6207931835,6207931990,1400 Main Street,Ste 202,Great Bend,KS,67530
 Bourbon County,BOURBON,Jennifer Hawkins,countyclerk@bourboncountyks.org,8:30-4:30,6202233800,6202235832,210 S. National,,Fort Scott,KS,66701
@@ -9,7 +9,7 @@ Brown County,BROWN,Nicole Lee,clerk@brcoks.org,8:00-5:00,7857422581,7857427705,6
 Butler County,BUTLER,Tatum Stafford,elections@bucoks.com,8:00-5:00,3163224229,3163211011,205 W Central Ave,2nd Floor,El Dorado,KS,67042
 Chase County,CHASE,Connie Pretzer,clerk@chasecountyks.com,8:00-5:00,6202736423,6202736581,PO Box 529,,Cottonwood Falls,KS,66845
 Chautauqua County,CHAUTAUQUA,Niki Collier,cqclerk@gmail.com,8:00-4:00,6207255800,6207255801,215 N Chautauqua,,Sedan,KS,67361
-Cherokee County,CHEROKEE,Rebecca S. Brassart,Rebecca.brassart@cherokeecounty-ks.gov,8:00-5:00,6203043032,6204291042,110 W. Maple St.,PO Box 14,Columbus,KS,66725
+Cherokee County,CHEROKEE,Taylor Brown,ckcoclerk@cherokeecounty-ks.gov,8:00-5:00,6203043032,6204291042,110 W. Maple St.,PO Box 14,Columbus,KS,66725
 Cheyenne County,CHEYENNE,Scott Houtman,cnclerk@cncoks.us,8:00-12:00 1:00-5:00,7853328800,7853328825,212 E Washington,,St Francis,KS,67756
 Clark County,CLARK,Rebecca Mishler,cacoclrk@ucom.net,8:00-5:00,6206352813,6206352051,PO Box 886,913 Highland,Ashland,KS,67831
 Clay County,CLAY,Kayla Wang,cyclerk@claycountykansas.org,8:00-5:00,7856322552,7856325856,712 5th Street,Suite 102,Clay Center,KS,67432
