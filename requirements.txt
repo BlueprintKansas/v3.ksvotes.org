@@ -46,7 +46,7 @@ coverage[toml]==6.2
     # via pytest-cov
 cryptography==44.0.1
     # via djfernet
-dateparser==1.2.0
+dateparser==1.2.2
     # via -r requirements.in
 dj-database-url==0.5.0
     # via environs
@@ -182,7 +182,7 @@ python-dateutil==2.8.2
     #   ksmyvoteinfo
 python-dotenv==0.19.2
     # via environs
-pytz==2021.3
+pytz==2025.2
     # via
     #   dateparser
     #   fs
@@ -192,7 +192,7 @@ pyusps==0.0.7
     # via -r requirements.in
 redis==5.2.1
     # via -r requirements.in
-regex==2021.11.10
+regex==2024.11.6
     # via dateparser
 request-id-django-log==0.2.0
     # via -r requirements.in
