@@ -37,7 +37,7 @@ def hidden_field(field):
         "html": field(**html_attrs),
         "errors": None,
         "help_text": None,
-        "label": None,
+        "label": "",
     }
 
 
