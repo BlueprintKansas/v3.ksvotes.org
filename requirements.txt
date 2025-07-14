@@ -118,7 +118,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-kombu==5.4.2
+kombu==5.5.4
     # via -r requirements.in
 ksmyvoteinfo==1.5
     # via -r requirements.in
@@ -139,6 +139,7 @@ packaging==23.0
     #   black
     #   build
     #   gunicorn
+    #   kombu
     #   pytest
 pathspec==0.9.0
     # via black
@@ -224,7 +225,7 @@ typing-extensions==4.8.0
     # via
     #   black
     #   marshmallow
-tzdata==2022.1
+tzdata==2025.2
     # via
     #   kombu
     #   pytz-deprecation-shim
