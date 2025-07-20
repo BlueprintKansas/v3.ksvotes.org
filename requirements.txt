@@ -84,13 +84,13 @@ dnspython==2.6.1
     # via email-validator
 email-validator==2.2.0
     # via -r requirements.in
-environs[django]==11.0.0
+environs[django]==14.2.0
     # via -r requirements.in
 exceptiongroup==1.2.0
     # via pytest
 execnet==2.1.1
     # via pytest-xdist
-factory-boy==3.3.1
+factory-boy==3.3.3
     # via -r requirements.in
 faker==9.9.0
     # via factory-boy
@@ -118,7 +118,7 @@ jmespath==0.10.0
     # via
     #   boto3
     #   botocore
-kombu==5.4.2
+kombu==5.5.4
     # via -r requirements.in
 ksmyvoteinfo==1.5
     # via -r requirements.in
@@ -139,6 +139,7 @@ packaging==23.0
     #   black
     #   build
     #   gunicorn
+    #   kombu
     #   pytest
 pathspec==0.9.0
     # via black
@@ -223,8 +224,9 @@ tomli==1.2.2
 typing-extensions==4.8.0
     # via
     #   black
+    #   environs
     #   marshmallow
-tzdata==2022.1
+tzdata==2025.2
     # via
     #   kombu
     #   pytz-deprecation-shim
@@ -246,7 +248,7 @@ wand==0.6.13
     #   formfiller
 wheel==0.38.1
     # via pip-tools
-whitenoise==6.7.0
+whitenoise==6.9.0
     # via -r requirements.in
 wtforms==3.1.2
     # via
