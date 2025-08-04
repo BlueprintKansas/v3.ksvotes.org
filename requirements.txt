@@ -98,8 +98,6 @@ formfiller==0.4
     # via -r requirements.in
 fs==2.4.14
     # via django-bakery
-future==0.18.3
-    # via usaddress
 gevent==25.5.1
     # via -r requirements.in
 greenlet==3.2.3
@@ -236,7 +234,7 @@ urllib3==1.26.19
     # via
     #   botocore
     #   requests
-usaddress==0.5.10
+usaddress==0.5.15
     # via -r requirements.in
 vine==5.1.0
     # via
