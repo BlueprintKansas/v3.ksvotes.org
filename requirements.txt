@@ -104,7 +104,7 @@ greenlet==3.2.3
     # via gevent
 gunicorn==23.0.0
     # via -r requirements.in
-hiredis==3.0.0
+hiredis==3.2.1
     # via -r requirements.in
 idna==3.7
     # via
