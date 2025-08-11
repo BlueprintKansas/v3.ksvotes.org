@@ -248,7 +248,7 @@ wheel==0.38.1
     # via pip-tools
 whitenoise==6.9.0
     # via -r requirements.in
-wtforms==3.1.2
+wtforms==3.2.1
     # via
     #   -r requirements.in
     #   wtforms-recaptcha
