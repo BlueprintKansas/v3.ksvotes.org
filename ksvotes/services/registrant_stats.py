@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import connection
 import datetime
+from dateutil.relativedelta import relativedelta
 
 
 class RegistrantStats:
@@ -81,3 +82,30 @@ class RegistrantStats:
         with connection.cursor() as cursor:
             cursor.execute(sql, [start_date, end_date])
             return cursor.fetchall()
+
+    def reg_complete(self, start_date: datetime.date):
+        end_date = start_date + relativedelta(months=1)
+        sql = """
+      select
+      id
+      , dob_year
+      , county
+      , (created_at at time zone 'america/chicago')::date as date
+      , (created_at at time zone 'america/chicago') as time_started
+      , (vr_completed_at at time zone 'america/chicago') as vr_time
+      , (ab_completed_at at time zone 'america/chicago') as ab_time
+      , reg_found
+      , ref
+      , lang
+      , user_agent
+      from ksvotes_registrant
+      where county not ilike 'test'
+      and (reg_found is true or vr_completed_at is not null or ab_completed_at is not null)
+      and (created_at at time zone 'america/chicago')::date >= %s
+      and (created_at at time zone 'america/chicago')::date < %s
+      order by 5 asc
+    """
+        with connection.cursor() as cursor:
+            cursor.execute(sql, [start_date, end_date])
+            columns = [col[0] for col in cursor.description]
+            return columns, cursor.fetchall()

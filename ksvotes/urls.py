@@ -23,6 +23,7 @@ urlpatterns = [
     path("ref", home.referring_org, name="home.ref_v2"),
     path("r/<refcode>/", home.referring_org_redirect, name="home.ref_v2_redirect"),
     path("api/total-processed/", home.api_total_processed, name="api.total_processed"),
+    path("api/registrations/", home.api_reg_complete, name="api.reg_complete"),
     path("demo/", home.demo, name="home.demo"),
     path("debug/", home.debug, name="home.debug"),
     path("terms/", home.terms, name="home.terms"),

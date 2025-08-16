@@ -3,6 +3,7 @@ from ksvotes.tests.test_utils import KSVotesTestCase
 from django.utils import timezone
 from django.conf import settings
 import uuid
+import datetime
 from ksvotes.models import Registrant
 from ksvotes.services.ksvotes_redis import KSVotesRedis
 from ksvotes.services.registrant_stats import RegistrantStats
@@ -12,6 +13,52 @@ class ApiTestCase(KSVotesTestCase):
     def setUp(self):
         # make sure demo does NOT exist
         Registrant.find_by_session(settings.DEMO_UUID).delete()
+
+    def test_api_registrations(self):
+        now = timezone.now()
+        today = now.date()
+        start_date = today - datetime.timedelta(days=30)
+
+        new_registrant = Registrant(lang="en", county="Johnson", vr_completed_at=now)
+        new_registrant.save()
+
+        s = RegistrantStats()
+        columns, registrations = s.reg_complete(today)
+
+        self.assertEqual("id", columns[0], "column headers")
+        self.assertEqual(1, len(registrations), "one registration")
+
+        response = self.client.get("/api/registrations/")
+        self.assertEqual(response.status_code, 200)
+        expected_filename = (
+            f'attachment; filename="ksvotes-registrations-{start_date.isoformat()}.csv"'
+        )
+        self.assertEqual(expected_filename, response.headers["Content-Disposition"])
+        self.assertIn(",Johnson,", str(response.content), "csv body")
+
+        response = self.client.get(
+            f"/api/registrations/?start_date={today.isoformat()}"
+        )
+        self.assertEqual(response.status_code, 200)
+        expected_filename = (
+            f'attachment; filename="ksvotes-registrations-{today.isoformat()}.csv"'
+        )
+        self.assertEqual(
+            expected_filename,
+            response.headers["Content-Disposition"],
+            "start_date query param respected",
+        )
+
+        response = self.client.get("/api/registrations/?start_date=foo")
+        self.assertEqual(response.status_code, 200)
+        expected_filename = (
+            f'attachment; filename="ksvotes-registrations-{start_date.isoformat()}.csv"'
+        )
+        self.assertEqual(
+            expected_filename,
+            response.headers["Content-Disposition"],
+            "graceful date parsing",
+        )
 
     def test_api_total_processed(self):
         redis = KSVotesRedis()
