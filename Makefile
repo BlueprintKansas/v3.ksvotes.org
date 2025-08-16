@@ -171,6 +171,10 @@ migrate: ## Run db migrations (inside container)
 	wait-for-it -h $(DATABASE_HOST) -p 5432 -t 20
 	python manage.py migrate --noinput
 
+.PHONY: db
+db: ## Connect to local psql
+	@. ./.env; psql -U $${PGUSER} -h localhost
+
 .PHONY: migrations
 migrations:
 	python manage.py makemigrations ksvotes
