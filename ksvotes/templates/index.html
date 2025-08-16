@@ -44,7 +44,8 @@
   <input type="hidden" name="skip-sos" id="skip-sos" value="" />
   <div class="mt-4">
     <button id="btn-next" class="btn btn-outline-default" type="submit">
-      <i class="fa checkmark fa-check mr-2"></i>{{_('btn_check')}}
+      <i class="fa checkmark fa-check mr-2"></i>
+      <span class="lang">{{_('btn_check')}}</span>
     </button>
     <a href="#" id="skip-sos-link" class="d-block mt-3 fs-14" onclick="return false">
       {{_('skip_sos_check')}}
@@ -103,6 +104,14 @@ $(function () {
   $('#skip-sos-link').click(function() {
     $('#skip-sos').val('true');
     $('#btn-next').trigger('click');
+  });
+
+  $('.lang-toggle').click(function() {
+    let tag = $(this);
+    let nextBtn = $('#btn-next');
+    let newLang = tag.find('.lang').text();
+    nextBtn.find('.lang').text(newLang);
+    $('#arrow-down').click();
   });
 });
 </script>
