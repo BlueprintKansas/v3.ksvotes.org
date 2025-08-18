@@ -90,7 +90,7 @@ jobs:
         run: make ci-test
       - name: Browser tests
         run: |
-          mkdir -p /dev/.pytest_cache
+          sudo mkdir -p /dev/.pytest_cache
           wait-for-it -h test.ksvotes.org -p 5432
           wait-for-it -h test.ksvotes.org -p 8000
           curl -vv -s http://test.ksvotes.org:8000/ > /dev/null
