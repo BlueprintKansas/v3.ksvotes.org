@@ -34,7 +34,7 @@ class DummyClient:
             raise ValueError("invalid state code")
 
         if address["zip5"] == "00000":
-            return ValueError("bad ZIP")
+            raise ValueError("invalid ZIP")
 
         return address
 
@@ -226,11 +226,14 @@ class USPS_API:
             return False
 
     def verify_with_usps(self, addresses):
-        try:
-            responses = []
-            for address in addresses:
+        responses = []
+        for address in addresses:
+            try:
                 r = self.client.standardize(address)
                 responses.append(r)
-            return responses
-        except Exception:
+            except Exception as err:
+                responses.append(err)
+
+        if len(responses) == 1 and isinstance(responses[0], ValueError):
             return False
+        return responses
