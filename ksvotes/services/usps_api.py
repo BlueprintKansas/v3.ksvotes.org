@@ -13,6 +13,20 @@ TEST_URL = "TODO"
 SKIPPED = "Address verification skipped."
 
 
+class DummyClient:
+    """Use for CI tests when we don't want to ping USPS"""
+
+    def standardize(self, address: dict[str, str]) -> dict[str, str]:
+        if address["address_extended"].startswith("Room"):
+            address["address_extended"] = address["address_extended"].replace(
+                "Room", "RM"
+            )
+        if address["state"] == "KANSAS":
+            address["state"] = "KS"
+
+        return address
+
+
 class Client:
     def __init__(self, token_type, token):
         self.authz_header = f"{token_type} {token}"
@@ -100,7 +114,7 @@ class USPS_API:
         self.client = Client(resp_payload["token_type"], resp_payload["access_token"])
 
     def _init_dummy_client(self):
-        self.client = None
+        self.client = DummyClient()
 
     def marshall_single_address(self, address):
         """
