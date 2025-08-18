@@ -17,7 +17,8 @@ class DummyClient:
     """Use for CI tests when we don't want to ping USPS"""
 
     def standardize(self, address: dict[str, str]) -> dict[str, str]:
-        if address.get("address_extended", "").startswith("Room"):
+        unit = address.get("address_extended", "") or ""
+        if unit and unit.startswith("Room"):
             address["address_extended"] = address["address_extended"].replace(
                 "Room", "RM"
             )
