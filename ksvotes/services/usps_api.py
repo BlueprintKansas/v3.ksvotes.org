@@ -59,13 +59,23 @@ class Client:
         return resp.json()
 
     def standardize(self, address: dict[str, str]):
+        zips = address.get("zip_code").split("-")
+        zip4 = ""
+        if len(zips) == 2:
+            zip4 = zips[1]
+            zip5 = zips[0]
+        else:
+            zip5 = zips[0]
+
         params = {
             "streetAddress": address["address"],
             "secondaryAddress": address["address_extended"],
             "city": address["city"],
             "state": address["state"],
-            "ZIPCode": address["zip_code"],
+            "ZIPCode": zip5,
         }
+        if zip4:
+            address["ZIPPlus4"] = zip4
 
         # USPS requires 2-letter state abbreviations
         if params["state"] == "KANSAS":
@@ -73,6 +83,7 @@ class Client:
         if len(params["state"]) != 2:
             city_state = self.city_state(params["ZIPCode"])
             params["state"] = city_state.get("state")
+        params["state"] = params["state"].upper()
 
         url = f"{PROD_URL}/addresses/v3/address?{urlencode(params)}"
         headers = {
@@ -88,7 +99,7 @@ class Client:
         # TODO parse nuances in corrections, etc.
         r = resp.get("address")
         if r is None:
-            raise ValueError(resp.json())
+            raise ValueError(resp)
 
         standard = {
             "address": r.get("streetAddress"),
@@ -236,6 +247,8 @@ class USPS_API:
                 responses.append(r)
             except Exception as err:
                 responses.append(err)
+
+        logger.info(f"{responses=}")
 
         if len(responses) == 1 and isinstance(responses[0], ValueError):
             return False
