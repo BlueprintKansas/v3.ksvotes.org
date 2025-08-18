@@ -17,6 +17,7 @@ class DummyClient:
     """Use for CI tests when we don't want to ping USPS"""
 
     def standardize(self, address: dict[str, str]) -> dict[str, str]:
+        address["zip5"] = address["zip_code"]
         unit = address.get("address_extended", "") or ""
         if unit and unit.startswith("Room"):
             address["address_extended"] = address["address_extended"].replace(
@@ -24,6 +25,16 @@ class DummyClient:
             )
         if address["state"] == "KANSAS":
             address["state"] = "KS"
+
+        if address["zip5"] == "66043" and address["city"] == "Lawrence":
+            address["zip5"] = "66044"
+            address["zip4"] = "2371"
+
+        if address["state"] == "NA":
+            raise ValueError("invalid state code")
+
+        if address["zip5"] == "00000":
+            return ValueError("bad ZIP")
 
         return address
 
@@ -81,7 +92,8 @@ class Client:
             "address_extended": r.get("secondaryAddress"),
             "city": r.get("city"),
             "state": r.get("state"),
-            "zip_code": "-".join([r.get("ZIPCode"), r.get("ZIPPlus4")]),
+            "zip5": r.get("ZIPCode"),
+            "zip4": r.get("ZIPPlus4"),
         }
         return standard
 
@@ -216,16 +228,10 @@ class USPS_API:
             return False
 
     def verify_with_usps(self, addresses):
-        responses = []
-        for address in addresses:
-            r = self.client.standardize(address)
-            responses.append(r)
-        return responses
         try:
             responses = []
             for address in addresses:
                 r = self.client.standardize(address)
-                logger.warning(r)
                 responses.append(r)
             return responses
         except Exception:
