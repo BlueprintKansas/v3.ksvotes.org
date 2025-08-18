@@ -19,7 +19,6 @@ marshmallow>=3.15
 newrelic
 psycogreen
 psycopg2-binary
-pyusps
 redis
 Wand
 whitenoise
