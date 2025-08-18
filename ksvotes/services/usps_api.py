@@ -164,8 +164,6 @@ class USPS_API:
         else:
             raise "Invalid addresses, cannot marshall"
 
-        # import code; code.interact(local=dict(globals(), **locals()))
-
         return marshalled_addresses
 
     def validate_addresses(self):
