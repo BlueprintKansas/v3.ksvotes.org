@@ -45,7 +45,7 @@ class DummyClient:
         if not address["zip5"] or address["zip5"] == "00000":
             raise ValueError("invalid ZIP")
 
-        if address["city"] == "SPECIFIC CITY" or address["city"] == "SOME PLACE":
+        if address["city"] in ["SPECIFIC CITY", "SOME PLACE", "NOWHERE"]:
             raise ValueError("invalid city")
 
         return address
