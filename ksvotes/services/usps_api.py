@@ -17,12 +17,18 @@ class DummyClient:
     """Use for CI tests when we don't want to ping USPS"""
 
     def standardize(self, address: dict[str, str]) -> dict[str, str]:
-        address["zip5"] = address["zip_code"]
+        address["zip5"] = address.pop("zip_code")
         unit = address.get("address_extended", "") or ""
         if unit and unit.startswith("Room"):
             address["address_extended"] = address["address_extended"].replace(
                 "Room", "RM"
             )
+
+        for k, v in address.items():
+            if v is None:
+                continue
+            address[k] = v.upper()
+
         if address["state"] == "KANSAS":
             address["state"] = "KS"
 
@@ -30,13 +36,16 @@ class DummyClient:
             address["zip5"] = "66044"
             address["zip4"] = "2371"
 
+        if address["zip5"] == "66044" and address["address"] == "707 VERMONT ST":
+            address["zip4"] = "2371"
+
         if address["state"] == "NA":
             raise ValueError("invalid state code")
 
-        if address["zip5"] == "00000":
+        if not address["zip5"] or address["zip5"] == "00000":
             raise ValueError("invalid ZIP")
 
-        if address["city"] == "Specific City" or address["city"] == "Some Place":
+        if address["city"] == "SPECIFIC CITY" or address["city"] == "SOME PLACE":
             raise ValueError("invalid city")
 
         return address
@@ -248,7 +257,7 @@ class USPS_API:
             except Exception as err:
                 responses.append(err)
 
-        logger.info(f"{responses=}")
+        logger.debug(f"{responses=}")
 
         if len(responses) == 1 and isinstance(responses[0], ValueError):
             return False
