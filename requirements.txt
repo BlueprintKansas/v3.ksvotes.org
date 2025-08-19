@@ -163,8 +163,10 @@ pytest-django==4.11.1
     # via -r requirements.in
 pytest-xdist==3.8.0
     # via -r requirements.in
-python-crfsuite==0.9.8
-    # via usaddress
+python-crfsuite==0.9.11
+    # via
+    #   -r requirements.in
+    #   usaddress
 python-dateutil==2.8.2
     # via
     #   botocore
