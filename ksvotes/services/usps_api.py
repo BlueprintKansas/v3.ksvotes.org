@@ -257,7 +257,7 @@ class USPS_API:
             except Exception as err:
                 responses.append(err)
 
-        logger.debug(f"{responses=}")
+        logger.info(f"{responses=}")
 
         if len(responses) == 1 and isinstance(responses[0], ValueError):
             return False
