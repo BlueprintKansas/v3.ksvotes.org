@@ -101,7 +101,7 @@ class USPS_API:
 
         logger.debug("Trying USPS address lookup")
         results = self.verify_with_usps(addresses)
-        logger.debug("USPS API returned {}".format(results))
+        logger.info("USPS API returned {}".format(results))
         if results:
             return self.marshall_address_results(results)
         else:
