@@ -32,7 +32,7 @@ class DummyClient:
         if address["state"] == "KANSAS":
             address["state"] = "KS"
 
-        if address["zip5"] == "66043" and address["city"] == "Lawrence":
+        if address["zip5"] == "66043" and address["city"] == "LAWRENCE":
             address["zip5"] = "66044"
             address["zip4"] = "2371"
 
