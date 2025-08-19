@@ -16,6 +16,7 @@ from ksvotes.services.steps import Step_0
 from ksvotes.services.session_manager import SessionManager
 import logging
 import datetime
+import csv
 from uuid import uuid4
 from ksvotes.services.registrant_stats import RegistrantStats
 from ksvotes.services.ksvotes_redis import KSVotesRedis
@@ -81,6 +82,35 @@ def api_total_processed(request):
     reg_count = int(r.get_or_set("vr-total-processed", get_vr_total, ttl))
     ab_count = int(r.get_or_set("ab-total-processed", get_ab_total, ttl))
     return JsonResponse({"registrations": reg_count, "advanced_ballots": ab_count})
+
+
+def api_reg_complete(request):
+    s = RegistrantStats()
+
+    default_date = datetime.date.today() - datetime.timedelta(days=30)
+
+    try:
+        start_date = datetime.datetime.strptime(
+            request.GET.get("start_date", default_date.isoformat()), "%Y-%m-%d"
+        ).date()
+    except ValueError:
+        start_date = default_date
+
+    columns, registrations = s.reg_complete(start_date)
+
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={
+            "Content-Disposition": f'attachment; filename="ksvotes-registrations-{start_date}.csv"'
+        },
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(columns)
+    for row in registrations:
+        writer.writerow(list(row))
+
+    return response
 
 
 def terms(request):
