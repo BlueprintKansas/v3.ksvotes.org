@@ -109,6 +109,9 @@ class USPS_API:
 
     def verify_with_usps(self, addresses):
         try:
-            return address_information.verify(self.usps_id, *addresses)
-        except Exception:
+            r = address_information.verify(self.usps_id, *addresses)
+            print(f"{r=}")
+            return r
+        except Exception as e:
+            print(f"USPS API failed: {e}")
             return False
