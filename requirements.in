@@ -32,10 +32,11 @@ request-id-django-log
 
 # Testing
 black
+coverage==7.10.4
 django-bakery
 django-test-plus
 factory-boy
-pytest==7.4.4
+pytest
 pytest-cov
 pytest-django
 pytest-xdist
