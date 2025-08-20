@@ -78,7 +78,9 @@ jobs:
           cat /etc/hosts
       - name: Install dependencies
         run: |
-          sudo apt-get update && sudo apt-get install --yes wait-for-it
+          # update can take way too long
+          # sudo apt-get update
+          sudo apt-get install --yes wait-for-it
           make dev-setup
           playwright install --with-deps
       - name: Build docker images
