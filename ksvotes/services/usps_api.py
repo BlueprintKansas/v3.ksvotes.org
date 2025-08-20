@@ -19,7 +19,7 @@ class DummyClient:
     def standardize(self, address: dict[str, str]) -> dict[str, str]:
         address["zip5"] = address.pop("zip_code")
         unit = address.get("address_extended", "") or ""
-        if unit and str(unit).startswith("Room"):
+        if unit and unit.startswith("Room"):
             address["address_extended"] = address["address_extended"].replace(
                 "Room", "RM"
             )
