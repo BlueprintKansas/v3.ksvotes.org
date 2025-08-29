@@ -8,9 +8,9 @@ A Django implementation of ksvotes.org.
 
 ## Local Development Setup
 
-This project uses Python 3.10.x, Node 14.x or newer, Docker, and Docker Compose.
+This project uses Python 3.10.x, Node 14.x or newer (we suggest using [pyenv](https://github.com/pyenv/pyenv)), Docker, and Docker Compose.
 
-Make a Python 3.10.x (or newer) virtualenv.
+Make a Python 3.10.x (or newer) virtualenv (we suggest using [nvm](https://github.com/nvm-sh/nvm)).
 
 ```shell
 $ python3 -m venv venv
@@ -35,8 +35,11 @@ $ make setup
 
 # interactive bash shell in web container
 $ make console
+    # start the server (once in the console)
+    root@randomdockerstring:/app# make run
 
 # start our services with daemon mode
+# for interative development, probably instead use $ make console (see above)
 $ make server
 
 # see all make targets available
