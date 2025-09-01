@@ -127,7 +127,14 @@ KS_TZ = ZoneInfo("America/Chicago")
 
 
 def ks_today():
-    return datetime.utcnow().astimezone(tz=KS_TZ).date()
+    ks_today_env = os.getenv("KS_TODAY", None)
+    if ks_today_env:
+        return parse(f"{ks_today_env} CST", tzinfos={"CST": KS_TZ}).date()
+    return ks_now().date()
+
+
+def ks_now():
+    return datetime.utcnow().astimezone(tz=KS_TZ)
 
 
 def read_parties(file_name):
@@ -187,7 +194,7 @@ def primary_election_active(deadline=None, current_time=None):
 
     # Determine if we're past deadline
     if current_time is None:
-        current_time = datetime.utcnow().astimezone(timezone.utc)
+        current_time = ks_now().astimezone(timezone.utc)
 
     if current_time > deadline_utc:
         return False
@@ -220,8 +227,7 @@ def list_of_elections():
 def is_even_year(year=None):
     """Determine if it's an even year"""
     if year is None:
-        today = datetime.today()
-        year = today.year
+        year = ks_today().year
 
     if year % 2 == 0:
         return True
@@ -232,7 +238,7 @@ def is_even_year(year=None):
 def str_to_bool(string):
     if isinstance(string, bool):
         return string
-    if string == "True":
+    if string.lower() == "true":
         return True
     else:
         return False
