@@ -3,7 +3,8 @@ from .base import TimeStampedModel
 from django.db import models
 import json
 import dateparser
-from datetime import timedelta
+from datetime import timedelta, date
+from ksvotes import utils
 
 
 class Election(TimeStampedModel):
@@ -26,6 +27,9 @@ class Election(TimeStampedModel):
     ab_deadline = models.DateField(null=False)
     in_person_voting_start = models.DateField(null=False)
 
+    class Meta:
+        ordering = ["election_date"]  # queries always sort election_date asc
+
     @classmethod
     def find_or_create_by(cls, **kwargs):
         found_one = cls.objects.filter(**kwargs).first()
@@ -34,6 +38,18 @@ class Election(TimeStampedModel):
         else:
             election = cls(**kwargs)
             return election
+
+    @classmethod
+    def upcoming(cls):
+        # return the Election recs that will happen this year,
+        # and are not in the past, relative to utils.ks_today()
+        today = utils.ks_today()
+        year = today.year
+        year_end = date(year, 12, 31)
+        return cls.objects.filter(
+            election_date__gte=today,
+            election_date__lt=year_end,
+        ).all()
 
     @classmethod
     def load_fixtures(cls, json_file):
