@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import usaddress
-from datetime import datetime, timezone
+from datetime import datetime
 from zoneinfo import ZoneInfo
 import os
 import re
@@ -176,37 +176,17 @@ def parse_election_date(election):
     return dateparser.parse(date)
 
 
-def primary_election_active(deadline=None, current_time=None):
-    """
-    Determine if the primary election is active or not
-
-    AB_PRIMARY_DEADLINE env var format is `YYYY-MM-DD HH:MM::SS` assuming a
-    Central US time zone.
-    """
-    # Determine deadline from the environment
-    if deadline is None:
-        return False
-
-    # Parse our deadline
-    deadline_utc = parse(f"{deadline} CST", tzinfos={"CST": KS_TZ}).astimezone(
-        timezone.utc
-    )
-
-    # Determine if we're past deadline
-    if current_time is None:
-        current_time = ks_now().astimezone(timezone.utc)
-
-    if current_time > deadline_utc:
-        return False
-    else:
-        return True
-
-
 def list_of_elections():
+    from ksvotes.models import Election
+
+    upcoming = Election.upcoming()
+
     elect_list = []
 
-    # if we are before AB_PRIMARY_DEADLINE
-    if primary_election_active(os.getenv("AB_PRIMARY_DEADLINE", None)):
+    # ideally we could use the Election.name
+    # but we want gettext objects for translations.
+
+    if len(upcoming) > 1:
         elect_list.append(
             (
                 lazy_gettext("1AB_select_election_primary"),
@@ -214,13 +194,16 @@ def list_of_elections():
             )
         )
 
-    elect_list.append(
-        (
-            lazy_gettext("1AB_select_election_general"),
-            lazy_gettext("1AB_select_election_general"),
+    if upcoming:
+        elect_list.append(
+            (
+                lazy_gettext("1AB_select_election_general"),
+                lazy_gettext("1AB_select_election_general"),
+            )
         )
-    )
+
     elect_list.append(("permanent", lazy_gettext("1AB_select_perm")))
+
     return elect_list
 
 

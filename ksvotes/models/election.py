@@ -40,15 +40,16 @@ class Election(TimeStampedModel):
             return election
 
     @classmethod
-    def upcoming(cls):
-        # return the Election recs that will happen this year,
-        # and are not in the past, relative to utils.ks_today()
-        today = utils.ks_today()
+    def upcoming(cls, today=None):
+        # return the Election recs in the future relative to utils.ks_today().
+        # the ab_deadline value is used since we are focused on the ability
+        # to select an actionable election.
+        today = today or utils.ks_today()
         year = today.year
         year_end = date(year, 12, 31)
         return cls.objects.filter(
-            election_date__gte=today,
-            election_date__lt=year_end,
+            ab_deadline__gte=today,
+            ab_deadline__lt=year_end,
         ).all()
 
     @classmethod
@@ -65,7 +66,8 @@ class Election(TimeStampedModel):
                 if election_type not in [et.label for et in cls.ElectionType]:
                     raise ValueError("type must be General, Primary or Special")
                 election_type = cls.ElectionType[election_type.upper()]
-                name = e.get("name", f"{election_type.label} {election_date.year}")
+                date_str = election_date.strftime("%B %-d, %Y")
+                name = e.get("name", f"{election_type.label} ({date_str})")
 
                 election = Election.find_or_create_by(name=name)
                 election.election_date = election_date
