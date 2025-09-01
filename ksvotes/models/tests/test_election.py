@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 from test_plus import TestCase
+from django.conf import settings
 from ksvotes.models import Election
 from datetime import date
 from unittest import mock
 
 
 class ElectionTestCase(TestCase):
+    def setUp(self):
+        json_file = settings.BASE_DIR.joinpath("ksvotes", "elections.json").as_posix()
+        Election.load_fixtures(json_file)
+
     def test_upcoming(self):
         with mock.patch("ksvotes.utils.ks_today") as mock_today:
             mock_today.return_value = date(2025, 9, 1)

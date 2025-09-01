@@ -11,5 +11,4 @@ export $(cat .env | grep -v ^# | xargs)
 env
 
 DJANGO_DEBUG=0 make zipcodes
-PGDATABASE=test_postgres make elections
 make coverage
