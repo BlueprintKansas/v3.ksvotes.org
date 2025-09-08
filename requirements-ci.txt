@@ -1,5 +1,5 @@
 # deps for CI only
 coverage==7.10.6
 pytest==8.4.1
-pytest-cov==6.2.1
+pytest-cov==6.3.0
 pytest-playwright==0.7.0
