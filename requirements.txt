@@ -94,7 +94,7 @@ formfiller==0.4
     # via -r requirements.in
 fs==2.4.14
     # via django-bakery
-gevent==25.5.1
+gevent==25.8.2
     # via -r requirements.in
 greenlet==3.2.3
     # via gevent
