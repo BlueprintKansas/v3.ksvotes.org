@@ -1,0 +1,14 @@
+[
+  {
+    "electionDate": "2025-11-04",
+    "type": "General",
+    "vrDeadline": "2025-10-14",
+    "abDeadline": "2025-10-28"
+  },
+  {
+    "electionDate": "2025-08-05",
+    "type": "Primary",
+    "vrDeadline": "2025-07-15",
+    "abDeadline": "2025-07-29"
+  }
+]
