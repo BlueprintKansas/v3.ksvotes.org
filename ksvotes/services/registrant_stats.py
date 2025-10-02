@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import connection
 import datetime
-from dateutil.relativedelta import relativedelta
 
 
 class RegistrantStats:
@@ -84,7 +83,7 @@ class RegistrantStats:
             return cursor.fetchall()
 
     def reg_complete(self, start_date: datetime.date):
-        end_date = start_date + relativedelta(months=1)
+        end_date = start_date + datetime.timedelta(days=31)
         sql = """
       select
       id
