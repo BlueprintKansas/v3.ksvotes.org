@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import usaddress
-from datetime import datetime, timezone
+from datetime import datetime
 from zoneinfo import ZoneInfo
 import os
 import re
@@ -127,7 +127,14 @@ KS_TZ = ZoneInfo("America/Chicago")
 
 
 def ks_today():
-    return datetime.utcnow().astimezone(tz=KS_TZ).date()
+    ks_today_env = os.getenv("KS_TODAY", None)
+    if ks_today_env:
+        return parse(f"{ks_today_env} CST", tzinfos={"CST": KS_TZ}).date()
+    return ks_now().date()
+
+
+def ks_now():
+    return datetime.utcnow().astimezone(tz=KS_TZ)
 
 
 def read_parties(file_name):
@@ -169,37 +176,17 @@ def parse_election_date(election):
     return dateparser.parse(date)
 
 
-def primary_election_active(deadline=None, current_time=None):
-    """
-    Determine if the primary election is active or not
-
-    AB_PRIMARY_DEADLINE env var format is `YYYY-MM-DD HH:MM::SS` assuming a
-    Central US time zone.
-    """
-    # Determine deadline from the environment
-    if deadline is None:
-        return False
-
-    # Parse our deadline
-    deadline_utc = parse(f"{deadline} CST", tzinfos={"CST": KS_TZ}).astimezone(
-        timezone.utc
-    )
-
-    # Determine if we're past deadline
-    if current_time is None:
-        current_time = datetime.utcnow().astimezone(timezone.utc)
-
-    if current_time > deadline_utc:
-        return False
-    else:
-        return True
-
-
 def list_of_elections():
+    from ksvotes.models import Election
+
+    upcoming = Election.upcoming()
+
     elect_list = []
 
-    # if we are before AB_PRIMARY_DEADLINE
-    if primary_election_active(os.getenv("AB_PRIMARY_DEADLINE", None)):
+    # ideally we could use the Election.name
+    # but we want gettext objects for translations.
+
+    if len(upcoming) > 1:
         elect_list.append(
             (
                 lazy_gettext("1AB_select_election_primary"),
@@ -207,21 +194,23 @@ def list_of_elections():
             )
         )
 
-    elect_list.append(
-        (
-            lazy_gettext("1AB_select_election_general"),
-            lazy_gettext("1AB_select_election_general"),
+    if upcoming:
+        elect_list.append(
+            (
+                lazy_gettext("1AB_select_election_general"),
+                lazy_gettext("1AB_select_election_general"),
+            )
         )
-    )
+
     elect_list.append(("permanent", lazy_gettext("1AB_select_perm")))
+
     return elect_list
 
 
 def is_even_year(year=None):
     """Determine if it's an even year"""
     if year is None:
-        today = datetime.today()
-        year = today.year
+        year = ks_today().year
 
     if year % 2 == 0:
         return True
@@ -232,7 +221,7 @@ def is_even_year(year=None):
 def str_to_bool(string):
     if isinstance(string, bool):
         return string
-    if string == "True":
+    if string.lower() == "true":
         return True
     else:
         return False

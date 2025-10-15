@@ -62,6 +62,13 @@ $ make test
 
 ```
 
+To run `make` targets (such as loading fixtures) against the test database, set the env var at run time:
+
+```shell
+$ PGDATABASE=test_postgres make zipcodes elections
+
+```
+
 ## Deploying
 
 Deploy via the Github Action menu, or via the Heroku web UI, or via the command line with `make deploy-stage` and/or `make deploy-prod`.

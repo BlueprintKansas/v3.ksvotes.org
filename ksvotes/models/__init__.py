@@ -3,5 +3,13 @@ from .registrant import Registrant
 from .clerk import Clerk
 from .zip_code import ZIPCode, ZIPCodeCounty
 from .early_voting_location import EarlyVotingLocation
+from .election import Election
 
-__all__ = ["Registrant", "Clerk", "ZIPCode", "ZIPCodeCounty", "EarlyVotingLocation"]
+__all__ = [
+    "Registrant",
+    "Clerk",
+    "ZIPCode",
+    "ZIPCodeCounty",
+    "EarlyVotingLocation",
+    "Election",
+]

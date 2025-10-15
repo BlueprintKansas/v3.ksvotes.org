@@ -152,11 +152,16 @@ services-start:
 fixtures: ## Load fixtures (inside container)
 	DJANGO_DEBUG=0 python manage.py load_clerks
 	DJANGO_DEBUG=0 make early-voting-locations
+	DJANGO_DEBUG=0 make elections
 	python manage.py load_demo
 
 .PHONY: zipcodes
 zipcodes:
 	python manage.py load_zipcodes
+
+.PHONY: elections
+elections:  ## Load elections.json
+	python manage.py load_elections
 
 .PHONY: early-voting-locations
 early-voting-locations:
