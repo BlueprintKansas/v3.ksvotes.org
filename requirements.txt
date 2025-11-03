@@ -82,7 +82,7 @@ dnspython==2.6.1
     # via email-validator
 email-validator==2.3.0
     # via -r requirements.in
-environs[django]==14.3.0
+environs[django]==14.5.0
     # via -r requirements.in
 execnet==2.1.1
     # via pytest-xdist
