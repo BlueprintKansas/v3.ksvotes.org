@@ -118,7 +118,7 @@ ksmyvoteinfo==1.5
     # via -r requirements.in
 markupsafe==2.1.1
     # via wtforms
-marshmallow==4.0.1
+marshmallow==4.1.0
     # via
     #   -r requirements.in
     #   environs
