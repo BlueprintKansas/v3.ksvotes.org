@@ -119,9 +119,7 @@ ksmyvoteinfo==1.5
 markupsafe==2.1.1
     # via wtforms
 marshmallow==4.1.0
-    # via
-    #   -r requirements.in
-    #   environs
+    # via environs
 mypy-extensions==0.4.3
     # via black
 newrelic==11.0.1
