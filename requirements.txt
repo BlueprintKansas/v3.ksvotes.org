@@ -122,7 +122,7 @@ marshmallow==4.1.0
     # via environs
 mypy-extensions==0.4.3
     # via black
-newrelic==11.0.1
+newrelic==11.2.0
     # via -r requirements.in
 packaging==23.0
     # via
