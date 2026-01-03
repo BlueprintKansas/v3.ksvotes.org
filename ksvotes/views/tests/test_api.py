@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from ksvotes.tests.test_utils import KSVotesTestCase
+from ksvotes.utils import ks_today
 from django.utils import timezone
 from django.conf import settings
 import uuid
@@ -16,8 +17,8 @@ class ApiTestCase(KSVotesTestCase):
 
     def test_api_registrations(self):
         now = timezone.now()
-        today = now.date()
-        start_date = today - datetime.timedelta(days=30)
+        today = ks_today()
+        start_date = now.date() - datetime.timedelta(days=30)
 
         new_registrant = Registrant(lang="en", county="Johnson", vr_completed_at=now)
         new_registrant.save()
