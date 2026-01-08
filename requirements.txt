@@ -12,6 +12,12 @@ beautifulsoup4==4.11.1
     # via ksmyvoteinfo
 black==25.12.0
     # via -r requirements.in
+boto3==1.42.24
+    # via -r requirements.in
+botocore==1.42.24
+    # via
+    #   boto3
+    #   s3transfer
 build==1.0.3
     # via pip-tools
 bump2version==1.0.1
@@ -96,6 +102,10 @@ idna==3.7
     #   requests
 iniconfig==1.1.1
     # via pytest
+jmespath==1.0.1
+    # via
+    #   boto3
+    #   botocore
 kombu==5.6.2
     # via -r requirements.in
 ksmyvoteinfo==1.5
@@ -154,6 +164,7 @@ python-crfsuite==0.9.11
     # via usaddress
 python-dateutil==2.8.2
     # via
+    #   botocore
     #   dateparser
     #   faker
     #   ksmyvoteinfo
@@ -173,6 +184,8 @@ request-id-django-log==0.2.0
     # via -r requirements.in
 requests==2.32.4
     # via ksmyvoteinfo
+s3transfer==0.16.0
+    # via boto3
 six==1.16.0
     # via
     #   django-rest-auth
@@ -192,6 +205,7 @@ tzlocal==4.2
 urllib3==2.6.3
     # via
     #   -r requirements.in
+    #   botocore
     #   requests
 usaddress==0.5.16
     # via -r requirements.in
