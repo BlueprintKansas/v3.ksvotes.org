@@ -6,17 +6,15 @@
 #
 amqp==5.1.1
     # via kombu
-appdirs==1.4.4
-    # via fs
 asgiref==3.6.0
     # via django
 beautifulsoup4==4.11.1
     # via ksmyvoteinfo
 black==25.12.0
     # via -r requirements.in
-boto3==1.20.20
-    # via django-bakery
-botocore==1.23.20
+boto3==1.42.24
+    # via -r requirements.in
+botocore==1.42.24
     # via
     #   boto3
     #   s3transfer
@@ -58,8 +56,6 @@ django==4.2.27
     #   django-health-check
     #   django-rest-auth
     #   djangorestframework
-django-bakery==0.13.5
-    # via -r requirements.in
 django-cache-url==3.2.3
     # via environs
 django-db-geventpool==4.0.8
@@ -92,8 +88,6 @@ faker==9.9.0
     # via factory-boy
 formfiller==0.4
     # via -r requirements.in
-fs==2.4.14
-    # via django-bakery
 gevent==25.9.1
     # via -r requirements.in
 greenlet==3.2.3
@@ -108,7 +102,7 @@ idna==3.7
     #   requests
 iniconfig==1.1.1
     # via pytest
-jmespath==0.10.0
+jmespath==1.0.1
     # via
     #   boto3
     #   botocore
@@ -179,9 +173,7 @@ python-dotenv==0.19.2
 pytokens==0.3.0
     # via black
 pytz==2025.2
-    # via
-    #   dateparser
-    #   fs
+    # via dateparser
 pytz-deprecation-shim==0.1.0.post0
     # via tzlocal
 redis==7.0.1
@@ -192,13 +184,11 @@ request-id-django-log==0.2.0
     # via -r requirements.in
 requests==2.32.4
     # via ksmyvoteinfo
-s3transfer==0.5.0
+s3transfer==0.16.0
     # via boto3
 six==1.16.0
     # via
-    #   django-bakery
     #   django-rest-auth
-    #   fs
     #   python-dateutil
 soupsieve==2.3.2.post1
     # via beautifulsoup4
@@ -212,8 +202,9 @@ tzdata==2025.2
     #   pytz-deprecation-shim
 tzlocal==4.2
     # via dateparser
-urllib3==1.26.19
+urllib3==2.6.3
     # via
+    #   -r requirements.in
     #   botocore
     #   requests
 usaddress==0.5.16

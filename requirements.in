@@ -1,4 +1,5 @@
 Django>4.0
+boto3
 bumpversion
 dateparser
 django-db-geventpool
@@ -23,6 +24,7 @@ Wand
 whitenoise
 WTForms
 wtforms-recaptcha
+urllib3>=2.6.0
 usaddress
 
 # Logging
@@ -32,7 +34,6 @@ request-id-django-log
 # Testing
 black
 coverage==7.12.0
-django-bakery
 django-test-plus
 factory-boy
 pytest
