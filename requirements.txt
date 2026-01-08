@@ -70,7 +70,7 @@ django-health-check==3.20.8
     # via -r requirements.in
 django-rest-auth==0.9.5
     # via -r requirements.in
-django-test-plus==2.3.0
+django-test-plus==2.4.1
     # via -r requirements.in
 djangorestframework==3.16.1
     # via
@@ -128,6 +128,7 @@ packaging==23.0
     # via
     #   black
     #   build
+    #   django-test-plus
     #   gunicorn
     #   kombu
     #   pytest
