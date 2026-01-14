@@ -33,8 +33,8 @@
   "0_intro_deadline":{
     "wiki_step":"0",
     "ref":"0_intro",
-    "en":"We can help you check your registration and find information on voting. To start the process, we need some information so that we can see if you are currently registered to vote in Kansas.",
-    "es":"Podemos ayudarlo a verificar su registro y encontrar información sobre la votación. Para iniciar el proceso, necesitamos información para poder ver si está registrado para votar en Kansas."
+    "en":"We can help you register to vote, check your registration, vote by mail and find information on voting. To start the process, we need some information so that we can see if you are currently registered to vote in Kansas.",
+    "es":"Podemos ayudarlo a registrarse para votar, verificar su registro, votar por correo y encontrar información sobre cómo votar. Para iniciar el proceso, necesitamos cierta información para que podamos ver si actualmente está registrado para votar en Kansas."
   },
   "0_intro_reg":{
     "wiki_step":"0",

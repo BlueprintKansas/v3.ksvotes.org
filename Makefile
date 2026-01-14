@@ -83,6 +83,10 @@ ci-logs: ## view all the docker compose logs
 ci-logs-tail: ## tail the docker compose logs
 	@docker compose --file $(COMPOSE_FILE) logs -f
 
+.PHONY: services-start
+services-start:
+	@docker-compose --file $(COMPOSE_FILE) up -d db redis
+
 .PHONY: attach
 attach: ## Attach to a running container and open a shell (like console for running container)
 	docker exec -it $(DOCKER_CONTAINER_ID) /bin/bash

@@ -219,12 +219,21 @@ a.icon {
 }
 
 .ksv-red-color {
-  color: $ksv-red;
+  color: $ksv-red !important;
+}
+
+.ksv-bg-white,
+.ksv-bg-white:hover,
+.ksv-bg-white:focus {
+  background-color: #fff !important;
 }
 
 .btn-outline-default {
-  color: $ksv-green;
-  border-color: $ksv-green;
+  color: $ksv-green !important;
+  border-color: $ksv-green !important;
+}
+
+.lang-toggle {
 }
 
 form {
