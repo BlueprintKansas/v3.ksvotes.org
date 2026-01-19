@@ -1,4 +1,4 @@
-FROM python:3.13.11-slim-bookworm as ksvotes
+FROM revolutionsystems/python:3.11.5-wee-lto-optimized as ksvotes
 
 # build ImageMagick with gslib for formfiller
 USER root
