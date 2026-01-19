@@ -15,7 +15,7 @@ gevent==25.9.1
 gunicorn
 hiredis
 kombu>=5.2.4
-ksmyvoteinfo
+ksmyvoteinfo==1.8.1
 newrelic
 psycogreen
 psycopg2-binary
