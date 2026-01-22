@@ -33,9 +33,9 @@ def test_step_0_is_complete_true_and_already_registered():
     Verify that next step is AB 1
     """
     form_payload = {
-        "name_first": "Kris",
-        "name_last": "Kobach",
-        "dob": "03/26/1966",
+        "name_first": "Scott",
+        "name_last": "Schwab",
+        "dob": "07/09/1972",
         "email": " foo@example.com",
         "zip": "66044",
     }
