@@ -70,9 +70,9 @@ class Step0TestCase(KSVotesTestCase):
         An already registered voter returns a redirect to change-or-apply endpoint
         """
         form_payload = {
-            "name_first": "Kris",
-            "name_last": "Kobach",
-            "dob": "03/26/1966",
+            "name_first": "Scott",
+            "name_last": "Schwab",
+            "dob": "07/09/1972",
             "email": "foo@example.com",
             "zip": "66044",
         }

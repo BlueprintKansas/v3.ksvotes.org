@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
 # helpers
+
+FIRST_NAME = "Scott"
+LAST_NAME = "Schwab"
+DOB = "07/09/1972"
+
+
 def click_submit(page):
     page.locator("xpath=//button[@type='submit']").click()
 
@@ -13,9 +19,9 @@ def test_locale(page):
 
 def test_happy_path(page):
     page.goto("/")
-    page.locator("[name=name_first]").fill("Kris")
-    page.locator("[name=name_last]").fill("Kobach")
-    page.locator("[name=dob]").fill("03/26/1966")
+    page.locator("[name=name_first]").fill(FIRST_NAME)
+    page.locator("[name=name_last]").fill(LAST_NAME)
+    page.locator("[name=dob]").fill(DOB)
     page.locator("[name=zip]").fill("66044")
     page.locator("[name=email]").fill("someone@example.com")
     page.locator("[name=email-confirm]").fill("someone@example.com")
@@ -28,9 +34,9 @@ def test_happy_path(page):
 
 def test_zipcode_required(page):
     page.goto("/")
-    page.locator("[name=name_first]").fill("Kris")
-    page.locator("[name=name_last]").fill("Kobach")
-    page.locator("[name=dob]").fill("03/26/1966")
+    page.locator("[name=name_first]").fill(FIRST_NAME)
+    page.locator("[name=name_last]").fill(LAST_NAME)
+    page.locator("[name=dob]").fill(DOB)
     page.locator("[name=email]").fill("someone@example.com")
     page.locator("[name=email-confirm]").fill("someone@example.com")
     click_submit(page)
@@ -59,8 +65,8 @@ def test_last_name_required(page):
 
 def test_first_name_required(page):
     page.goto("/")
-    page.locator("[name=name_last]").fill("Kobach")
-    page.locator("[name=dob]").fill("03/26/1966")
+    page.locator("[name=name_last]").fill(LAST_NAME)
+    page.locator("[name=dob]").fill(DOB)
     page.locator("[name=zip]").fill("66044")
     page.locator("[name=email]").fill("someone@example.com")
     page.locator("[name=email-confirm]").fill("someone@example.com")
@@ -70,8 +76,8 @@ def test_first_name_required(page):
 
 def test_dob_required(page):
     page.goto("/")
-    page.locator("[name=name_first]").fill("Kris")
-    page.locator("[name=name_last]").fill("Kobach")
+    page.locator("[name=name_first]").fill(FIRST_NAME)
+    page.locator("[name=name_last]").fill(LAST_NAME)
     page.locator("[name=zip]").fill("66044")
     page.locator("[name=email]").fill("someone@example.com")
     page.locator("[name=email-confirm]").fill("someone@example.com")
@@ -115,10 +121,10 @@ def test_email_pattern(page):
 
 def test_email_required(page):
     page.goto("/")
-    page.locator("[name=name_first]").fill("Kris")
-    page.locator("[name=name_last]").fill("Kobach")
+    page.locator("[name=name_first]").fill(FIRST_NAME)
+    page.locator("[name=name_last]").fill(LAST_NAME)
     page.locator("[name=zip]").fill("66044")
-    page.locator("[name=dob]").fill("03261966")
+    page.locator("[name=dob]").fill("07091972")
     page.locator("[name=email-confirm]").fill("someone@example.com")
     click_submit(page)
     assert page.locator("text=Required").all_text_contents() == ["Required"]
