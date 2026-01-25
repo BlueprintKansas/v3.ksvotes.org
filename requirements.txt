@@ -120,7 +120,7 @@ mypy-extensions==0.4.3
     # via black
 newrelic==11.2.0
     # via -r requirements.in
-packaging==23.0
+packaging==26.0
     # via
     #   black
     #   build
@@ -128,6 +128,7 @@ packaging==23.0
     #   gunicorn
     #   kombu
     #   pytest
+    #   wheel
 pathspec==1.0.3
     # via black
 pip-tools==7.5.2
@@ -221,7 +222,7 @@ wand==0.6.13
     #   formfiller
 werkzeug==3.1.5
     # via ksmyvoteinfo
-wheel==0.38.1
+wheel==0.46.2
     # via pip-tools
 whitenoise==6.11.0
     # via -r requirements.in
