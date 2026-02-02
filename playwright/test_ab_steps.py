@@ -42,12 +42,21 @@ def test_vr_to_ab(page):
     page.locator("text=Apply for Advance Ballot").click()
 
     assert page.url.endswith("/ab/election-picker/")
+
+    # in even years there is usually a primary, but often not declared until after special elections in March,
+    # so check for both even year and presence of Primary in list of elections.A
+    elections = [
+        loc.get_attribute("value") for loc in page.locator('[name="elections"]').all()
+    ]
+    has_primary = len(list(filter(lambda el: "primary" in el.lower(), elections)))
+    # print(f"elections={elections} {has_primary=}")
+
     page.locator(
         "id=elections-0"
     ).check()  # with AB_PRIMARY_DEADLINE set, Primary election is an option to .check instead of .click
     click_submit(page)
 
-    if is_even_year():
+    if is_even_year() and has_primary:
         assert page.url.endswith("/ab/election-picker/")
         assert (
             len(page.locator("text=Required >> visible=true").all_text_contents()) == 2
