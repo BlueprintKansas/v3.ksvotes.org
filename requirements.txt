@@ -62,7 +62,7 @@ django-db-geventpool==4.0.8
     # via -r requirements.in
 django-extensions==4.1
     # via -r requirements.in
-django-health-check==3.20.8
+django-health-check==3.22.0
     # via -r requirements.in
 django-rest-auth==0.9.5
     # via -r requirements.in
@@ -138,6 +138,8 @@ pluggy==1.6.0
     # via pytest
 probableparsing==0.0.1
     # via usaddress
+psutil==7.2.2
+    # via django-health-check
 psycogreen==1.0.2
     # via -r requirements.in
 psycopg2-binary==2.9.11
