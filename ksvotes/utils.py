@@ -161,13 +161,11 @@ def construct_county_choices(default):
 
 
 def parse_election_date(election):
-    pattern = (
-        r"(Primary|Primaria|General|Special Election|Elecciones Especiales) \((.+)\)"
-    )
+    pattern = r".+ \((.+)\)"
     m = re.match(pattern, str(election))
     if not m:
         return None
-    date = m.group(2)
+    date = m.group(1)
     return dateparser.parse(date)
 
 
