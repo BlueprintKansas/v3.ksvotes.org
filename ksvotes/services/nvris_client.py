@@ -3,6 +3,7 @@ from ksvotes.views.vr.example_form import signature_img_string
 import os
 import re
 from ksvotes.services.form_filler_service import FormFillerService
+from ksvotes.utils import parse_election_date as parse_election_date_util
 import logging
 
 logger = logging.getLogger(__name__)
@@ -73,15 +74,13 @@ class NVRISClient:
         return payload
 
     def parse_election_date(self, election):
-        pattern = r"(Prim\w+|General) \((.+)\)"
-        m = re.search(pattern, election)
-        if m:
-            return m.group(2)
-        else:
+        date = parse_election_date_util(election)
+        if not date:
             logger.error(
                 "%s No match for election '%s'" % (self.registrant.session_id, election)
             )
             return "(none)"
+        return date.strftime("%m/%d/%Y")
 
     def normalize_unit(self, unit):
         return re.sub(r"^(#|apt.? |apartment )", "", unit, flags=re.IGNORECASE)
