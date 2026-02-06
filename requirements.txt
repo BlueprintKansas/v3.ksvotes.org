@@ -92,7 +92,7 @@ gevent==25.9.1
     # via -r requirements.in
 greenlet==3.2.3
     # via gevent
-gunicorn==23.0.0
+gunicorn==25.0.1
     # via -r requirements.in
 hiredis==3.3.0
     # via -r requirements.in
