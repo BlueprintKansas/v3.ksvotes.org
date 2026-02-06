@@ -6,7 +6,7 @@
 #
 amqp==5.1.1
     # via kombu
-asgiref==3.6.0
+asgiref==3.11.1
     # via django
 beautifulsoup4==4.11.1
     # via ksmyvoteinfo
@@ -48,7 +48,7 @@ dj-database-url==0.5.0
     # via environs
 dj-email-url==1.0.2
     # via environs
-django==4.2.28
+django==6.0.2
     # via
     #   -r requirements.in
     #   django-db-geventpool
