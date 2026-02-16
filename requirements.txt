@@ -180,7 +180,7 @@ pytz==2025.2
     # via dateparser
 pytz-deprecation-shim==0.1.0.post0
     # via tzlocal
-redis==7.1.0
+redis==7.1.1
     # via -r requirements.in
 regex==2024.11.6
     # via dateparser
