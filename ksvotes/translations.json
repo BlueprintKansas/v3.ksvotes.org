@@ -15,8 +15,8 @@
   },
   "announce":{
     "ref":"announce",
-    "en":"Advance ballot applications are now available for the March 2026 Special Election and the 2026 fall General election. Not all voters will have an election in March of 2026. Please contact your local elections office to see if you will have a special election.",
-    "es":"Las solicitudes de boletas por correo ya están disponibles para las elecciones especiales de marzo de 2026 y las elecciones generales de otoño de 2026. No todos los votantes participarán en las elecciones de marzo de 2026. Comuníquese con su oficina electoral local para confirmar si le corresponde participar en estas elecciones especiales."
+    "en":"Advance ballot applications are now available for the August 2026 Primary Election and the November 2026 General election.",
+    "es":"Las solicitudes de boleta anticipada ya están disponibles para las elecciones primarias de agosto de 2026 y las elecciones generales de noviembre de 2026."
   },
   "0_title":{
     "wiki_step":"0",
@@ -292,8 +292,8 @@
     "es":"Puede inscribirse para las boletas por adelantado para las elecciones en el año calendario actual."
   },
   "1AB_select_election_primary":{
-    "en":"Special Election (March 3, 2026)",
-    "es":"Elecciones Especiales (3 de Marzo de 2026)"
+    "en":"Primary Election (August 4, 2026)",
+    "es":"Eleccion primaria (Agosto 4, 2026)"
   },
   "1AB_select_election_general":{
     "en":"General (November 3, 2026)",
