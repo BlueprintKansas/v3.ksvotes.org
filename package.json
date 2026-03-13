@@ -7,11 +7,11 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^2.0.19",
+    "nodemon": "^3.1.14",
     "sass": "^1.51.0"
   },
   "dependencies": {
     "moment": "^2.29.4",
-    "npm": "^11.9.0"
+    "npm": "^11.10.1"
   }
 }
