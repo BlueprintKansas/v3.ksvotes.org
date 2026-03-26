@@ -186,7 +186,7 @@ regex==2024.11.6
     # via dateparser
 request-id-django-log==0.2.0
     # via -r requirements.in
-requests==2.32.4
+requests==2.33.0
     # via ksmyvoteinfo
 s3transfer==0.16.0
     # via boto3
