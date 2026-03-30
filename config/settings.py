@@ -107,9 +107,7 @@ INSTALLED_APPS += [
 ]
 
 # Our Apps
-INSTALLED_APPS += ["ak", "ksvotes", "users"]
-
-AUTH_USER_MODEL = "users.User"
+INSTALLED_APPS += ["ak", "ksvotes"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
