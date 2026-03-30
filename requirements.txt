@@ -54,8 +54,6 @@ django==4.2.29
     #   django-db-geventpool
     #   django-extensions
     #   django-health-check
-    #   django-rest-auth
-    #   djangorestframework
 django-cache-url==3.2.3
     # via environs
 django-db-geventpool==4.0.8
@@ -64,14 +62,8 @@ django-extensions==4.1
     # via -r requirements.in
 django-health-check==3.23.5
     # via -r requirements.in
-django-rest-auth==0.9.5
-    # via -r requirements.in
 django-test-plus==2.4.1
     # via -r requirements.in
-djangorestframework==3.16.1
-    # via
-    #   -r requirements.in
-    #   django-rest-auth
 djfernet==0.8.1
     # via -r requirements.in
 dnspython==2.6.1
@@ -191,9 +183,7 @@ requests==2.32.4
 s3transfer==0.16.0
     # via boto3
 six==1.16.0
-    # via
-    #   django-rest-auth
-    #   python-dateutil
+    # via python-dateutil
 soupsieve==2.3.2.post1
     # via beautifulsoup4
 sqlparse==0.5.4

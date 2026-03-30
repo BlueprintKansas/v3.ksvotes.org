@@ -99,7 +99,6 @@ INSTALLED_APPS = [
 
 # Third-party apps
 INSTALLED_APPS += [
-    "rest_framework",
     "django_extensions",
     #    "health_check",
     #    "health_check.db",
@@ -107,9 +106,7 @@ INSTALLED_APPS += [
 ]
 
 # Our Apps
-INSTALLED_APPS += ["ak", "ksvotes", "users"]
-
-AUTH_USER_MODEL = "users.User"
+INSTALLED_APPS += ["ak", "ksvotes"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
