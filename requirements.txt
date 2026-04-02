@@ -138,7 +138,7 @@ psycopg2-binary==2.9.11
     # via -r requirements.in
 pycparser==2.21
     # via cffi
-pygments==2.19.2
+pygments==2.20.0
     # via pytest
 pyproject-hooks==1.0.0
     # via
