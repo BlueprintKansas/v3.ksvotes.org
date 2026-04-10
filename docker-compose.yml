@@ -1,7 +1,7 @@
 services:
 
   db:
-    image: postgres:16.1
+    image: postgres:16.13
     environment:
       - "POSTGRES_HOST_AUTH_METHOD=trust"
     ports:
