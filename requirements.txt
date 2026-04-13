@@ -80,7 +80,7 @@ faker==9.9.0
     # via factory-boy
 formfiller==0.4
     # via -r requirements.in
-gevent==25.9.1
+gevent==26.4.0
     # via -r requirements.in
 greenlet==3.2.3
     # via gevent
