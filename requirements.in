@@ -22,7 +22,7 @@ Wand
 whitenoise
 WTForms
 wtforms-recaptcha
-urllib3>=2.6.0
+urllib3>=2.7.0
 usaddress
 
 # Logging
