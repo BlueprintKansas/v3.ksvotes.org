@@ -134,7 +134,7 @@ psutil==7.2.2
     # via django-health-check
 psycogreen==1.0.2
     # via -r requirements.in
-psycopg2-binary==2.9.11
+psycopg2-binary==2.9.12
     # via -r requirements.in
 pycparser==2.21
     # via cffi
