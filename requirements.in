@@ -10,6 +10,7 @@ email_validator
 environs[django]
 formfiller
 gevent==26.5.0
+googlemaps
 gunicorn
 hiredis
 kombu>=5.2.4
