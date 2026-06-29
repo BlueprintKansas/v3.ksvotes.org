@@ -6,7 +6,7 @@
 #
 amqp==5.1.1
     # via kombu
-asgiref==3.6.0
+asgiref==3.11.1
     # via django
 beautifulsoup4==4.11.1
     # via ksmyvoteinfo
@@ -48,7 +48,7 @@ dj-database-url==0.5.0
     # via environs
 dj-email-url==1.0.2
     # via environs
-django==4.2.30
+django==6.0.6
     # via
     #   -r requirements.in
     #   django-db-geventpool
@@ -60,14 +60,16 @@ django-db-geventpool==4.0.8
     # via -r requirements.in
 django-extensions==4.1
     # via -r requirements.in
-django-health-check==3.23.5
+django-health-check==4.4.3
     # via -r requirements.in
 django-test-plus==2.4.1
     # via -r requirements.in
 djfernet==0.8.1
     # via -r requirements.in
 dnspython==2.6.1
-    # via email-validator
+    # via
+    #   django-health-check
+    #   email-validator
 email-validator==2.3.0
     # via -r requirements.in
 environs[django]==14.6.0
@@ -130,8 +132,6 @@ pluggy==1.6.0
     # via pytest
 probableparsing==0.0.1
     # via usaddress
-psutil==7.2.2
-    # via django-health-check
 psycogreen==1.0.2
     # via -r requirements.in
 psycopg2-binary==2.9.12
