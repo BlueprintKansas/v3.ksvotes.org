@@ -134,8 +134,10 @@ class Client:
         for comp in r["addressComponents"]:
             level = comp["confirmationLevel"]
             logger.debug(f"{level=} {comp=}")
+
             if level not in ["CONFIRMED", "UNCONFIRMED_BUT_PLAUSIBLE"]:
-                continue
+                raise ValueError(comp)
+
             norm[comp["componentType"]] = comp["componentName"]["text"]
 
         logger.debug(f"{r=} {norm=}")

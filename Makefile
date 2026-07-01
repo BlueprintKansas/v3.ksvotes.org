@@ -155,11 +155,11 @@ fixtures: ## Load fixtures (inside container)
 	python manage.py load_demo
 
 .PHONY: zipcodes
-zipcodes:
+zipcodes: ## Load ZIP Codes (inside container)
 	python manage.py load_zipcodes
 
 .PHONY: early-voting-locations
-early-voting-locations:
+early-voting-locations: ## Load early voting locations (inside container)
 	python manage.py load_early_voting_locations
 
 v2-patch:
