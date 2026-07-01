@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
+"""
+The USPS module used to wrap the USPS API but now wraps the Google Maps API.
+The interface and class names remain the same but internals changed.
+"""
+
 import os
-import requests
 import logging
-import http.client
-from urllib.parse import urlencode
+import googlemaps
+import pprint
 
 logger = logging.getLogger(__name__)
 
 DUMMY = "dummy"
-PROD_URL = "https://apis.usps.com"
-TEST_URL = "TODO"
 SKIPPED = "Address verification skipped."
+API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
+
+
+class USPSError(Exception):
+    pass
 
 
 class DummyClient:
@@ -52,71 +59,91 @@ class DummyClient:
 
 
 class Client:
-    def __init__(self, token_type, token):
-        self.authz_header = f"{token_type} {token}"
-
     def city_state(self, zip_code: str) -> dict[str, str]:
-        params = {
-            "ZIPCode": zip_code,
-        }
-        url = f"{PROD_URL}/addresses/v3/city-state?{urlencode(params)}"
-        headers = {
-            "Authorization": self.authz_header,
-            "Content-Type": "application/json",
-        }
-        resp = requests.get(url, headers=headers)
-        return resp.json()
+        gmaps = googlemaps.Client(key=API_KEY)
+        resp = gmaps.geocode(zip_code)
+
+        logger.debug(pprint.pformat(resp))
+
+        # Extract address components from the first result
+        address_components = resp[0]["address_components"]
+
+        city = None
+        state = None
+
+        # Loop through components to extract city and state
+        for component in address_components:
+            types = component.get("types", [])
+
+            # 'locality' usually represents the city
+            if "locality" in types:
+                city = component["long_name"]
+            # In case 'locality' is missing, fallback
+            elif "sublocality_level_1" in types and not city:
+                city = component["long_name"]
+            elif "administrative_area_level_3" in types and not city:
+                city = component["long_name"]
+
+            # 'administrative_area_level_1' represents the state
+            if "administrative_area_level_1" in types:
+                state = component["short_name"]
+
+        return {"city": city, "state": state}
 
     def standardize(self, address: dict[str, str]):
         zips = address.get("zip_code").split("-")
-        zip4 = ""
         if len(zips) == 2:
-            zip4 = zips[1]
             zip5 = zips[0]
         else:
             zip5 = zips[0]
 
-        params = {
-            "streetAddress": address["address"],
-            "secondaryAddress": address["address_extended"],
-            "city": address["city"],
-            "state": address["state"],
-            "ZIPCode": zip5,
-        }
-        if zip4:
-            address["ZIPPlus4"] = zip4
-
         # USPS requires 2-letter state abbreviations
-        if params["state"] == "KANSAS":
-            params["state"] = "KS"
-        if len(params["state"]) != 2:
-            city_state = self.city_state(params["ZIPCode"])
-            params["state"] = city_state.get("state")
-        params["state"] = params["state"].upper()
+        state = address.get("state")
+        if state == "KANSAS":
+            state = "KS"
+        if state and len(state) != 2:
+            city_state = self.city_state(zip5)
+            state = city_state.get("state")
+        state = state.upper() if state else None
 
-        url = f"{PROD_URL}/addresses/v3/address?{urlencode(params)}"
-        headers = {
-            "Authorization": self.authz_header,
-            "Content-Type": "application/json",
-        }
-        resp = requests.get(url, headers=headers).json()
+        gmaps = googlemaps.Client(key=API_KEY)
+        # let google parse the address so we can include state and zip
+        addr = ", ".join(
+            filter(
+                lambda p: p,
+                [
+                    address["address"],
+                    address.get("address_extended"),
+                    address["city"],
+                    f"{state if state else ''} {zip5}",
+                ],
+            )
+        )
+        resp = gmaps.addressvalidation(
+            addressLines=[addr], regionCode="US", enableUspsCass=True
+        )
 
-        # if we exceed quota rate, just return
-        if resp.get("error") and resp.get("error").get("code") == "429":
-            return address | {"skipped": True}
+        logger.debug(pprint.pformat(resp))
 
-        # TODO parse nuances in corrections, etc.
-        r = resp.get("address")
+        r = resp.get("result", dict()).get("address")
         if r is None:
             raise ValueError(resp)
 
+        norm = {}
+        for comp in r["addressComponents"]:
+            if comp["confirmationLevel"] != "CONFIRMED":
+                continue
+            norm[comp["componentType"]] = comp["componentName"]["text"]
+
         standard = {
-            "address": r.get("streetAddress"),
-            "address_extended": r.get("secondaryAddress"),
-            "city": r.get("city"),
-            "state": r.get("state"),
-            "zip5": r.get("ZIPCode"),
-            "zip4": r.get("ZIPPlus4"),
+            "address": f"{norm['street_number']} {norm['route']}",
+            "address_extended": norm.get(
+                "subpremise", norm.get("floor", norm.get("room"))
+            ),
+            "city": norm.get("locality"),
+            "state": norm.get("administrative_area_level_1"),
+            "zip5": norm.get("postal_code"),
+            "zip4": norm.get("postal_code_suffix"),
         }
         return standard
 
@@ -124,30 +151,15 @@ class Client:
 class USPS_API:
     def __init__(self, address_payload=None):
         self.address_payload = address_payload
-        self.usps_key = os.getenv("USPS_KEY")
-        self.usps_secret = os.getenv("USPS_SECRET")
         self.address_order = ["current_address"]
 
-        if self.usps_key != DUMMY:
+        if API_KEY != DUMMY:
             self._init_client()
         else:
             self._init_dummy_client()
 
     def _init_client(self):
-        payload = {
-            "grant_type": "client_credentials",
-            "client_id": self.usps_key,
-            "client_secret": self.usps_secret,
-        }
-        url = f"{PROD_URL}/oauth2/v3/token"
-        urllib3_logger = logging.getLogger("urllib3")
-        urllib3_logger.setLevel(logging.DEBUG)
-        logger.setLevel(logging.DEBUG)
-        http.client.HTTPConnection.debuglevel = 1
-
-        response = requests.post(url, json=payload)
-        resp_payload = response.json()
-        self.client = Client(resp_payload["token_type"], resp_payload["access_token"])
+        self.client = Client()
 
     def _init_dummy_client(self):
         self.client = DummyClient()
