@@ -10,7 +10,7 @@ import googlemaps
 import pprint
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+# logger.setLevel(logging.DEBUG)
 
 DUMMY = "dummy"
 SKIPPED = "Address verification skipped."
