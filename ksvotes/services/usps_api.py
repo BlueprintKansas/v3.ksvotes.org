@@ -10,6 +10,7 @@ import googlemaps
 import pprint
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 DUMMY = "dummy"
 SKIPPED = "Address verification skipped."
@@ -131,9 +132,13 @@ class Client:
 
         norm = {}
         for comp in r["addressComponents"]:
-            if comp["confirmationLevel"] != "CONFIRMED":
+            level = comp["confirmationLevel"]
+            logger.debug(f"{level=} {comp=}")
+            if level not in ["CONFIRMED", "UNCONFIRMED_BUT_PLAUSIBLE"]:
                 continue
             norm[comp["componentType"]] = comp["componentName"]["text"]
+
+        logger.debug(f"{r=} {norm=}")
 
         standard = {
             "address": f"{norm['street_number']} {norm['route']}",
