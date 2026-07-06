@@ -211,7 +211,7 @@ vine==5.1.0
     # via
     #   amqp
     #   kombu
-wand==0.7.0
+wand==0.7.2
     # via
     #   -r requirements.in
     #   formfiller
