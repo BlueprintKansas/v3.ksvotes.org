@@ -28,7 +28,6 @@ console:  ## opens a one-off console -- see attach for connecting to running con
    --network v3ksvotesorg_default \
    --rm --name ksvotes-web-console -it \
    $(DOCKER_IMG) bash
-	@docker rm ksvotes-web-console
 
 .PHONY: server
 server:  ## starts app
