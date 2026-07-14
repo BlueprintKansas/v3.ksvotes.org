@@ -3,12 +3,12 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.urls import reverse
-from django.utils.translation import get_language, gettext_lazy as lazy_gettext
+from django.utils.translation import gettext_lazy as lazy_gettext
 from uuid import uuid4
 from ksvotes.models import Registrant
 import logging
 from django.utils import timezone
-from ksvotes.utils import KS_TZ
+from ksvotes.utils import KS_TZ, get_lang_code
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ class SessionTimeout(object):
         # always assume Central timezone for rendering dates/times
         timezone.activate(KS_TZ)
 
-        current_lang = get_language()
+        current_lang = get_lang_code()
         request_path = request.path.replace(f"/{current_lang}/", "/")
         logger.debug(
             "current_language={} path={} request_path={}".format(

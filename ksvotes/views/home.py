@@ -5,7 +5,6 @@ from django.views.decorators.cache import never_cache
 from django.http import HttpResponse, JsonResponse, Http404, QueryDict
 from django.conf import settings
 from django.urls import reverse
-from django.utils.translation import get_language
 from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_http_methods
 from django.contrib import messages
@@ -14,6 +13,7 @@ from ksvotes.views.step_view import StepView
 from ksvotes.forms.step_0 import FormStep0
 from ksvotes.services.steps import Step_0
 from ksvotes.services.session_manager import SessionManager
+from ksvotes.utils import get_lang_code
 import logging
 import datetime
 import csv
@@ -208,7 +208,7 @@ def referring_org(request):
     # we will accept whatever subset of step0 fields are provided.
     # we always start a new session, but we require a 'ref' code.
     if not request.GET.get("ref"):
-        logger.debug("missing ref param, language={}".format(get_language()))
+        logger.debug("missing ref param, language={}".format(get_lang_code()))
         raise Http404("404 Not Found")
 
     ref = request.GET["ref"]
@@ -303,7 +303,7 @@ class HomepageView(StepView):
                     county=ZIPCode.guess_county(zipcode),
                     ref=form.data.get("ref"),
                     session_id=sid,
-                    lang=get_language(),
+                    lang=get_lang_code(),
                 )
                 request.session["id"] = sid
 
