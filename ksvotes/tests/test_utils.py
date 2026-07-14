@@ -36,6 +36,9 @@ class KSVotesTestCase(TestCase):
 
     def test_get_lang_code(self):
         with mock.patch("ksvotes.utils.get_language") as mock_get_language:
-            mock_get_language.return_value = "en-gb"
+            mock_get_language.return_value = "es-gb"
             lang_code = get_lang_code()
-            self.assertEqual("en", lang_code, "get_language truncated to first 2 chars")
+            self.assertEqual("es", lang_code, "get_language truncated to first 2 chars")
+
+        lang_code = get_lang_code()
+        self.assertEqual("en", lang_code, "default language")
