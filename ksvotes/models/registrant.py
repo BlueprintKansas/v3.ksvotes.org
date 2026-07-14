@@ -36,7 +36,7 @@ class Registrant(TimeStampedModel):
     dob_year = models.IntegerField(null=True)
     party = models.CharField(max_length=255, null=True)
     county = models.CharField(max_length=255, null=True)
-    lang = models.CharField(max_length=2, null=True)
+    lang = models.CharField(max_length=10, null=True)
     signed_at = models.DateTimeField(null=True, blank=True, default=timezone.now)
     reg_lookup_complete = models.BooleanField(default=False, null=True)
     addr_lookup_complete = models.BooleanField(default=False, null=True)
