@@ -100,9 +100,6 @@ INSTALLED_APPS = [
 # Third-party apps
 INSTALLED_APPS += [
     "django_extensions",
-    #    "health_check",
-    #    "health_check.db",
-    #    "health_check.contrib.celery",
 ]
 
 # Our Apps
