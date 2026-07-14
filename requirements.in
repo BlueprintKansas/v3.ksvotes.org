@@ -4,7 +4,6 @@ bumpversion
 dateparser
 django-db-geventpool
 django-extensions
-django-health-check
 djfernet
 email_validator
 environs[django]
@@ -35,7 +34,7 @@ black
 coverage==7.15.1
 django-test-plus
 factory-boy
-pytest
+pytest>=9.0.3
 pytest-cov
 pytest-django
 pytest-xdist
