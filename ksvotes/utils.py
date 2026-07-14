@@ -6,7 +6,7 @@ import os
 import re
 import dateparser
 from dateutil.parser import parse
-from django.utils.translation import gettext_lazy as lazy_gettext
+from django.utils.translation import gettext_lazy as lazy_gettext, get_language
 from django.conf import settings
 from wtforms.validators import DataRequired
 import logging
@@ -128,6 +128,13 @@ KS_TZ = ZoneInfo("America/Chicago")
 
 def ks_today():
     return datetime.utcnow().astimezone(tz=KS_TZ).date()
+
+
+def get_lang_code():
+    lang = get_language()
+    if lang:
+        return lang[:2]
+    return settings.LANGUAGE_CODE
 
 
 def read_parties(file_name):

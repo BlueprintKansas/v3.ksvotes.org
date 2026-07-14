@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from ksvotes.utils import zip_code_matches, parse_election_date
+from ksvotes.utils import zip_code_matches, parse_election_date, get_lang_code
 from datetime import datetime
 from test_plus import TestCase
 from django.conf import settings
+from unittest import mock
 
 
 class KSVotesTestCase(TestCase):
@@ -32,3 +33,12 @@ class KSVotesTestCase(TestCase):
         for election, dt in dates.items():
             d = parse_election_date(election)
             self.assertEqual(dt, d, f"parsed {election}")
+
+    def test_get_lang_code(self):
+        with mock.patch("ksvotes.utils.get_language") as mock_get_language:
+            mock_get_language.return_value = "es-gb"
+            lang_code = get_lang_code()
+            self.assertEqual("es", lang_code, "get_language truncated to first 2 chars")
+
+        lang_code = get_lang_code()
+        self.assertEqual("en", lang_code, "default language")

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from django.utils.translation import get_language
 from django.conf import settings
 import ksvotes.services.steps
+from ksvotes.utils import get_lang_code
 from inspect import ismodule
 
 
@@ -54,7 +54,7 @@ class SessionManager:
         return False
 
     def get_locale_url(self, endpoint):
-        lang_code = get_language()
+        lang_code = get_lang_code()
         if lang_code and lang_code != settings.LANGUAGE_CODE:
             return "/" + lang_code + endpoint
         else:
