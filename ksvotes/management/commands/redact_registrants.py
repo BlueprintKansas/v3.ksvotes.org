@@ -3,6 +3,10 @@ from django.core.management.base import BaseCommand
 from ksvotes.models import Registrant
 from datetime import datetime, timedelta
 import os
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -14,6 +18,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        if os.getenv("PAUSE_SCHEDULER"):
+            logger.warn("PAUSE_SCHEDULER is set - redaction skipped")
+            return
         redact_older_than = int(os.getenv("REDACT_OLDER_THAN_DAYS", 2))
         if options["older"]:
             redact_older_than = int(options["older"][0])
