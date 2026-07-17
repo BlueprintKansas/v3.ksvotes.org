@@ -8,12 +8,12 @@
     "en":"PLEASE NOTE: The deadline to request an advance ballot for the November 2024 election was October 29.",
     "es":"TENGA EN CUENTA: La fecha límite para solicitar una boleta anticipada para las elecciones de noviembre de 2024 era el 290 de octubre."
   },
-   "announce_vr":{
+   "announce":{
     "ref":"announce",
-    "en":"PLEASE NOTE: The deadline to register to vote for the November 2025 election was October 14. Registrations submitted after October 14 will not be processed until after the November 2025 election.",
-    "es":"TENGA EN CUENTA: La fecha límite para registrarse para votar en las elecciones de noviembre de 2025 fue el 14 de octubre. Las inscripciones enviadas después del 14 de octubre no se procesarán hasta después de las elecciones de noviembre de 2025."
+    "en":"PLEASE NOTE: The deadline to register to vote for the August 2026 primary election was July 14. Registrations submitted after July 14 will not be processed until after the August 2026 primary. Advance ballot applications are available for the August 2026 Primary election and the November 2026 General election.",
+    "es":"TENGA EN CUENTA: La fecha límite para inscribirse para votar en las elecciones primarias de agosto de 2026 fue el 14 de julio. Las solicitudes de inscripción presentadas después del 14 de julio no se procesarán hasta después de las primarias de agosto de 2026. Ya están disponibles las solicitudes de boleta de voto anticipado para las elecciones primarias de agosto de 2026 y las elecciones generales de noviembre de 2026."
   },
-  "announce":{
+  "announce_ab":{
     "ref":"announce",
     "en":"Advance ballot applications are now available for the August 2026 Primary Election and the November 2026 General election.",
     "es":"Las solicitudes de boleta anticipada ya están disponibles para las elecciones primarias de agosto de 2026 y las elecciones generales de noviembre de 2026."
