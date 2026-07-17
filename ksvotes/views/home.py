@@ -16,6 +16,7 @@ from ksvotes.services.session_manager import SessionManager
 from ksvotes.utils import get_lang_code
 import logging
 import datetime
+import time
 import csv
 from uuid import uuid4
 from ksvotes.services.registrant_stats import RegistrantStats
@@ -309,7 +310,10 @@ class HomepageView(StepView):
 
             registrant.update(form.data)
             skip_sos = request.GET.get("skip-sos", request.POST.get("skip-sos"))
+            start_time = time.perf_counter()
             step.run(skip_sos)
+            elapsed_time = time.perf_counter() - start_time
+            registrant.reg_lookup_time = f"{elapsed_time:.4f}"
             registrant.reg_lookup_complete = step.reg_lookup_complete
             registrant.reg_found = True if step.reg_found else False
             registrant.dob_year = registrant.get_dob_year()
