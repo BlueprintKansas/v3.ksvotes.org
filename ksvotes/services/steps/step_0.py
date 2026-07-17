@@ -5,6 +5,7 @@ import logging
 import os
 import ksmyvoteinfo
 import requests
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -53,10 +54,16 @@ class Step_0(Step):
             formatted_dob = "{year}-{month}-{day}".format(
                 year=dob[2], month=dob[0], day=dob[1]
             )
+            start_time = time.perf_counter()
             request = kmvi.lookup(
                 first_name=name_first,
                 last_name=name_last,
                 dob=formatted_dob,
+            )
+            elapsed_time = time.perf_counter() - start_time
+            logger.info(
+                f"ksMyVoteInfo response {elapsed_time:.4f} seconds",
+                extra={"kmvi": f"{elapsed_time:.4f}"},
             )
             if request:
                 sosrecs = request.parsed()

@@ -44,6 +44,7 @@ class Registrant(TimeStampedModel):
     identification_found = models.BooleanField(default=None, null=True)
     ab_identification_found = models.BooleanField(default=None, null=True)
     user_agent = models.CharField(null=True)
+    reg_lookup_time = models.FloatField(null=True)
 
     @classmethod
     def lookup_by_session_id(cls, sid):
