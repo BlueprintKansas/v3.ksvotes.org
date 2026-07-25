@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import csv
 import sys
+from ksvotes.utils import KS_TZ
+from datetime import datetime
 
 
 class RegistrantExporter:
@@ -98,4 +100,10 @@ class RegistrantExporter:
             r_dict.pop("registration", None)
             r_dict.pop("_sa_instance_state", None)
             r_dict.pop("_state", None)
+
+            # format timestamps for Excel import ease in correct timezone
+            for k, v in r_dict.items():
+                if isinstance(v, datetime):
+                    r_dict[k] = v.astimezone(tz=KS_TZ).strftime("%Y-%m-%d %H:%M:%S")
+
             writer.writerow(r_dict)
