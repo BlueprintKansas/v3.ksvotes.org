@@ -39,6 +39,7 @@ class RegistrantExporter:
             "identification_found",
             "ab_identification_found",
             "user_agent",
+            "reg_lookup_time",
             "r_ref",
             "r_name_first",
             "r_name_last",
