@@ -35,8 +35,8 @@ $ make setup
 
 # interactive bash shell in web container
 $ make console
-    # start the server (once in the console)
-    root@randomdockerstring:/app# make run
+# start the server (once in the console)
+root@randomdockerstring:/app# make run
 
 # start our services with daemon mode
 # for interative development, probably instead use $ make console (see above)
