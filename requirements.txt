@@ -59,7 +59,7 @@ django-db-geventpool==4.0.8
     # via -r requirements.in
 django-extensions==4.1
     # via -r requirements.in
-django-test-plus==2.6.0
+django-test-plus==2.6.2
     # via -r requirements.in
 djfernet==0.8.1
     # via -r requirements.in
