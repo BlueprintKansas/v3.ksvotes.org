@@ -83,7 +83,7 @@ googlemaps==4.10.0
     # via -r requirements.in
 greenlet==3.2.3
     # via gevent
-gunicorn==26.0.0
+gunicorn==26.1.0
     # via -r requirements.in
 hiredis==3.4.1
     # via -r requirements.in
@@ -115,7 +115,6 @@ packaging==23.0
     # via
     #   black
     #   build
-    #   gunicorn
     #   kombu
     #   pytest
 pathspec==1.0.3
