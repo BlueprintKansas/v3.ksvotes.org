@@ -77,7 +77,7 @@ faker==9.9.0
     # via factory-boy
 formfiller==0.4
     # via -r requirements.in
-gevent==26.7.0
+gevent==26.8.0
     # via -r requirements.in
 googlemaps==4.10.0
     # via -r requirements.in
