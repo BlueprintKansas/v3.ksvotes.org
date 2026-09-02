@@ -8,7 +8,7 @@ djfernet
 email_validator
 environs[django]
 formfiller
-gevent==26.7.0
+gevent==26.8.0
 googlemaps
 gunicorn
 hiredis
