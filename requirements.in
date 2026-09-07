@@ -31,7 +31,7 @@ request-id-django-log
 
 # Testing
 black
-coverage==7.15.4
+coverage==7.16.0
 django-test-plus
 factory-boy
 pytest>=9.0.3
