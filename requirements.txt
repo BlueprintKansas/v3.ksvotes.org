@@ -119,7 +119,7 @@ packaging==23.0
     #   pytest
 pathspec==1.0.3
     # via black
-pip-tools==7.6.0
+pip-tools==7.6.1
     # via -r requirements.in
 platformdirs==2.4.0
     # via black
