@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 def check_db(connection):
-    db_name = connection.settings_dict['NAME']
+    db_name = connection.settings_dict["NAME"]
     try:
         db_start = time.time()
         connection.ensure_connection()
@@ -23,6 +23,7 @@ def check_db(connection):
     logger.debug(f"{db_name=} {db_ok=} {db_response_time=}")
 
     return db_ok
+
 
 def health_check(request):
     db_ok = all(check_db(conn) for conn in connections.all())
