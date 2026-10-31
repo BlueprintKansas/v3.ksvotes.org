@@ -10,7 +10,7 @@ asgiref==3.12.1
     # via django
 beautifulsoup4==4.11.1
     # via ksmyvoteinfo
-black==26.5.1
+black==26.10.1
     # via -r requirements.in
 boto3==1.43.88
     # via -r requirements.in
