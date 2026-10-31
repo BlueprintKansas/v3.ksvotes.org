@@ -40,7 +40,7 @@ jobs:
 
           # (Optional, default: "")
           # Additional options of docker build command.
-          docker_options: "--no-cache --build-arg GIT_SHA=${{ env.GIT_SHA }}"
+          docker_options: "--no-cache --build-arg GIT_SHA=${{ env.GIT_SHA }} --provenance=false"
 
           # (Optional, default: "web")
           # Select the process type for which you want the docker container to be uploaded.
