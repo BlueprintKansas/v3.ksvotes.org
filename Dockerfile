@@ -1,4 +1,4 @@
-FROM public.ecr.aws/docker/library/python:3.13.11-slim-bookworm AS ksvotes
+FROM docker.io/python:3.13.11-slim-bookworm AS ksvotes
 
 # build ImageMagick with gslib for formfiller
 USER root
