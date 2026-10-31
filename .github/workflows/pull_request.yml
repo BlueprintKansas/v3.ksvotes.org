@@ -19,7 +19,7 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.13.18]
-        node-version: [24.5.0]
+        node-version: [24.22.2]
     steps:
       - uses: actions/checkout@v7
       - name: Set up Python ${{ matrix.python-version }}
@@ -50,7 +50,7 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.13.18]
-        node-version: [24.5.0]
+        node-version: [24.22.2]
     steps:
       - uses: actions/checkout@v7
       - name: Set up Python ${{ matrix.python-version }}
