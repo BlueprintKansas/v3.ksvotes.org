@@ -25,7 +25,6 @@ WTForms
 wtforms-recaptcha
 urllib3>=2.8.0
 usaddress
-zope.interface>=6.4.0
 
 # Logging
 colorlog
