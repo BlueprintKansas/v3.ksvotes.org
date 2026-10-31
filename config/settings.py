@@ -95,6 +95,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "request_id_django_log",
     "whitenoise.runserver_nostatic",
+    "django_watchfiles",
 ]
 
 # Third-party apps
