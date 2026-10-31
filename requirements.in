@@ -4,11 +4,12 @@ bumpversion
 dateparser
 django-db-geventpool
 django-extensions
+django_watchfiles
 djfernet
 email_validator
 environs[django]
 formfiller
-gevent==26.8.0
+gevent
 googlemaps
 gunicorn
 hiredis
@@ -24,6 +25,7 @@ WTForms
 wtforms-recaptcha
 urllib3>=2.8.0
 usaddress
+zope.interface>=6.4.0
 
 # Logging
 colorlog
