@@ -1,12 +1,26 @@
-FROM revolutionsystems/python:3.11.5-wee-lto-optimized as ksvotes
+FROM docker.io/python:3.13.11-slim-bookworm AS ksvotes
 
 # build ImageMagick with gslib for formfiller
 USER root
 
-RUN apt-get update && apt-get install -y gnupg dirmngr curl
-RUN apt-get update && apt-get install --yes --no-install-recommends nginx xz-utils build-essential \
-      gettext postgresql-client libpq-dev libffi-dev libgs-dev ghostscript fonts-liberation imagemagick wait-for-it \
-      openssh-server iproute2
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  gnupg \
+  dirmngr \
+  curl \
+  nginx \
+  xz-utils \
+  build-essential \
+  gettext \
+  postgresql-client \
+  libpq-dev \
+  libffi-dev \
+  libgs-dev \
+  ghostscript \
+  fonts-liberation \
+  imagemagick \
+  wait-for-it \
+  openssh-server \
+  iproute2
 
 WORKDIR /code
 

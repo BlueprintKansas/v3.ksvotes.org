@@ -1,14 +1,15 @@
-Django>=5.2.16
+Django==5.2.16
 boto3
 bumpversion
 dateparser
 django-db-geventpool
 django-extensions
+django_watchfiles
 djfernet
 email_validator
 environs[django]
 formfiller
-gevent==26.8.0
+gevent
 googlemaps
 gunicorn
 hiredis

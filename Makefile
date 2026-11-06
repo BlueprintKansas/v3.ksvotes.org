@@ -21,6 +21,10 @@ help: ## View this help
 bootstrap:  ## installs/updates all dependencies
 	@docker compose --file $(COMPOSE_FILE) build --force-rm
 
+.PHONY: build
+build: ## Alias for bootstrap
+	make bootstrap
+
 .PHONY: console
 console:  ## opens a one-off console -- see attach for connecting to running container
 	@docker run -p 8000:8000 -v $(PWD):/code \
@@ -104,6 +108,10 @@ playwright: ## Run playwrite tests
 .PHONY: pip-compile
 pip-compile:  ## rebuilds our pip requirements
 	pip-compile requirements.in --output-file ./requirements.txt
+
+.PHONY: pip-upgrade
+pip-upgrade: ## Upgrade all pip libs in requirements.in to latest
+	pip-compile --upgrade requirements.in --output-file ./requirements.txt
 
 .PHONY: fernet-key
 fernet-key: ## Create Fernet encrypt key and echo to stdout
