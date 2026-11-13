@@ -34,7 +34,8 @@ def health_check(request):
     try:
         redis_client = redis.from_url(settings.CACHES["default"]["LOCATION"])
         cache_ok = redis_client.ping()
-    except (redis.exceptions.RedisError, KeyError):
+    except (redis.exceptions.RedisError, KeyError) as err:
+        logger.debug(f"cache error {err}")
         pass
 
     logger.debug(f"{cache_ok=}")
