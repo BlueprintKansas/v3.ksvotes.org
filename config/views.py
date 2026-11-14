@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http import JsonResponse
 from django.db import connections
-from django.conf import settings
+from django.core.cache import cache
 import redis
 import logging
 import time
@@ -32,7 +32,8 @@ def health_check(request):
     # Check cache connection
     cache_ok = False
     try:
-        redis_client = redis.from_url(settings.CACHES["default"]["LOCATION"])
+        # write=True to get primary node. we do not actually write.
+        redis_client = cache._cache.get_client(write=True)
         cache_ok = redis_client.ping()
     except (redis.exceptions.RedisError, KeyError) as err:
         logger.debug(f"cache error {err}")
