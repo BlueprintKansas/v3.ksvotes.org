@@ -14,9 +14,9 @@ beautifulsoup4==4.15.0
     # via ksmyvoteinfo
 black==26.10.1
     # via -r requirements.in
-boto3==1.43.127
+boto3==1.44.3
     # via -r requirements.in
-botocore==1.43.127
+botocore==1.44.5
     # via
     #   boto3
     #   s3transfer
