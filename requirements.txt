@@ -89,7 +89,7 @@ googlemaps==4.10.0
     # via -r requirements.in
 greenlet==3.5.6
     # via gevent
-gunicorn==26.2.0
+gunicorn==27.0.1
     # via -r requirements.in
 hiredis==3.5.0
     # via -r requirements.in
