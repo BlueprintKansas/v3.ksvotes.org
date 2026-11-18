@@ -13,7 +13,7 @@ gevent
 googlemaps
 gunicorn
 hiredis
-kombu>=5.2.4
+kombu>=5.7.0
 ksmyvoteinfo==1.8.2
 newrelic
 psycogreen

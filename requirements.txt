@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=./requirements.txt requirements.in
 #
-amqp==5.4.1
+amqp==5.4.2
     # via kombu
 anyio==4.15.1
     # via watchfiles
@@ -104,7 +104,7 @@ jmespath==1.1.0
     # via
     #   boto3
     #   botocore
-kombu==5.6.2
+kombu==5.7.0
     # via -r requirements.in
 ksmyvoteinfo==1.8.2
     # via -r requirements.in
@@ -122,7 +122,6 @@ packaging==26.3
     # via
     #   black
     #   build
-    #   kombu
     #   pytest
     #   wheel
 pathspec==1.1.1
@@ -196,8 +195,6 @@ typing-extensions==4.16.0
     # via
     #   anyio
     #   beautifulsoup4
-tzdata==2026.6
-    # via kombu
 tzlocal==5.4.5
     # via dateparser
 urllib3==2.8.0
